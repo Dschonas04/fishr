@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "minecraft:bowl",
+    "fishr:cooked_fillet",
+    "fishr:cooked_fillet",
+    "minecraft:baked_potato",
+    "minecraft:dried_kelp"
+  ],
+  "result": {
+    "id": "fishr:fish_soup",
+    "count": 1
+  }
+}

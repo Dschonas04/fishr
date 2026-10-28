@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "fishr:keepnet",
+    "fishr:keepnet",
+    "minecraft:iron_bars",
+    "minecraft:string"
+  ],
+  "result": {
+    "id": "fishr:fish_pen",
+    "count": 1
+  }
+}

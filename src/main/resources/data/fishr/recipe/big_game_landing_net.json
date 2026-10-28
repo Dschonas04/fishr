@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "fishr:carp_landing_net",
+    "minecraft:iron_block",
+    "fishr:fishing_line",
+    "minecraft:leather"
+  ],
+  "result": {
+    "id": "fishr:big_game_landing_net",
+    "count": 1
+  }
+}

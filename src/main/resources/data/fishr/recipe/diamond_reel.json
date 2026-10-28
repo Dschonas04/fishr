@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "equipment",
+  "ingredients": [
+    "fishr:iron_reel",
+    "minecraft:diamond",
+    "minecraft:gold_ingot",
+    "minecraft:redstone"
+  ],
+  "result": {
+    "id": "fishr:diamond_reel",
+    "count": 1
+  }
+}

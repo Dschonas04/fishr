@@ -1,0 +1,16 @@
+.gradle/
+.gradle-user-home/
+.tools/
+build/
+run/
+out/
+.idea/
+*.iml
+.classpath
+.project
+.settings/
+.vscode/
+*.log
+libs/
+__pycache__/
+*.pyc

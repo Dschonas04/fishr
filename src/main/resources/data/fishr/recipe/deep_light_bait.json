@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "fishr:glow_bait",
+    "minecraft:echo_shard",
+    "minecraft:sculk"
+  ],
+  "result": {
+    "id": "fishr:deep_light_bait",
+    "count": 2
+  }
+}

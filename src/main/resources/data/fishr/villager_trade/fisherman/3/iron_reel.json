@@ -1,0 +1,12 @@
+{
+  "wants": {
+    "id": "minecraft:emerald",
+    "count": 8
+  },
+  "gives": {
+    "id": "fishr:iron_reel"
+  },
+  "max_uses": 4,
+  "xp": 10,
+  "reputation_discount": 0.05
+}

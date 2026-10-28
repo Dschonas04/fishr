@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "fishr:worm_bait",
+    "minecraft:prismarine_crystals",
+    "minecraft:clay_ball",
+    "minecraft:bone_meal"
+  ],
+  "result": {
+    "id": "fishr:current_bait",
+    "count": 2
+  }
+}

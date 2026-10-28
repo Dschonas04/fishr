@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "waterlogged=false": {
+      "model": "fishr:block/bait_trap"
+    },
+    "waterlogged=true": {
+      "model": "fishr:block/bait_trap"
+    }
+  }
+}

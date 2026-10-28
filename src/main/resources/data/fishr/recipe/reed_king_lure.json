@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "fishr:baitfish_bait",
+    "minecraft:emerald",
+    "minecraft:gold_ingot",
+    "minecraft:feather"
+  ],
+  "result": {
+    "id": "fishr:reed_king_lure",
+    "count": 1
+  }
+}

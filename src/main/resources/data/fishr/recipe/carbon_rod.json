@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "equipment",
+  "ingredients": [
+    "fishr:bamboo_rod",
+    "fishr:carbon_fiber",
+    "fishr:carbon_fiber",
+    "fishr:carbon_fiber",
+    "minecraft:diamond"
+  ],
+  "result": {
+    "id": "fishr:carbon_rod",
+    "count": 1
+  }
+}

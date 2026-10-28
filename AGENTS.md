@@ -1,0 +1,23 @@
+# Hinweise für KI-Agenten
+
+- **Minecraft 26.2 ist unverschleiert.** Es gibt weder Yarn noch Mojang-Mappings.
+  Der Build nutzt Fabric Loom 1.17.21 ohne Mapping-Abhängigkeit und den Gradle-Wrapper 9.5.1.
+  Klassennamen sind die echten Mojang-Namen (`net.minecraft.world.item.Item`, `Identifier` statt `ResourceLocation`).
+- Loom lädt Minecraft und Fabric-Abhängigkeiten selbst. `tools/fetch-libs.sh` bleibt ein Legacy-Hilfswerkzeug; `libs/` wird nie committet.
+- Bauen: `./gradlew build` mit **JDK 25**, unter Windows `scripts/build.ps1 build`. Ziel-Bytecode ist Java 25.
+- Client und Server sind getrennte Source-Sets: `src/main` darf keine Klassen aus `net.minecraft.client` benutzen,
+  sonst bricht der Build (und der Server würde abstürzen). Client-Code gehört nach `src/client`.
+- Items: Angelzubehör wird in `FishrItems`, Fische in `FishrFishRegistry` registriert (`Properties.setId(key)` ist Pflicht). Die Reihenfolge im Kreativtab legt `ModItems.ordered()` fest.
+  Dazu `assets/fishr/items/<name>.json`, `models/item/<name>.json`, PNG-Textur (64×64, in `scripts/draw-textures.py`) und Einträge in beiden Sprachdateien ergänzen.
+  Generierte Ressourcen und Übersetzungen auch in `scripts/generate-resources.mjs` pflegen.
+- Sounds erzeugt `python3 scripts/sounds.py OUT` als WAV (reine Synthese); danach mit ffmpeg/libvorbis mono nach `assets/fishr/sounds/*.ogg`, Ereignisse in `FishrSounds` und `sounds.json`.
+- Texturen (Items, Eimer, Fischhäute, alle 64×64) zeichnet `python3 scripts/draw-textures.py` neu; Farben und Formen dort ändern, nicht in den PNGs.
+  `scripts/import-textures.ps1` (alte Bildvorlagen aus `art/`) nicht mehr ausführen, es würde die gezeichneten Texturen überschreiben.
+- Blöcke in `block/FishrBlocks` (`BlockBehaviour.Properties...setId(blockKey)`, `BlockItem` mit Namen `item.fishr.<id>`), dazu `blockstates/`, `models/block/`, Beutetabelle unter `data/fishr/loot_table/blocks/` – alles in `generate-resources.mjs`. Die Darstellung (Cutout) wählt 26.2 selbst nach der Textur-Transparenz.
+- Spielerfortschritt und Serverrekorde liegen als Fabric-Attachments (`Progression.PLAYER`, `Progression.SERVER`), Fangdruck als Chunk-Attachment (`Ecology.PRESSURE`).
+- Mixins nach `io.github.dschonas04.fishr.mixin` und in `fishr.mixins.json` eintragen (`mixins` = beide Seiten, `client` = nur Client).
+- 26.2-Falle: Grasblöcke sind nicht mehr in `#minecraft:dirt`, sondern in `#minecraft:grass_blocks` / `#minecraft:substrate_overworld`.
+- Mod-ID und Namensraum: `fishr`. Paket: `io.github.dschonas04.fishr`.
+- Jede Änderung muss `./gradlew build` bestehen (CI prüft das bei jedem Push). Die JUnit-Tests starten keine Minecraft-Welt.
+- Der Drill ist reine Java-Logik in `battle/` (`FishingBattle`, `Fighter`, `Boss`, `Rig`) ohne Minecraft-Klassen. Balanceänderungen immer mit `FishingBattleTest` prüfen: der Test-Angler muss gewöhnliche Fische mit passender Ausrüstung fangen, Bosse mit bester, nicht mit einfacher.
+- Ausrüstungswerte stehen in den Enums `RodType`, `ReelType`, `LineType`, `BaitType`; Items dazu registriert `FishrItems` automatisch.

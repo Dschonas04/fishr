@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "minecraft:item_frame",
+    "minecraft:dark_oak_planks",
+    "minecraft:gold_nugget"
+  ],
+  "result": {
+    "id": "fishr:fish_plaque",
+    "count": 1
+  }
+}

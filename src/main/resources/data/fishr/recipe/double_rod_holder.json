@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "fishr:rod_holder",
+    "fishr:rod_holder",
+    "minecraft:stick"
+  ],
+  "result": {
+    "id": "fishr:double_rod_holder",
+    "count": 1
+  }
+}

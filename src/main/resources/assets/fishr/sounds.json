@@ -1,0 +1,70 @@
+{
+  "bite": {
+    "subtitle": "subtitles.fishr.bite",
+    "sounds": [
+      "fishr:bite"
+    ]
+  },
+  "hook_set": {
+    "subtitle": "subtitles.fishr.hook_set",
+    "sounds": [
+      "fishr:hook_set"
+    ]
+  },
+  "warning": {
+    "subtitle": "subtitles.fishr.warning",
+    "sounds": [
+      "fishr:warning"
+    ]
+  },
+  "reel": {
+    "subtitle": "subtitles.fishr.reel",
+    "sounds": [
+      "fishr:reel1",
+      "fishr:reel2",
+      "fishr:reel3"
+    ]
+  },
+  "creak": {
+    "subtitle": "subtitles.fishr.creak",
+    "sounds": [
+      "fishr:creak"
+    ]
+  },
+  "slack": {
+    "subtitle": "subtitles.fishr.slack",
+    "sounds": [
+      "fishr:slack"
+    ]
+  },
+  "leap": {
+    "subtitle": "subtitles.fishr.leap",
+    "sounds": [
+      "fishr:leap"
+    ]
+  },
+  "snap": {
+    "subtitle": "subtitles.fishr.snap",
+    "sounds": [
+      "fishr:snap"
+    ]
+  },
+  "catch": {
+    "subtitle": "subtitles.fishr.catch",
+    "sounds": [
+      "fishr:catch"
+    ]
+  },
+  "escape": {
+    "subtitle": "subtitles.fishr.escape",
+    "sounds": [
+      "fishr:escape"
+    ]
+  },
+  "bait": {
+    "subtitle": "subtitles.fishr.bait",
+    "sounds": [
+      "fishr:bait"
+    ]
+  }
+}

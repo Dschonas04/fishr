@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "fishr:worm_bait",
+    "minecraft:glow_ink_sac"
+  ],
+  "result": {
+    "id": "fishr:glow_bait",
+    "count": 4
+  }
+}

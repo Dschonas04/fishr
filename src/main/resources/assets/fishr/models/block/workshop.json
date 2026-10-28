@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/cube_bottom_top",
+  "textures": {
+    "side": "fishr:block/workshop_side",
+    "top": "fishr:block/workshop_top",
+    "bottom": "minecraft:block/spruce_planks"
+  }
+}
