@@ -10,18 +10,20 @@ import org.junit.jupiter.api.Test;
 import java.util.EnumMap;
 import java.util.Map;
 
-/** The fight without Minecraft: a scripted angler plays it with R and F and different tackle. */
+/**
+ * Der Drill ohne Minecraft: Ein Test-Angler spielt ihn mit R und F und verschiedenem Gerät durch.
+ */
 class FishingBattleTest {
-    /** Bamboo rod, copper reel, fishing line. */
+    /** Bambusrute, Kupferrolle, Angelschnur. */
     static final Rig BASIC = new Rig(20, 0.2, 0.8, 7, 0.11, 5, 120, 1, 1);
 
-    /** Carbon rod, diamond reel, fishing line. */
+    /** Carbonrute, Diamantrolle, Angelschnur. */
     static final Rig GOOD = new Rig(20, 0.2, 0.6, 24, 0.176, 12, 300, 1, 1);
 
     /**
-     * A competent angler, as the panel tells it: reels while the fish holds or rests, stops reeling
-     * when it announces something or pulls away, gives line in jumps and head shakes and when the
-     * line is about to break.
+     * Ein geübter Angler, wie es die Anzeige sagt: holt ein, solange der Fisch hält oder ruht, hört
+     * auf zu kurbeln, wenn er etwas ankündigt oder abzieht, gibt bei Sprüngen und Kopfschütteln und
+     * kurz vor dem Reißen Schnur.
      */
     static FishingBattle play(Fighter fighter, Rig rig, long seed) {
         FishingBattle battle = new FishingBattle(fighter, rig, 15, 90, seed);
@@ -51,7 +53,7 @@ class FishingBattleTest {
         return battle;
     }
 
-    /** A specimen of typical weight for its length. */
+    /** Ein Exemplar mit typischem Gewicht für seine Länge. */
     static Fighter fish(FishSpecies species, double length) {
         double weight =
                 switch (species) {

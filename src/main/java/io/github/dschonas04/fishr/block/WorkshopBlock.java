@@ -21,8 +21,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 
 /**
- * Workshop (Anforderung 20): rod in the main hand, material in the other. Emeralds repair (a
- * quarter of the durability each), mother-of-pearl upgrades the blank (up to three times).
+ * Werkstatt (Anforderung 20): Rute in die Haupthand, Material in die andere. Smaragde reparieren
+ * (je ein Viertel der Haltbarkeit), Perlmutt verstärkt den Blank (bis zu dreimal).
  */
 public final class WorkshopBlock extends Block {
 

@@ -78,7 +78,8 @@ public final class FishrFishRegistry {
                                     .noLootTable()
                                     .build(ResourceKey.create(Registries.ENTITY_TYPE, id)));
             ENTITIES.put(species, type);
-            // tempt range: fish follow a player holding worms (TemptGoal needs the attribute)
+            // Lockreichweite: Fische folgen einem Spieler, der Würmer hält (TemptGoal braucht das
+            // Attribut)
             FabricDefaultAttributeRegistry.register(
                     type, AbstractFish.createAttributes().add(Attributes.TEMPT_RANGE, 8));
             SpawnPlacements.register(
@@ -122,8 +123,8 @@ public final class FishrFishRegistry {
                             species.id() + "_spawn_egg",
                             SpawnEggItem::new,
                             new Item.Properties().spawnEgg(type)));
-            // Each fish spawns in the biomes of every habitat it lives in, as often as it bites
-            // there.
+            // Jeder Fisch spawnt in den Biomen aller Lebensräume, in denen er lebt, so oft, wie er
+            // dort beißt.
             for (Habitat habitat : Habitat.values()) {
                 int weight = species.weight(habitat);
                 if (weight > 0) {
@@ -142,9 +143,9 @@ public final class FishrFishRegistry {
     }
 
     /**
-     * Vanilla's surface rule only allows the band between sea level - 13 and sea level, so lakes
-     * and rivers above sea level never got fish. Any water with open sky above it counts instead;
-     * caves stay empty.
+     * Die Oberflächenregel von Vanilla erlaubt nur den Streifen zwischen Meeresspiegel - 13 und
+     * Meeresspiegel, Seen und Flüsse über dem Meeresspiegel bekamen also nie Fische. Stattdessen
+     * zählt jedes Wasser mit freiem Himmel darüber; Höhlen bleiben leer.
      */
     static boolean canSpawn(
             EntityType<FishrFishEntity> type,
@@ -156,7 +157,7 @@ public final class FishrFishRegistry {
         boolean deepEnough =
                 level.getFluidState(pos.below()).is(FluidTags.WATER)
                         || level.getBlockState(pos.above()).is(Blocks.WATER);
-        // A fished-out stretch fills up again only slowly.
+        // Ein leergefischter Abschnitt füllt sich nur langsam wieder.
         if (level instanceof net.minecraft.server.level.ServerLevel server
                 && reason == EntitySpawnReason.NATURAL
                 && random.nextDouble()

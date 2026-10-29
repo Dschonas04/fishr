@@ -21,11 +21,11 @@ import net.minecraft.world.level.Level;
 import java.util.Optional;
 
 /**
- * A fishing rod with three slots — reel, line and bait — filled in the inventory like a bundle:
- * click a part onto the rod to fit it (whatever was in that slot comes back onto the cursor),
- * right-click the rod with an empty cursor to take the parts out again, from the bait back to the
- * reel. Holding the rod on the cursor and right-clicking gear in a slot fits it as well. Each bite
- * uses one bait.
+ * Eine Angelrute mit drei Plätzen – Rolle, Schnur und Köder –, die im Inventar wie ein Bündel
+ * befüllt werden: Ein Teil auf die Rute klicken setzt es ein (was in dem Platz war, kommt zurück
+ * auf den Mauszeiger), Rechtsklick auf die Rute mit leerem Mauszeiger nimmt die Teile wieder
+ * heraus, vom Köder zurück bis zur Rolle. Mit der Rute am Mauszeiger auf Zubehör in einem Platz
+ * rechtsklicken setzt es ebenfalls ein. Jeder Biss verbraucht einen Köder.
  */
 public final class FishrRodItem extends FishingRodItem {
     public FishrRodItem(Properties properties) {
@@ -37,7 +37,9 @@ public final class FishrRodItem extends FishingRodItem {
                 NonNullList.withSize(GearSlot.values().length, ItemStack.EMPTY);
         ItemContainerContents contents = rod.get(DataComponents.CONTAINER);
         if (contents == null) return slots;
-        // Every item goes by its kind into its slot, so rods from older versions keep their gear.
+        // Jeder Gegenstand kommt nach seiner Art in seinen Platz, damit Ruten aus älteren Versionen
+        // ihr
+        // Zubehör behalten.
         for (ItemStack stack : (Iterable<ItemStack>) contents.itemCopies()::iterator) {
             GearSlot slot = GearSlot.of(stack);
             if (slot != null && slots.get(slot.ordinal()).isEmpty())
@@ -61,7 +63,10 @@ public final class FishrRodItem extends FishingRodItem {
         return get(rod, GearSlot.BAIT);
     }
 
-    /** Uses one bait from the slot, or wears the lure in it by one fight; true if there was one. */
+    /**
+     * Verbraucht einen Köder aus dem Platz oder nutzt den Kunstköder darin um einen Drill ab; true,
+     * wenn einer da war.
+     */
     public static boolean consumeBait(ItemStack rod, Player player) {
         ItemStack bait = bait(rod);
         if (bait.isEmpty()) return false;
@@ -71,7 +76,10 @@ public final class FishrRodItem extends FishingRodItem {
         return true;
     }
 
-    /** A natural bait is eaten, a lure takes one fight's wear and breaks at the end of its life. */
+    /**
+     * Ein Naturköder wird gefressen, ein Kunstköder nutzt sich um einen Drill ab und bricht am Ende
+     * seines Lebens.
+     */
     public static ItemStack use(ItemStack bait) {
         ItemStack copy = bait.copy();
         if (copy.isDamageableItem()) {
@@ -82,12 +90,12 @@ public final class FishrRodItem extends FishingRodItem {
         return copy;
     }
 
-    /** A broken line takes the lure with it. */
+    /** Eine gerissene Schnur nimmt den Kunstköder mit. */
     public static void loseLure(ItemStack rod) {
         if (bait(rod).isDamageableItem()) set(rod, GearSlot.BAIT, ItemStack.EMPTY);
     }
 
-    /** Bait stacks up; a reel or a line is swapped for the one on the cursor. */
+    /** Köder stapelt sich; eine Rolle oder eine Schnur wird gegen die am Mauszeiger getauscht. */
     private static boolean fit(ItemStack rod, ItemStack cursor, SlotAccess carried, Player player) {
         GearSlot slot = GearSlot.of(cursor);
         if (slot == null) return false;
@@ -107,7 +115,7 @@ public final class FishrRodItem extends FishingRodItem {
         return true;
     }
 
-    /** The slot that comes out first when the rod is emptied: from the bait back to the reel. */
+    /** Der Platz, der beim Leeren der Rute zuerst herauskommt: vom Köder zurück bis zur Rolle. */
     private static GearSlot outermost(ItemStack rod) {
         for (GearSlot slot : new GearSlot[] {GearSlot.BAIT, GearSlot.LINE, GearSlot.REEL}) {
             if (!get(rod, slot).isEmpty()) return slot;
@@ -126,7 +134,7 @@ public final class FishrRodItem extends FishingRodItem {
                     0.9f + player.getRandom().nextFloat() * 0.3f);
     }
 
-    /** Cursor holds gear (or nothing) and is clicked onto the rod. */
+    /** Der Mauszeiger hält Zubehör (oder nichts) und wird auf die Rute geklickt. */
     @Override
     public boolean overrideOtherStackedOnMe(
             ItemStack rod,
@@ -150,8 +158,8 @@ public final class FishrRodItem extends FishingRodItem {
     }
 
     /**
-     * The rod is on the cursor and right-clicked onto a slot: fit the gear in it, or take gear out
-     * into an empty slot.
+     * Die Rute ist am Mauszeiger und wird auf einen Platz rechtsgeklickt: das Zubehör darin
+     * einsetzen oder Zubehör in einen leeren Platz herausnehmen.
      */
     @Override
     public boolean overrideStackedOnOther(
@@ -197,11 +205,12 @@ public final class FishrRodItem extends FishingRodItem {
     }
 
     /**
-     * Casting: how far the float flies depends on the rod (see {@link BattleEquipment#castFactor}).
+     * Auswerfen: Wie weit die Pose fliegt, hängt von der Rute ab (siehe {@link
+     * BattleEquipment#castFactor}).
      */
     @Override
     public InteractionResult use(Level level, Player player, InteractionHand hand) {
-        // During a fight from a rod holder there is no float: the click lands the fish.
+        // Im Drill vom Rutenhalter gibt es keine Pose: Der Klick landet den Fisch.
         if (player instanceof net.minecraft.server.level.ServerPlayer serverPlayer
                 && io.github.dschonas04.fishr.Fishr.BATTLES.click(serverPlayer)) {
             return InteractionResult.SUCCESS;
@@ -217,7 +226,7 @@ public final class FishrRodItem extends FishingRodItem {
         return result;
     }
 
-    /** What the tooltip shows: the slots, the rod and what the whole set does. */
+    /** Was der Tooltip zeigt: die Plätze, die Rute und was das ganze Gerät leistet. */
     public record GearTooltip(ItemStack[] slots, Rig rig, RodType rod, int upgrades)
             implements TooltipComponent {}
 }

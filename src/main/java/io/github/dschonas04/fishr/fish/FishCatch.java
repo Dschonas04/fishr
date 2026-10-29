@@ -25,8 +25,8 @@ public final class FishCatch {
     }
 
     /**
-     * A caught fish as an item: measurements, where and when, by whom, its identity and its
-     * condition (0..100).
+     * Ein gefangener Fisch als Gegenstand: Maße, wo und wann, von wem, seine Identität und sein
+     * Zustand (0..100).
      */
     public static ItemStack create(
             FishSpecimen fish,
@@ -83,13 +83,16 @@ public final class FishCatch {
         return stack;
     }
 
-    /** A caught fish read back from its item: specimen, identity, condition, control and angler. */
+    /**
+     * Ein gefangener Fisch, aus seinem Gegenstand zurückgelesen: Exemplar, Identität, Zustand,
+     * Kontrolle und Angler.
+     */
     public record Catch(
             FishSpecimen specimen, UUID id, double condition, int quality, String angler) {}
 
     /**
-     * Reads an Fishr fish item; null for anything else. Older items without identity get a fresh
-     * one.
+     * Liest einen Fishr-Fischgegenstand; null für alles andere. Ältere Gegenstände ohne Identität
+     * bekommen eine neue.
      */
     public static Catch read(ItemStack stack) {
         CustomData custom = stack.get(DataComponents.CUSTOM_DATA);
@@ -168,8 +171,8 @@ public final class FishCatch {
     }
 
     /**
-     * Tints the item in the fish's colouring; the item model picks the pale skin by the string and
-     * tints it by the colour.
+     * Färbt den Gegenstand in der Färbung des Fisches; das Item-Modell wählt die helle Haut über
+     * die Zeichenkette und färbt sie mit der Farbe.
      */
     public static void colour(ItemStack stack, FishVariant variant) {
         if (variant == FishVariant.NORMAL) stack.remove(DataComponents.CUSTOM_MODEL_DATA);

@@ -23,8 +23,8 @@ import java.util.Set;
 import java.util.function.Function;
 
 /**
- * The angler's blocks: keepnet, rod holders, fish pen, fish market, workshop, bait trap, fillet
- * table and fish plaque.
+ * Die Blöcke des Anglers: Setzkescher, Rutenhalter, Unterwasser-Netz, Fischmarkt, Werkstatt,
+ * Köderreuse, Filetiertisch und Fischtafel.
  */
 public final class FishrBlocks {
     private FishrBlocks() {}

@@ -26,8 +26,9 @@ public record FishSpecimen(
     }
 
     /**
-     * The same fish, grown (fed with worms, as in Fish of Thieves): longer by a share of its
-     * species' range, never beyond the largest; the weight follows the length cubed.
+     * Derselbe Fisch, gewachsen (mit Würmern gefüttert, wie in Fish of Thieves): um einen Anteil
+     * des Größenbereichs seiner Art länger, nie über den größten hinaus; das Gewicht folgt der
+     * Länge hoch drei.
      */
     public FishSpecimen grown(double share) {
         double length =
@@ -43,7 +44,7 @@ public record FishSpecimen(
         return (lengthCm - species.minLength()) / (species.maxLength() - species.minLength());
     }
 
-    /** The largest fish of a species: the top 15 % of its length range. */
+    /** Die größten Fische einer Art: die oberen 15 % ihres Längenbereichs. */
     public boolean trophy() {
         return sizeFraction() >= 0.85;
     }
@@ -58,9 +59,9 @@ public record FishSpecimen(
     }
 
     /**
-     * How this fish fights. Strength grows with weight (a 1 kg perch pulls about 1.5 kg, a 12 kg
-     * carp about 7 kg, a 50 kg wels about 15 kg, a 200 kg tuna about 24 kg), endurance and speed
-     * more slowly; the fighting style shifts all three.
+     * Wie dieser Fisch kämpft. Die Kraft wächst mit dem Gewicht (ein Barsch von 1 kg zieht etwa 1,5
+     * kg, ein Karpfen von 12 kg etwa 7 kg, ein Wels von 50 kg etwa 15 kg, ein Thunfisch von 200 kg
+     * etwa 24 kg), Ausdauer und Geschwindigkeit langsamer; der Kampfstil verschiebt alle drei.
      */
     public Fighter fighter() {
         if (species.boss() != null) return Fighter.of(species.boss(), weightKg);

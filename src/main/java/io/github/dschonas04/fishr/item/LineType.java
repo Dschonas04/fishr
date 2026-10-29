@@ -1,8 +1,8 @@
 package io.github.dschonas04.fishr.item;
 
 /**
- * The line: breaking load (kg) and stretch (soaks up jolts). Without one the rod fishes with plain
- * string.
+ * Die Schnur: Tragkraft (kg) und Dehnung (schluckt Stöße). Ohne Schnur angelt die Rute mit
+ * einfachem Faden.
  */
 public enum LineType {
     STRING(null, 3.5, 0.25),

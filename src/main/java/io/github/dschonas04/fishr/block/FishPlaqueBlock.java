@@ -26,12 +26,12 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
 /**
- * Fish plaque (after Fish of Thieves): a board for the wall that shows off a caught fish.
- * Right-click with a fish to hang it up, with an empty hand to read its card, sneaking with an
- * empty hand to take it down again.
+ * Fischtafel (nach Fish of Thieves): ein Brett für die Wand, das einen gefangenen Fisch zeigt.
+ * Rechtsklick mit einem Fisch hängt ihn auf, mit leerer Hand liest man seine Karte, schleichend mit
+ * leerer Hand nimmt man ihn wieder ab.
  */
 public final class FishPlaqueBlock extends BaseEntityBlock {
-    /** The way the board faces; it hangs on the block behind. */
+    /** Die Richtung, in die das Brett zeigt; es hängt am Block dahinter. */
     public static final EnumProperty<Direction> FACING = BlockStateProperties.HORIZONTAL_FACING;
 
     private static final VoxelShape SOUTH = Block.box(1, 3, 0, 15, 13, 1.5),

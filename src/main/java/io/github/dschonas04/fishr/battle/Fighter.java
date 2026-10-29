@@ -1,17 +1,17 @@
 package io.github.dschonas04.fishr.battle;
 
 /**
- * How one hooked fish fights, derived from its species and weight (or from its boss profile).
+ * Wie ein gehakter Fisch kämpft, abgeleitet aus Art und Gewicht (oder aus seinem Bossprofil).
  *
- * @param power kg the fish pulls at full strength in a run
- * @param endurance how long it keeps going; 1 is a fit fish of about 8 kg
- * @param speed metres per tick it swims in a run
- * @param weight kg, for landing
- * @param weights how often it picks each {@link FishAction}, indexed by ordinal
- * @param strikeIdeal ticks after the bite at which a strike sets the hook best
- * @param salt a sea fish (for the tide reel)
- * @param teeth sharp teeth that bite through a line without a steel leader
- * @param boss the boss profile, or null
+ * @param power kg, die der Fisch bei voller Kraft in einer Flucht zieht
+ * @param endurance wie lange er durchhält; 1 ist ein fitter Fisch von etwa 8 kg
+ * @param speed Meter pro Tick, die er in einer Flucht schwimmt
+ * @param weight kg, für die Landung
+ * @param weights wie oft er jede {@link FishAction} wählt, nach Ordinalzahl
+ * @param strikeIdeal Ticks nach dem Biss, bei denen ein Anschlag den Haken am besten setzt
+ * @param salt ein Meeresfisch (für die Gezeitenrolle)
+ * @param teeth scharfe Zähne, die eine Schnur ohne Stahlvorfach durchbeißen
+ * @param boss das Bossprofil oder null
  */
 public record Fighter(
         double power,
@@ -46,7 +46,7 @@ public record Fighter(
                 boss);
     }
 
-    /** Builds the weights array: CALM, RUN, DIVE, SIDE, SHAKE, JUMP, TIRED. */
+    /** Baut das Gewichtungsfeld: CALM, RUN, DIVE, SIDE, SHAKE, JUMP, TIRED. */
     public static int[] weights(int calm, int run, int dive, int side, int shake, int jump) {
         return new int[] {calm, run, dive, side, shake, jump, 0};
     }

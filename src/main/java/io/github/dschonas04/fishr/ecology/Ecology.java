@@ -19,22 +19,25 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * The simplified water ecology (Anforderung 17), kept per chunk so it costs nothing where nobody
- * fishes:
+ * Die vereinfachte Gewässerökologie (Anforderung 17), je Chunk gespeichert, damit sie dort nichts
+ * kostet, wo niemand angelt:
  *
  * <ul>
- *   <li>Fishing pressure: every fish taken out of a chunk raises it, time lets it settle (see
- *       {@link Pressure}). Bites and new fish get rarer while it is high; fish there are shyer.
- *   <li>Feeding spots: groundbait draws coarse fish and makes them bite faster for a while.
+ *   <li>Fangdruck: Jeder aus einem Chunk entnommene Fisch erhöht ihn, mit der Zeit sinkt er wieder
+ *       (siehe {@link Pressure}). Solange er hoch ist, werden Bisse und neue Fische seltener; die
+ *       Fische dort sind scheuer.
+ *   <li>Futterplätze: Futtermischung lockt Friedfische an und lässt sie eine Weile schneller
+ *       beißen.
  * </ul>
  *
- * Predators eat smaller fish and shoals move with the time of day (see the fish behaviour), so what
- * lives in a stretch of water changes with fishing, food and predators, and recovers on its own.
+ * Raubfische fressen kleinere Fische, und Schwärme ziehen mit der Tageszeit (siehe das Verhalten
+ * der Fische); was in einem Gewässerabschnitt lebt, ändert sich also mit Angeln, Futter und Räubern
+ * und erholt sich von selbst.
  */
 public final class Ecology {
     private Ecology() {}
 
-    /** Pressure of one chunk and when it was last updated (game time). */
+    /** Fangdruck eines Chunks und wann er zuletzt aktualisiert wurde (Spielzeit). */
     public record ChunkPressure(double value, long time) {
         public static final Codec<ChunkPressure> CODEC =
                 RecordCodecBuilder.create(
@@ -66,24 +69,27 @@ public final class Ecology {
                 : Pressure.decayed(stored.value(), level.getGameTime() - stored.time());
     }
 
-    /** A fish was taken out here. */
+    /** Hier wurde ein Fisch entnommen. */
     public static void caught(ServerLevel level, BlockPos pos, boolean released) {
         double now = Pressure.afterCatch(pressure(level, pos), released);
         level.getChunkAt(pos).setAttached(PRESSURE, new ChunkPressure(now, level.getGameTime()));
     }
 
-    /** A fish was put back here: half of what its catch cost the water comes back. */
+    /**
+     * Hier wurde ein Fisch zurückgesetzt: Die Hälfte dessen, was sein Fang das Gewässer gekostet
+     * hat, kommt zurück.
+     */
     public static void released(ServerLevel level, BlockPos pos) {
         double now = Math.max(0, pressure(level, pos) - Pressure.PER_CATCH / 2);
         level.getChunkAt(pos).setAttached(PRESSURE, new ChunkPressure(now, level.getGameTime()));
     }
 
-    /** Factor on bites and spawns here. */
+    /** Faktor auf Bisse und Spawns hier. */
     public static double factor(ServerLevel level, BlockPos pos) {
         return Pressure.biteFactor(pressure(level, pos));
     }
 
-    /** Groundbait thrown here: a feeding spot for five minutes. */
+    /** Hier wurde Futtermischung geworfen: ein Futterplatz für fünf Minuten. */
     public static void chum(ServerLevel level, BlockPos pos, int ticks) {
         List<Chum> spots = CHUM.computeIfAbsent(level.dimension(), key -> new ArrayList<>());
         spots.removeIf(spot -> spot.until() < level.getGameTime());
@@ -107,7 +113,7 @@ public final class Ecology {
         return best;
     }
 
-    /** Near a feeding spot coarse fish bite more readily. */
+    /** In der Nähe eines Futterplatzes beißen Friedfische bereitwilliger. */
     public static boolean nearChum(ServerLevel level, BlockPos pos) {
         return nearestChum(level, pos, 10) != null;
     }

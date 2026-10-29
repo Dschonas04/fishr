@@ -14,7 +14,7 @@ import org.junit.jupiter.api.Test;
 import java.util.UUID;
 
 /**
- * The rules of 0.8–0.14 without a world: keeping fish, landing, pressure, orders, value and levels.
+ * Die Regeln von 0.8–0.14 ohne Welt: Fische halten, Landen, Fangdruck, Aufträge, Wert und Stufen.
  */
 class ProgressionRulesTest {
     private static FishStore.Kept carp(UUID id, double kg, double condition) {

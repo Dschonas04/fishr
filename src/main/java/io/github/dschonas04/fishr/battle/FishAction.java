@@ -3,27 +3,29 @@ package io.github.dschonas04.fishr.battle;
 import java.util.Locale;
 
 /**
- * What the hooked fish is doing. Every action except CALM and TIRED is announced by a short warning
- * first (the fish thrashes), so a good angler can react: ease the drag before a run, lower the rod
- * before a jump, steer against a run to the side.
+ * Was der gehakte Fisch gerade tut. Jede Aktion außer CALM und TIRED kündigt sich zuerst kurz an
+ * (der Fisch schlägt um sich), damit ein guter Angler reagieren kann: vor einer Flucht die Bremse
+ * lockern, vor einem Sprung die Rute senken, gegen eine Seitenflucht steuern.
  */
 public enum FishAction {
-    /** Holds against the line; the time to reel and pump. */
+    /** Hält gegen die Schnur; die Zeit zum Einholen und Pumpen. */
     CALM(0.35, false),
-    /** Runs away from the angler: takes line from the reel when it pulls harder than the drag. */
+    /** Flüchtet vom Angler weg: Nimmt der Rolle Schnur ab, wenn er stärker zieht als die Bremse. */
     RUN(1.0, true),
-    /** Heads for the bottom. */
+    /** Zieht zum Grund. */
     DIVE(0.85, true),
-    /** Runs sideways towards cover; steer against it or the line rubs on snags. */
+    /**
+     * Flüchtet seitwärts in Deckung; dagegen steuern, sonst scheuert die Schnur an Hindernissen.
+     */
     SIDE(0.75, true),
     /**
-     * Head shakes: jerks on the line that work the hook loose when the line is too tight or too
-     * loose.
+     * Kopfschütteln: Rucke an der Schnur, die den Haken lockern, wenn die Schnur zu straff oder zu
+     * locker ist.
      */
     SHAKE(0.6, true),
-    /** Leaps out of the water to throw the hook. */
+    /** Springt aus dem Wasser, um den Haken abzuschütteln. */
     JUMP(0.15, true),
-    /** Worn out for a moment. */
+    /** Für einen Moment erschöpft. */
     TIRED(0.15, false);
 
     private final double pull;
@@ -34,7 +36,7 @@ public enum FishAction {
         this.announced = announced;
     }
 
-    /** Share of the fish's full strength it puts on the line. */
+    /** Anteil seiner vollen Kraft, den der Fisch auf die Schnur gibt. */
     public double pull() {
         return pull;
     }

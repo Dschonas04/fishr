@@ -21,10 +21,10 @@ import net.minecraft.world.item.ItemStack;
 import java.util.Locale;
 
 /**
- * The fight panel above the hotbar, as wide as the hotbar: the fish with its name and distance, the
- * line's tension (green up to where the drag slips, red beyond) and the fish's strength. Above it
- * one prompt says which key to press now – R to reel, F to give line, right-click to land. A boss
- * shows its name and phase at the top, a landed fish a catch card.
+ * Die Drillanzeige über der Hotbar, so breit wie die Hotbar: der Fisch mit Name und Entfernung, die
+ * Schnurspannung (grün bis zur Bremse, rot darüber) und die Kraft des Fisches. Darüber steht eine
+ * Anweisung, welche Taste jetzt dran ist – R zum Einholen, F für Schnur, Rechtsklick zum Landen.
+ * Ein Boss zeigt oben Namen und Phase, ein gelandeter Fisch eine Fangkarte.
  */
 final class FightHud {
     private static final int WIDTH = 182;
@@ -37,7 +37,7 @@ final class FightHud {
 
     private FightHud() {}
 
-    /** What to do now: one key, one word. */
+    /** Was jetzt zu tun ist: eine Taste, ein Wort. */
     enum Prompt {
         LAND(GREEN),
         NET(GREEN),
@@ -64,8 +64,8 @@ final class FightHud {
     }
 
     /**
-     * The same rules the fight runs on (see FishingBattle): reel while it rests, stop when it
-     * pulls, give in jumps.
+     * Dieselben Regeln, nach denen der Drill läuft (siehe FishingBattle): einholen, solange er
+     * ruht, aufhören, wenn er zieht, bei Sprüngen nachgeben.
      */
     static Prompt prompt(BattlePayload state) {
         if (state.has(BattlePayload.LANDABLE))
@@ -107,7 +107,7 @@ final class FightHud {
         FishSpecies species = state.species();
         int rarity = rarityColour(species);
 
-        // the panel: a thin line in the fish's rarity colour on top
+        // die Anzeige: oben ein dünner Strich in der Seltenheitsfarbe des Fisches
         graphics.fill(x, y, x + WIDTH, y + HEIGHT, PANEL);
         graphics.fill(x, y, x + WIDTH, y + 1, rarity);
         graphics.item(new ItemStack(FishrFishRegistry.fishItem(species)), x + 3, y + 3);
@@ -131,7 +131,7 @@ final class FightHud {
                 state.hookHold() < 35 ? RED : 0xFF9AA8B4,
                 true);
 
-        // the line: green up to the drag, red beyond; the white mark is the tension
+        // die Schnur: grün bis zur Bremse, rot darüber; die weiße Marke ist die Spannung
         int barX = x + 22, barW = WIDTH - 26, barY = y + 15;
         float tension = Math.clamp(FishrClient.displayedTension, 0, 1);
         int drag = Math.clamp(Math.round(barW * state.drag()), 1, barW - 1);
@@ -145,7 +145,7 @@ final class FightHud {
         int mark = barX + Math.clamp(fill, 1, barW - 1);
         graphics.fill(mark - 1, barY - 1, mark + 1, barY + 7, 0xFFFFFFFF);
 
-        // the fish's strength
+        // die Kraft des Fisches
         int stamina = Math.round(barW * Math.clamp(FishrClient.displayedStamina, 0, 1));
         graphics.fill(barX, y + 25, barX + barW, y + 28, TRACK);
         graphics.fill(barX, y + 25, barX + stamina, y + 28, 0xFF4CC8E0);
@@ -157,7 +157,7 @@ final class FightHud {
                 0xFF6A7A88,
                 false);
 
-        // the prompt: a key cap and one word; it blinks when it is urgent
+        // die Anweisung: eine Tastenkappe und ein Wort; blinkt, wenn es eilt
         Prompt prompt = prompt(state);
         boolean hidden = prompt.blinks() && (FishrClient.fightTicks / 5) % 2 == 1;
         if (!hidden) prompt(graphics, font, prompt, graphics.guiWidth() / 2, y - 14);
@@ -174,7 +174,7 @@ final class FightHud {
         if (boss != null) bossBar(graphics, font, state, boss);
     }
 
-    /** [R] Reel in – a key cap like on the keyboard, then the word. */
+    /** [R] Einholen – eine Tastenkappe wie auf der Tastatur, dann das Wort. */
     private static void prompt(
             GuiGraphicsExtractor graphics, Font font, Prompt prompt, int centre, int y) {
         KeyMapping key = keyOf(prompt);
@@ -193,9 +193,9 @@ final class FightHud {
     }
 
     /**
-     * The landing gauge: the fish twists in front of the net; the green field is the net's opening.
-     * Scoop (right-click) while the marker is inside it. Same formula as the server, so what is
-     * seen is what counts.
+     * Die Landeanzeige: Der Fisch windet sich vor dem Kescher; das grüne Feld ist die Öffnung des
+     * Keschers. Keschern (Rechtsklick), solange die Marke darin steht. Dieselbe Formel wie auf dem
+     * Server, also zählt, was man sieht.
      */
     private static void netGauge(GuiGraphicsExtractor graphics, int x, int y, BattlePayload state) {
         int half = WIDTH / 2, centre = x + half;
@@ -241,8 +241,8 @@ final class FightHud {
     }
 
     /**
-     * The catch: a card at the top with the fish, its rarity, its size and how cleanly it was
-     * fought.
+     * Der Fang: oben eine Karte mit dem Fisch, seiner Seltenheit, seiner Größe und wie sauber er
+     * gedrillt wurde.
      */
     private static void catchCard(GuiGraphicsExtractor graphics, Font font, BattlePayload state) {
         FishSpecies species = state.species();
@@ -257,7 +257,7 @@ final class FightHud {
         int text = x + 42;
         graphics.text(
                 font, Component.translatable(species.translationKey()), text, y + 6, colour, true);
-        // a rare colouring takes the place of the rarity
+        // eine seltene Färbung steht an Stelle der Seltenheit
         Component rarity =
                 state.variant() == FishVariant.NORMAL
                         ? Component.translatable(species.rarityKey())

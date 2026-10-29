@@ -26,7 +26,10 @@ import net.minecraft.world.level.storage.ValueOutput;
 
 import java.util.Locale;
 
-/** The fish on a plaque; sent to the clients, which draw it (see the plaque renderer). */
+/**
+ * Der Fisch auf einer Fischtafel; wird an die Clients geschickt, die ihn zeichnen (siehe den
+ * Renderer der Tafel).
+ */
 public final class FishPlaqueBlockEntity extends BlockEntity {
     private ItemStack fish = ItemStack.EMPTY;
 
@@ -70,7 +73,7 @@ public final class FishPlaqueBlockEntity extends BlockEntity {
         changed();
     }
 
-    /** The card under the fish: species and colouring, size and who caught it when. */
+    /** Die Karte unter dem Fisch: Art und Färbung, Größe und wer ihn wann gefangen hat. */
     void describe(ServerPlayer player) {
         FishCatch.Catch caught = FishCatch.read(fish);
         if (caught == null) {

@@ -26,13 +26,13 @@ import net.minecraft.world.phys.Vec3;
 
 import java.util.List;
 
-/** The fish in a keepnet and the water they live in; checked once a minute. */
+/** Die Fische in einem Setzkescher und das Wasser, in dem sie leben; einmal pro Minute geprüft. */
 public final class KeepnetBlockEntity extends BlockEntity {
     public static final int CAPACITY = 8;
     public static final double MAX_WEIGHT = 40, MAX_LENGTH = 120;
     private final FishStore store = new FishStore(CAPACITY, MAX_WEIGHT, MAX_LENGTH);
 
-    /** Water quality: drops with the load, recovers in moving water and rain. */
+    /** Wasserqualität: sinkt mit der Belastung, erholt sich in fließendem Wasser und bei Regen. */
     private double quality = 1;
 
     private long lastCheck = -1;
@@ -124,7 +124,7 @@ public final class KeepnetBlockEntity extends BlockEntity {
                 fish.condition());
     }
 
-    /** A fish from the hand goes in; true if the item was a fish. */
+    /** Ein Fisch aus der Hand kommt hinein; true, wenn der Gegenstand ein Fisch war. */
     boolean put(ServerPlayer player, InteractionHand hand) {
         ItemStack stack = player.getItemInHand(hand);
         FishCatch.Catch fish = FishCatch.read(stack);

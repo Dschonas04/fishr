@@ -8,14 +8,14 @@ import java.util.List;
 import java.util.Random;
 
 /**
- * Daily and weekly fishing orders. They are the same for everyone on a server and day, generated
- * from the day number, and ask for variety: a particular species, a heavy fish, several fish from
- * one water, something rare, fish put back.
+ * Tägliche und wöchentliche Angelaufträge. Sie sind für alle auf einem Server und an einem Tag
+ * gleich, aus der Tageszahl erzeugt, und verlangen Abwechslung: eine bestimmte Art, einen schweren
+ * Fisch, mehrere Fische aus einem Gewässer, etwas Seltenes, zurückgesetzte Fische.
  *
- * @param id stable key for progress (kind, day and slot)
- * @param target species id, habitat name or rarity name; empty when not needed
- * @param amount kg for WEIGHT orders
- * @param count how many fish
+ * @param id fester Schlüssel für den Fortschritt (Art, Tag und Platz)
+ * @param target Art-Kennung, Name des Lebensraums oder der Seltenheit; leer, wenn nicht nötig
+ * @param amount kg für WEIGHT-Aufträge
+ * @param count wie viele Fische
  */
 public record Quest(
         String id,
@@ -34,7 +34,7 @@ public record Quest(
         RELEASE
     }
 
-    /** What happened: a fish caught (or released) somewhere. */
+    /** Was passiert ist: Irgendwo wurde ein Fisch gefangen (oder zurückgesetzt). */
     public record Event(FishSpecies species, double weightKg, Habitat habitat, boolean released) {}
 
     public boolean counts(Event event) {

@@ -1,19 +1,22 @@
 package io.github.dschonas04.fishr.fish;
 
 /**
- * Implemented by the fishing float (see FishingHookMixin): lets a fish make the float bite like
- * vanilla does.
+ * Von der Angelpose umgesetzt (siehe FishingHookMixin): Lässt einen Fisch die Pose so beißen
+ * lassen, wie es Vanilla tut.
  */
 public interface BiteTarget {
     /**
-     * Dips the float, splashes and opens the vanilla window in which a right-click counts as a
-     * catch.
+     * Taucht die Pose ab, spritzt und öffnet das Vanilla-Fenster, in dem ein Rechtsklick als Fang
+     * zählt.
      */
     void fishr$bite(int ticks);
 
-    /** Server: a bite window is open. Client: the float is pulled under. */
+    /** Server: Ein Bissfenster ist offen. Client: Die Pose ist untergezogen. */
     boolean fishr$isBiting();
 
-    /** Ticks since the current bite began (for the strike timing); large when there is no bite. */
+    /**
+     * Ticks seit Beginn des laufenden Bisses (für den Zeitpunkt des Anschlags); groß, wenn kein
+     * Biss da ist.
+     */
     int fishr$ticksSinceBite();
 }

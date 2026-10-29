@@ -9,14 +9,14 @@ import java.util.Random;
 import java.util.function.ToDoubleFunction;
 
 /**
- * The fish of Fishr: the freshwater fish of central Europe (salmonids, predators, coarse fish), the
- * edible sea fish of the North Atlantic and the Mediterranean, and the golden koi. Each has a size
- * range, a body shape for the 3D model, a fighting style and how common it is in each {@link
- * Habitat}. A weight of 0 means it does not live there.
+ * Die Fische von Fishr: die Süßwasserfische Mitteleuropas (Salmoniden, Raubfische, Friedfische),
+ * die Speisefische des Nordatlantiks und des Mittelmeers und der Goldkoi. Jeder hat einen
+ * Größenbereich, eine Körperform für das 3D-Modell, einen Kampfstil und wie häufig er in jedem
+ * {@link Habitat} ist. Ein Gewicht von 0 heißt, dass er dort nicht lebt.
  */
 public enum FishSpecies {
-    // weights per habitat: river, lake, swamp, cold, ocean, warm ocean, cold ocean, deep ocean
-    // salmonids
+    // Gewichte je Lebensraum: Fluss, See, Sumpf, kalt, Ozean, warmer Ozean, kalter Ozean, Tiefsee
+    // Salmoniden
     RIVER_TROUT(
             18,
             80,
@@ -77,7 +77,7 @@ public enum FishSpecies {
             1.2f,
             4.5f,
             new int[] {4, 0, 0, 2, 3, 0, 3, 0}),
-    // freshwater predators
+    // Raubfische im Süßwasser
     PIKE(
             35,
             150,
@@ -150,7 +150,7 @@ public enum FishSpecies {
             1.2f,
             4f,
             new int[] {6, 1, 0, 0, 0, 0, 0, 0}),
-    // coarse fish
+    // Friedfische
     CARP(
             25,
             110,
@@ -259,7 +259,7 @@ public enum FishSpecies {
             1f,
             4f,
             new int[] {8, 3, 0, 2, 0, 0, 0, 0}),
-    // cod family
+    // Dorschartige
     ATLANTIC_COD(
             30,
             150,
@@ -332,7 +332,7 @@ public enum FishSpecies {
             1.2f,
             3.5f,
             new int[] {0, 0, 0, 0, 7, 1, 4, 0}),
-    // herring family
+    // Heringsartige
     HERRING(
             18,
             40,
@@ -381,7 +381,7 @@ public enum FishSpecies {
             0.8f,
             3f,
             new int[] {0, 0, 0, 0, 10, 2, 8, 0}),
-    // perch-like sea fish
+    // barschartige Meeresfische
     SEA_BASS(
             25,
             100,
@@ -454,7 +454,7 @@ public enum FishSpecies {
             2.5f,
             4f,
             new int[] {0, 0, 0, 0, 0, 3, 0, 1}),
-    // mackerels and tunas
+    // Makrelen und Thunfische
     MACKEREL(
             20,
             55,
@@ -503,7 +503,7 @@ public enum FishSpecies {
             6f,
             5f,
             new int[] {0, 0, 0, 0, 0, 1, 0, 1}),
-    // flatfish
+    // Plattfische
     PLAICE(
             20,
             70,
@@ -564,7 +564,7 @@ public enum FishSpecies {
             0.8f,
             3.5f,
             new int[] {0, 0, 0, 0, 0, 0, 4, 3}),
-    // other sea fish
+    // andere Meeresfische
     REDFISH(
             25,
             90,
@@ -613,7 +613,7 @@ public enum FishSpecies {
             1.6f,
             3.5f,
             new int[] {0, 0, 0, 0, 0, 0, 3, 2}),
-    // the special one
+    // der Besondere
     GOLDEN_KOI(
             15,
             75,
@@ -626,8 +626,8 @@ public enum FishSpecies {
             1f,
             5f,
             new int[] {1, 1, 1, 0, 0, 0, 0, 0}),
-    // under the ground: water deep in caves, out of sight of the sky (weights: cave, lava, End at
-    // the end)
+    // unter der Erde: Wasser tief in Höhlen, ohne Blick zum Himmel (Gewichte: Höhle, Lava, End am
+    // Ende)
     CAVE_TETRA(
             6,
             16,
@@ -688,7 +688,7 @@ public enum FishSpecies {
             1f,
             4f,
             new int[] {0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0}),
-    // in lava: only with a netherite rod
+    // in Lava: nur mit der Netheritrute
     EMBER_CARP(
             25,
             75,
@@ -749,7 +749,7 @@ public enum FishSpecies {
             3f,
             5f,
             new int[] {0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0}),
-    // the water of the End
+    // das Wasser des End
     CHORUS_FISH(
             15,
             40,
@@ -798,7 +798,8 @@ public enum FishSpecies {
             0.8f,
             2.5f,
             new int[] {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2}),
-    // the bosses: they never spawn on their own, they only take their own bait (see BossEncounters)
+    // die Bosse: Sie spawnen nie von selbst und nehmen nur ihren eigenen Köder (siehe
+    // BossEncounters)
     ANCIENT_CATFISH(
             240,
             320,
@@ -858,19 +859,19 @@ public enum FishSpecies {
         MYTHIC
     }
 
-    /** What a fish eats; decides which baits it takes. */
+    /** Was ein Fisch frisst; entscheidet, welche Köder er nimmt. */
     public enum Diet {
-        /** Coarse fish: worms, maggots, corn, bread, boilies. */
+        /** Friedfische: Würmer, Maden, Mais, Brot, Boilies. */
         COARSE(14),
-        /** Freshwater predators: baitfish and lures. */
+        /** Raubfische im Süßwasser: Köderfische und Kunstköder. */
         PREDATOR(18),
-        /** Trout and their kin: insects, flies, small spinners. */
+        /** Forellen und ihre Verwandten: Insekten, Fliegen, kleine Spinner. */
         SALMONID(6),
-        /** Sea predators: baitfish, strips, lures. */
+        /** Raubfische im Meer: Köderfische, Fetzen, Kunstköder. */
         SEA_PREDATOR(10),
-        /** Fish of the sea floor: shrimp, strips, worms. */
+        /** Fische des Meeresgrunds: Garnelen, Fetzen, Würmer. */
         SEA_BOTTOM(14),
-        /** Shoal fish of the open sea: tiny baits. */
+        /** Schwarmfische der offenen See: winzige Köder. */
         SHOAL(6);
 
         private final int strikeIdeal;
@@ -880,14 +881,14 @@ public enum FishSpecies {
         }
 
         /**
-         * Ticks after the bite at which the strike sets the hook best: predators turn the bait
-         * first, trout spit fast.
+         * Ticks nach dem Biss, bei denen der Anschlag den Haken am besten setzt: Raubfische drehen
+         * den Köder erst, Forellen spucken schnell aus.
          */
         public int strikeIdeal() {
             return strikeIdeal;
         }
 
-        /** Hunts other fish. */
+        /** Jagt andere Fische. */
         public boolean predatory() {
             return this == PREDATOR || this == SEA_PREDATOR;
         }
@@ -921,7 +922,7 @@ public enum FishSpecies {
         this.body = body;
         this.nose = nose;
         this.tail = tail;
-        // Shorter lists leave the habitats at the end (cave, lava, End) empty.
+        // Kürzere Listen lassen die Lebensräume am Ende (Höhle, Lava, End) leer.
         if (habitatWeights.length > Habitat.values().length)
             throw new IllegalArgumentException(name());
         this.habitatWeights = java.util.Arrays.copyOf(habitatWeights, Habitat.values().length);
@@ -971,7 +972,7 @@ public enum FishSpecies {
         return tail;
     }
 
-    /** Barbels on the snout: the catfish, the barbel and the cod family's chin barbel. */
+    /** Barteln am Maul: der Wels, die Barbe und die Kinnbartel der Dorschartigen. */
     public boolean hasBarbels() {
         return switch (this) {
             case CATFISH,
@@ -988,7 +989,7 @@ public enum FishSpecies {
         };
     }
 
-    /** Flatfish lie on their side: a wide, low body. */
+    /** Plattfische liegen auf der Seite: ein breiter, flacher Körper. */
     public boolean flat() {
         return width > height * 2;
     }
@@ -1001,12 +1002,12 @@ public enum FishSpecies {
         return "rarity.fishr." + rarity.name().toLowerCase(Locale.ROOT);
     }
 
-    /** Spawn and bite weight in a habitat; 0 where the fish does not live. */
+    /** Spawn- und Bissgewicht in einem Lebensraum; 0, wo der Fisch nicht lebt. */
     public int weight(Habitat habitat) {
         return habitatWeights[habitat.ordinal()];
     }
 
-    /** Shoal fish swim in groups, the big predators and the rare ones alone. */
+    /** Schwarmfische schwimmen in Gruppen, die großen Raubfische und die seltenen allein. */
     public int maxGroup() {
         if (rarity.ordinal() >= Rarity.RARE.ordinal() || this == ZANDER || this == EEL || flat())
             return 1;
@@ -1021,7 +1022,10 @@ public enum FishSpecies {
         return roll(random, 0);
     }
 
-    /** A random specimen; {@code sizeBias} 0..1 favours bigger fish (big baits catch big fish). */
+    /**
+     * Ein zufälliges Exemplar; {@code sizeBias} 0..1 bevorzugt größere Fische (große Köder fangen
+     * große Fische).
+     */
     public FishSpecimen roll(Random random, double sizeBias) {
         double fraction = Math.pow(random.nextDouble(), 2 - Math.clamp(sizeBias, 0, 1));
         double length = Math.round((minLength + (maxLength - minLength) * fraction) * 10) / 10.0;
@@ -1091,7 +1095,7 @@ public enum FishSpecies {
         };
     }
 
-    /** The boss behind this species, or null. */
+    /** Der Boss hinter dieser Art oder null. */
     public Boss boss() {
         return switch (this) {
             case ANCIENT_CATFISH -> Boss.ANCIENT_CATFISH;
@@ -1107,7 +1111,7 @@ public enum FishSpecies {
         throw new IllegalArgumentException(boss.name());
     }
 
-    /** Lives only in the sea. */
+    /** Lebt nur im Meer. */
     public boolean salt() {
         for (int i = 0; i < Habitat.OCEAN.ordinal(); i++) if (habitatWeights[i] > 0) return false;
         boolean sea = false;
@@ -1116,7 +1120,7 @@ public enum FishSpecies {
         return sea && boss() == null;
     }
 
-    /** Every habitat this fish lives in. */
+    /** Jeder Lebensraum, in dem dieser Fisch lebt. */
     public java.util.List<Habitat> habitats() {
         java.util.List<Habitat> habitats = new java.util.ArrayList<>();
         for (Habitat habitat : Habitat.values()) if (weight(habitat) > 0) habitats.add(habitat);
@@ -1124,8 +1128,8 @@ public enum FishSpecies {
     }
 
     /**
-     * When it feeds best, for notes and the lexicon: twilight, night, day or any time (see {@link
-     * #activity}).
+     * Wann er am besten frisst, für Fundzettel und Lexikon: Dämmerung, Nacht, Tag oder jederzeit
+     * (siehe {@link #activity}).
      */
     public String feedingTime() {
         if (weight(Habitat.CAVE) > 0 || lava() || weight(Habitat.END) > 0) return "always";
@@ -1137,14 +1141,14 @@ public enum FishSpecies {
         };
     }
 
-    /** Lives in lava and nowhere else. */
+    /** Lebt in Lava und nirgends sonst. */
     public boolean lava() {
         return habitatWeights[Habitat.LAVA.ordinal()] > 0;
     }
 
     /**
-     * Where in the water column the fish likes to be: -1 at the bottom, 0 in the middle, 1 just
-     * under the surface.
+     * Wo in der Wassersäule der Fisch gern ist: -1 am Grund, 0 in der Mitte, 1 knapp unter der
+     * Oberfläche.
      */
     public int preferredDepth() {
         return switch (this) {
@@ -1174,7 +1178,7 @@ public enum FishSpecies {
         };
     }
 
-    /** Sharp teeth: without a steel leader they can bite through the line. */
+    /** Scharfe Zähne: Ohne Stahlvorfach können sie die Schnur durchbeißen. */
     public boolean teeth() {
         return switch (this) {
             case PIKE, ZANDER, BARRACUDA, WOLFFISH, MONKFISH, REED_KING, DEEP_WARDEN, BLAZE_PIKE ->
@@ -1183,7 +1187,7 @@ public enum FishSpecies {
         };
     }
 
-    /** Shy fish notice a visible leader and a big hook. */
+    /** Scheue Fische bemerken ein sichtbares Vorfach und einen großen Haken. */
     public boolean shy() {
         return diet() == Diet.SALMONID
                 || this == CARP
@@ -1284,7 +1288,10 @@ public enum FishSpecies {
         };
     }
 
-    /** How often this fish runs, dives, heads for cover, shakes its head or jumps when hooked. */
+    /**
+     * Wie oft dieser Fisch am Haken flüchtet, abtaucht, in Deckung zieht, den Kopf schüttelt oder
+     * springt.
+     */
     public int[] actionWeights() {
         return Fighter.weights(
                 3,
@@ -1296,8 +1303,9 @@ public enum FishSpecies {
     }
 
     /**
-     * How keen this fish is to feed at this time of day: predators hunt at dawn and dusk, wels, eel
-     * and zander at night, coarse fish by day, trout in the twilight. Rain livens up fresh water.
+     * Wie gern dieser Fisch zu dieser Tageszeit frisst: Raubfische jagen in der Morgen- und
+     * Abenddämmerung, Wels, Aal und Zander nachts, Friedfische tagsüber, Forellen in der Dämmerung.
+     * Regen belebt das Süßwasser.
      */
     public double activity(long dayTime, boolean raining) {
         long time = Math.floorMod(dayTime, 24000L);
@@ -1311,20 +1319,23 @@ public enum FishSpecies {
                     default -> 1.0;
                 };
         if (night && (this == CATFISH || this == EEL || this == ZANDER)) activity = 1.8;
-        // No day and no rain reach caves, lava or the End.
+        // Weder Tag noch Regen erreichen Höhlen, Lava oder das End.
         if (weight(Habitat.CAVE) > 0 || lava() || weight(Habitat.END) > 0) return 1.0;
         if (raining && !salt()) activity *= 1.2;
         return activity;
     }
 
-    /** Which fish takes a bait in this habitat, weighted by how common each is there. */
+    /**
+     * Welcher Fisch in diesem Lebensraum einen Köder nimmt, gewichtet danach, wie häufig er dort
+     * ist.
+     */
     public static FishSpecies choose(Habitat habitat, Random random) {
         return choose(habitat, random, species -> 1);
     }
 
     /**
-     * As {@link #choose(Habitat, Random)}, each weight multiplied by a factor (bait, time of day,
-     * weather).
+     * Wie {@link #choose(Habitat, Random)}, jedes Gewicht mit einem Faktor multipliziert (Köder,
+     * Tageszeit, Wetter).
      */
     public static FishSpecies choose(
             Habitat habitat, Random random, ToDoubleFunction<FishSpecies> factor) {

@@ -117,7 +117,7 @@ class FishSpecimenTest {
             assertTrue(FishSpecies.choose(Habitat.END, random).weight(Habitat.END) > 0);
         }
         for (FishSpecies species : FishSpecies.values()) {
-            // Lava fish live nowhere else, and no surface fish is caught in lava.
+            // Lavafische leben nirgends sonst, und kein Oberflächenfisch wird in Lava gefangen.
             if (species.lava()) assertEquals(1, species.habitats().size(), species.name());
             if (species.lava()
                     || species.weight(Habitat.CAVE) > 0

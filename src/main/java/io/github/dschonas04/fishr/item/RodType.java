@@ -1,21 +1,21 @@
 package io.github.dschonas04.fishr.item;
 
 /**
- * The rods, from beginner to best.
+ * Die Ruten, von der Anfänger- bis zur besten.
  *
- * @param flex 0..1, how much the blank bends and cushions jolts
- * @param speed factor on the reel's retrieve
- * @param load kg the rod bears; the drag never sets itself above it
- * @param sensitivity 0..1, how well the angler feels the bite (strike window)
- * @param cast casting distance factor
+ * @param flex 0..1, wie stark sich der Blank biegt und Stöße abfedert
+ * @param speed Faktor auf das Einholen der Rolle
+ * @param load kg, die die Rute trägt; die Bremse stellt sich nie darüber ein
+ * @param sensitivity 0..1, wie gut der Angler den Biss spürt (Anschlagfenster)
+ * @param cast Faktor auf die Wurfweite
  */
 public enum RodType {
     VANILLA(0.5, 1.0, 5, 0.6, 1.0),
-    /** Light and sensitive, for fish up to a few kilos. */
+    /** Leicht und feinfühlig, für Fische bis zu ein paar Kilo. */
     BAMBOO(0.8, 1.0, 7, 0.9, 0.9),
-    /** The all-rounder, strong enough for the bosses. */
+    /** Die Allrounderin, stark genug für die Bosse. */
     CARBON(0.6, 1.1, 24, 0.8, 1.35),
-    /** The only rod that fishes in lava; the strongest. */
+    /** Die einzige Rute, die in Lava angelt; die stärkste. */
     NETHERITE(0.45, 1.05, 30, 0.7, 1.25);
     private final double flex, speed, load, sensitivity, cast;
 

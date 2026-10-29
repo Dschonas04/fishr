@@ -19,9 +19,9 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 
 /**
- * Fish market (Anforderung 20): sells fish for emeralds. Rarity, weight, control in the fight and
- * freshness make the price; the same species again on the same day pays less. Sneak-click sells
- * every fish in the inventory.
+ * Fischmarkt (Anforderung 20): verkauft Fische für Smaragde. Seltenheit, Gewicht, Kontrolle im
+ * Drill und Frische bestimmen den Preis; dieselbe Art am selben Tag bringt weniger. Schleichend
+ * klicken verkauft alle Fische im Inventar.
  */
 public final class FishMarketBlock extends Block {
 

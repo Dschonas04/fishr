@@ -4,7 +4,9 @@ import net.minecraft.world.item.ItemStack;
 
 import java.util.Locale;
 
-/** The slots of an Fishr rod, in the order they sit in its container component. */
+/**
+ * Die Plätze einer Fishr-Rute, in der Reihenfolge, in der sie in ihrer Container-Komponente stehen.
+ */
 public enum GearSlot {
     REEL,
     LINE,
@@ -14,7 +16,7 @@ public enum GearSlot {
         return "tooltip.fishr.gear." + name().toLowerCase(Locale.ROOT);
     }
 
-    /** Which slot an item goes into, or null if it is no rod gear. */
+    /** In welchen Platz ein Gegenstand gehört, oder null, wenn er kein Rutenzubehör ist. */
     public static GearSlot of(ItemStack stack) {
         if (stack.isEmpty()) return null;
         if (FishrItems.reel(stack) != null) return REEL;

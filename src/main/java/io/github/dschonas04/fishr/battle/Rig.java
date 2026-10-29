@@ -1,18 +1,18 @@
 package io.github.dschonas04.fishr.battle;
 
 /**
- * The whole tackle as the fight sees it, snapshotted by the server when the fish is struck: rod,
- * reel, line and bait folded into physical values.
+ * Das ganze Angelgerät, wie der Drill es sieht, vom Server beim Anschlag festgehalten: Rute, Rolle,
+ * Schnur und Köder zu physikalischen Werten zusammengefasst.
  *
- * @param lineStrength load in kg the line bears before it breaks
- * @param stretch 0..1, how much the line stretches and soaks up jolts
- * @param rodFlex 0..1, how much the blank bends and cushions jolts
- * @param rodLoad kg the rod bears; the drag never sets itself above it
- * @param reelSpeed metres of line per tick the reel takes in without load
- * @param reelForce kg the reel can winch against
- * @param capacity metres of line on the spool
- * @param staminaDrain how fast the fish tires (bait), 1 = normal
- * @param runDamping how hard runs pull (bait), 1 = normal, lower is better
+ * @param lineStrength Last in kg, die die Schnur trägt, bevor sie reißt
+ * @param stretch 0..1, wie stark die Schnur sich dehnt und Stöße schluckt
+ * @param rodFlex 0..1, wie stark sich der Blank biegt und Stöße abfedert
+ * @param rodLoad kg, die die Rute trägt; die Bremse stellt sich nie darüber ein
+ * @param reelSpeed Meter Schnur pro Tick, die die Rolle ohne Last einholt
+ * @param reelForce kg, gegen die die Rolle kurbeln kann
+ * @param capacity Meter Schnur auf der Spule
+ * @param staminaDrain wie schnell der Fisch ermüdet (Köder), 1 = normal
+ * @param runDamping wie hart Fluchten ziehen (Köder), 1 = normal, weniger ist besser
  */
 public record Rig(
         double lineStrength,
@@ -24,7 +24,7 @@ public record Rig(
         double capacity,
         double staminaDrain,
         double runDamping) {
-    /** A plain vanilla fishing rod: string, a stick and no reel worth the name. */
+    /** Eine einfache Vanilla-Angel: Faden, ein Stock und keine Rolle, die den Namen verdient. */
     public static final Rig VANILLA = new Rig(3.5, 0.25, 0.5, 5, 0.09, 4, 60, 1, 1);
 
     public Rig {
@@ -53,7 +53,9 @@ public record Rig(
         }
     }
 
-    /** Bait effects: more strain (weaker line), faster tiring, weaker runs. */
+    /**
+     * Köderwirkungen: mehr Belastung (schwächere Schnur), schnelleres Ermüden, schwächere Fluchten.
+     */
     public Rig scaled(double strainFactor, double drainFactor, double runFactor) {
         return new Rig(
                 lineStrength / strainFactor,
@@ -68,8 +70,8 @@ public record Rig(
     }
 
     /**
-     * Rod upgrades (mother-of-pearl in the workshop): the rod bears more and the reel winches
-     * harder.
+     * Verstärkungen der Rute (Perlmutt in der Werkstatt): Die Rute trägt mehr, und die Rolle zieht
+     * kräftiger.
      */
     public Rig upgraded(int level) {
         if (level <= 0) return this;

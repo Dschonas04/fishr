@@ -26,24 +26,25 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 
 /**
- * The client side of a fight: two keys (R reels in, F gives line), the line's sounds and the panel
- * above the hotbar ({@link FightHud}). The view stays the player's own the whole time.
+ * Die Client-Seite eines Drills: zwei Tasten (R holt ein, F gibt Schnur), die Geräusche der Schnur
+ * und die Anzeige über der Hotbar ({@link FightHud}). Die Sicht bleibt die ganze Zeit die des
+ * Spielers.
  */
 public final class FishrClient implements ClientModInitializer {
-    /** How long the catch card stays on screen. */
+    /** Wie lange die Fangkarte zu sehen ist. */
     static final int TROPHY_TICKS = 80;
 
     static KeyMapping reelKey, giveKey;
     static BattlePayload state;
 
-    /** The last landed fish, for the catch card. */
+    /** Der zuletzt gelandete Fisch, für die Fangkarte. */
     static BattlePayload trophy;
 
     static int trophyTicks;
     static float displayedTension;
     static float displayedStamina;
 
-    /** Ticks since the current fight started. */
+    /** Ticks seit Beginn des laufenden Drills. */
     static int fightTicks;
 
     private static boolean reeling, giving;
@@ -67,8 +68,9 @@ public final class FishrClient implements ClientModInitializer {
                 (payload, context) ->
                         context.client().gui.setScreen(new LexiconScreen(payload.data())));
         ClientPlayConnectionEvents.DISCONNECT.register((handler, client) -> clear());
-        // F is also vanilla's swap-hands key: during a fight it only gives line, the rod stays in
-        // hand.
+        // F ist in Vanilla auch die Taste zum Händetauschen: Im Drill gibt sie nur Schnur, die Rute
+        // bleibt
+        // in der Hand.
         ClientTickEvents.START_CLIENT_TICK.register(
                 client -> {
                     if (fighting()) while (client.options.keySwapOffhand.consumeClick()) {}
@@ -140,7 +142,7 @@ public final class FishrClient implements ClientModInitializer {
     private static void tick(Minecraft client) {
         ticks++;
         if (trophyTicks > 0) trophyTicks--;
-        // Consume the click queues even though these keys use the held-key state.
+        // Die Klick-Warteschlangen leeren, obwohl diese Tasten den Gedrückt-Zustand nutzen.
         while (reelKey.consumeClick()) {}
         while (giveKey.consumeClick()) {}
         if (client.player == null || client.level == null) {
@@ -181,8 +183,8 @@ public final class FishrClient implements ClientModInitializer {
     }
 
     /**
-     * The line speaks too: creaking with rising tension, the reel's ratchet, a screaming drag, a
-     * limp splash.
+     * Auch die Schnur hat eine Stimme: Knarzen bei steigender Spannung, die Ratsche der Rolle, eine
+     * kreischende Bremse, ein schlaffes Platschen.
      */
     private static void sounds(Minecraft client) {
         var player = client.player;

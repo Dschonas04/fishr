@@ -24,7 +24,8 @@ import java.util.function.Function;
 
 public final class FishrItems {
     /**
-     * Burnt from a coal block in the blast furnace; the material of the best rod and the best line.
+     * Im Hochofen aus einem Kohleblock gebrannt; das Material der besten Rute und der besten
+     * Schnur.
      */
     public static final Item CARBON_FIBER =
             register("carbon_fiber", Item::new, new Item.Properties());
@@ -32,7 +33,7 @@ public final class FishrItems {
     public static final Item BAMBOO_ROD = rod("bamboo_rod", 128, 10, Items.BAMBOO);
     public static final Item CARBON_ROD = rod("carbon_rod", 1024, 22, CARBON_FIBER);
 
-    /** Fishes in lava (see FishingHookMixin). */
+    /** Angelt in Lava (siehe FishingHookMixin). */
     public static final Item NETHERITE_ROD = rod("netherite_rod", 2031, 15, Items.NETHERITE_INGOT);
 
     private static final Map<ReelType, Item> REEL_ITEMS = new EnumMap<>(ReelType.class);
@@ -61,7 +62,7 @@ public final class FishrItems {
     public static final Item CATERPILLAR_BAIT = BAIT_ITEMS.get(BaitType.CATERPILLAR);
     public static final Item GLOW_BAIT = BAIT_ITEMS.get(BaitType.GLOW);
 
-    /** Boss trophies: proof of the catch, worth a lot at the fish market. */
+    /** Bosstrophäen: Beweis des Fangs, am Fischmarkt viel wert. */
     public static final Item ANCIENT_BARBEL = trophy("ancient_barbel");
 
     public static final Item REED_CROWN = trophy("reed_crown");
@@ -71,7 +72,7 @@ public final class FishrItems {
     public static final Item CARP_LANDING_NET = net(LandingNetItem.NetType.CARP, 256);
     public static final Item BIG_GAME_LANDING_NET = net(LandingNetItem.NetType.BIG_GAME, 512);
 
-    /** From rare catches; the material of rod upgrades in the workshop. */
+    /** Aus seltenen Fängen; das Material für Rutenverstärkungen in der Werkstatt. */
     public static final Item MOTHER_OF_PEARL =
             register("mother_of_pearl", Item::new, new Item.Properties().rarity(Rarity.RARE));
 
@@ -90,7 +91,7 @@ public final class FishrItems {
             register("fishing_crate", FishingCrate::new, new Item.Properties().stacksTo(16));
     public static final Item FISHY_NOTE =
             register("fishy_note", FishingCrate.FishyNote::new, new Item.Properties().stacksTo(1));
-    // the kitchen (after You Need Bait): knife, fillets, soup, and the fish bone of Fish of Thieves
+    // die Küche (nach You Need Bait): Messer, Filets, Suppe und die Gräte aus Fish of Thieves
     public static final Item FILLET_KNIFE =
             register("fillet_knife", Item::new, new Item.Properties().durability(250));
     public static final Item RAW_FILLET =
@@ -205,8 +206,9 @@ public final class FishrItems {
     }
 
     private static Item rod(String name, int durability, int enchantability, Item repairMaterial) {
-        // Reel, line and bait sit in the container component; its plain text is hidden, the gear
-        // tooltip shows them.
+        // Rolle, Schnur und Köder stecken in der Container-Komponente; deren Klartext ist
+        // verborgen, der
+        // Zubehör-Tooltip zeigt sie.
         return register(
                 name,
                 FishrRodItem::new,
@@ -219,7 +221,7 @@ public final class FishrItems {
                                 TooltipDisplay.DEFAULT.withHidden(DataComponents.CONTAINER, true)));
     }
 
-    /** A reel or a line: one per rod, so they do not stack. */
+    /** Eine Rolle oder eine Schnur: eine pro Rute, deshalb stapeln sie sich nicht. */
     private static Item gear(String name, boolean boss) {
         Item.Properties properties = new Item.Properties().stacksTo(1);
         if (boss) properties.rarity(Rarity.EPIC);
@@ -240,6 +242,9 @@ public final class FishrItems {
         return Registry.register(BuiltInRegistries.ITEM, id, factory.apply(properties));
     }
 
-    /** Loads the class so the items register; they are listed in the Fishr tab (see ModItems). */
+    /**
+     * Lädt die Klasse, damit die Gegenstände registriert werden; sie stehen im Fishr-Tab (siehe
+     * ModItems).
+     */
     public static void initialize() {}
 }

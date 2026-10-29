@@ -3,9 +3,9 @@ package io.github.dschonas04.fishr.progress;
 import io.github.dschonas04.fishr.fish.FishSpecies;
 
 /**
- * What a catch is worth. Experience and market price grow with rarity, size, the control during the
- * fight and the fish's condition; the same species again on the same day is worth less every time,
- * so farming one small fish is never the best way forward.
+ * Was ein Fang wert ist. Erfahrung und Marktpreis wachsen mit Seltenheit, Größe, der Kontrolle im
+ * Drill und dem Zustand des Fisches; dieselbe Art am selben Tag ist jedes Mal weniger wert, damit
+ * das Abfarmen eines kleinen Fisches nie der beste Weg ist.
  */
 public final class Valuation {
     private Valuation() {}
@@ -13,7 +13,7 @@ public final class Valuation {
     private static final double[] RARITY_XP = {5, 10, 25, 50, 100, 200};
     private static final double[] RARITY_PRICE = {0.25, 0.5, 1.2, 3, 8, 16};
 
-    /** Diminishing returns for the n-th fish of a species today (n starts at 0). */
+    /** Abnehmender Ertrag für den n-ten Fisch einer Art heute (n beginnt bei 0). */
     public static double repetition(int sameToday) {
         return Math.pow(0.8, Math.max(0, sameToday));
     }
@@ -33,8 +33,8 @@ public final class Valuation {
     }
 
     /**
-     * Emeralds (fractional, the market keeps the change) for a fish of this rarity, weight, quality
-     * and condition.
+     * Smaragde (mit Bruchteilen, der Markt behält das Wechselgeld) für einen Fisch dieser
+     * Seltenheit, dieses Gewichts, dieser Qualität und dieses Zustands.
      */
     public static double price(
             FishSpecies.Rarity rarity,
@@ -48,7 +48,7 @@ public final class Valuation {
         return RARITY_PRICE[rarity.ordinal()] * weight * control * fresh * repetition(soldToday);
     }
 
-    /** Angler level from experience: 0, 40, 160, 360, 640 … (level² × 40). */
+    /** Anglerstufe aus der Erfahrung: 0, 40, 160, 360, 640 … (Stufe² × 40). */
     public static int level(long experience) {
         return (int) Math.floor(Math.sqrt(Math.max(0, experience) / 40.0));
     }

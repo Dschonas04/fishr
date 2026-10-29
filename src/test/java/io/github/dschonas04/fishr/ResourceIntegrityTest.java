@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 
 import javax.imageio.ImageIO;
 
-/** Asset/data checks without starting Minecraft, a server or a world. */
+/** Prüfungen von Assets und Daten, ohne Minecraft, einen Server oder eine Welt zu starten. */
 class ResourceIntegrityTest {
     private static final Path RESOURCES = Path.of("src/main/resources");
     private static final Path ASSETS = RESOURCES.resolve("assets/fishr");

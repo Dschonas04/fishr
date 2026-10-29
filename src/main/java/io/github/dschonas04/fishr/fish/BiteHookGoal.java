@@ -14,10 +14,11 @@ import java.util.Comparator;
 import java.util.EnumSet;
 
 /**
- * A fish notices a float in the water nearby, swims to it, looks at the bait and — if it likes it —
- * bites. The angler then has the vanilla bite window to strike; the fight is against exactly this
- * fish. A fish that does not care for the bait ignores it; one that is only half keen inspects it
- * and turns away now and then. Without a strike the fish loses interest and swims off.
+ * Ein Fisch bemerkt eine Pose in der Nähe, schwimmt hin, sieht sich den Köder an und beißt, wenn er
+ * ihm gefällt. Der Angler hat dann das Vanilla-Bissfenster zum Anschlagen; der Drill läuft gegen
+ * genau diesen Fisch. Ein Fisch, dem der Köder egal ist, beachtet ihn nicht; einer, der nur halb
+ * interessiert ist, prüft ihn und dreht ab und zu ab. Ohne Anschlag verliert der Fisch das
+ * Interesse und schwimmt davon.
  */
 final class BiteHookGoal extends Goal {
     private static final double RANGE = 12;
@@ -51,8 +52,9 @@ final class BiteHookGoal extends Goal {
                         .min(Comparator.comparingDouble(fish::distanceToSqr))
                         .orElse(null);
         if (target == null) return false;
-        // The bait decides: a liked bait draws the fish in, a disliked one is ignored, a bare hook
-        // only sometimes.
+        // Der Köder entscheidet: Ein beliebter Köder lockt den Fisch an, ein unbeliebter wird nicht
+        // beachtet,
+        // ein blanker Haken nur manchmal.
         appeal = appeal(target.getPlayerOwner());
         if (appeal < 0.5 && fish.getRandom().nextFloat() > appeal) {
             cooldown = 100;
@@ -127,8 +129,9 @@ final class BiteHookGoal extends Goal {
                 return;
             }
             fish.getNavigation().stop();
-            // A half-keen fish looks at the bait for a moment and may turn away (it can come back
-            // later).
+            // Ein halb interessierter Fisch sieht sich den Köder kurz an und dreht vielleicht ab
+            // (er kann später
+            // wiederkommen).
             if (inspect < 0) inspect = 20 + fish.getRandom().nextInt(30);
             if (inspect-- > 0) {
                 fish.setDeltaMovement(
@@ -144,8 +147,9 @@ final class BiteHookGoal extends Goal {
             ((BiteTarget) target).fishr$bite(40);
             afterBite = 45;
         } else {
-            // It has taken the bait and swims off with it, out into open water: the float is pulled
-            // away from the bank.
+            // Er hat den Köder genommen und schwimmt damit hinaus ins offene Wasser: Die Pose wird
+            // vom Ufer
+            // weggezogen.
             Player owner = target.getPlayerOwner();
             var away =
                     owner == null

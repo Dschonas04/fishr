@@ -13,11 +13,12 @@ import net.minecraft.client.renderer.entity.state.LivingEntityRenderState;
 import net.minecraft.util.Mth;
 
 /**
- * Species-specific geometry in a 64x64 atlas. The body is five segments that swell behind the head
- * and taper to the tail root, so the fish has a real spindle shape; the last two segments and the
- * forked tail swing together when it swims. Dorsal, anal, pelvic and pectoral fins sit where they
- * belong. {@code scripts/draw-textures.py} paints the same segments ({@link #SEGMENTS}, {@link
- * #profile}) into the skin, each with its own stretch of the pattern.
+ * Artspezifische Geometrie in einem 64x64-Atlas. Der Körper besteht aus fünf Segmenten, die hinter
+ * dem Kopf breiter werden und zur Schwanzwurzel hin schmaler, damit der Fisch eine echte
+ * Spindelform hat; die letzten beiden Segmente und die gegabelte Schwanzflosse schwingen beim
+ * Schwimmen mit. Rücken-, After-, Bauch- und Brustflossen sitzen an ihrem Platz. {@code
+ * scripts/draw-textures.py} malt dieselben Segmente ({@link #SEGMENTS}, {@link #profile}) in die
+ * Haut, jedes mit seinem eigenen Abschnitt des Musters.
  */
 public final class FishrFishModel extends EntityModel<LivingEntityRenderState> {
     public static final int SEGMENTS = 5;
@@ -34,8 +35,8 @@ public final class FishrFishModel extends EntityModel<LivingEntityRenderState> {
     }
 
     /**
-     * {width factors, height factors} of the segments from head to tail. Keep in step with
-     * draw-textures.py.
+     * {Breitenfaktoren, Höhenfaktoren} der Segmente vom Kopf zum Schwanz. Im Gleichschritt mit
+     * draw-textures.py halten.
      */
     static float[][] profile(FishSpecies species) {
         if (species.flat())
@@ -46,7 +47,7 @@ public final class FishrFishModel extends EntityModel<LivingEntityRenderState> {
         return new float[][] {{1f, 0.95f, 0.85f, 0.7f, 0.5f}, {1f, 1f, 0.88f, 0.7f, 0.5f}};
     }
 
-    /** Where segment {@code index} sits in the atlas: three in the first row, two in the second. */
+    /** Wo Segment {@code index} im Atlas liegt: drei in der ersten Reihe, zwei in der zweiten. */
     static int[] texture(FishSpecies species, int index) {
         float depth = species.modelBodyLength() / SEGMENTS;
         int column = (int) Math.ceil(2 * depth + 2 * species.modelWidth()) + 1;
@@ -80,7 +81,7 @@ public final class FishrFishModel extends EntityModel<LivingEntityRenderState> {
                         cube.addBox(-w / 2, -h / 2, (k - 3) * depth, w, h, depth),
                         PartPose.ZERO);
         }
-        // the head narrows a little towards the snout
+        // der Kopf wird zum Maul hin etwas schmaler
         float headW = width * (flat ? 0.75f : 0.9f), headH = height * (flat ? 1f : 0.88f);
         root.addOrReplaceChild(
                 "head",
@@ -90,7 +91,7 @@ public final class FishrFishModel extends EntityModel<LivingEntityRenderState> {
                 PartPose.offset(0, 22, 0));
         float nose = species.modelNoseLength();
         if (nose > 4) {
-            // the swordfish's sword: long and thin
+            // das Schwert des Schwertfisches: lang und dünn
             root.addOrReplaceChild(
                     "snout",
                     CubeListBuilder.create()
@@ -106,8 +107,9 @@ public final class FishrFishModel extends EntityModel<LivingEntityRenderState> {
                             .addBox(-snoutW / 2, -snoutH / 2, -nose, snoutW, snoutH, nose),
                     PartPose.offset(0, 22.2f, -3));
         }
-        // the tail: a forked fin of two lobes on the tail root; flatfish lie on their side, so
-        // theirs is horizontal
+        // der Schwanz: eine gegabelte Flosse aus zwei Lappen an der Schwanzwurzel; Plattfische
+        // liegen auf
+        // der Seite, ihrer steht deshalb waagrecht
         PartDefinition tail =
                 rear.addOrReplaceChild(
                         "tail", CubeListBuilder.create(), PartPose.offset(0, 0, 2 * depth));
@@ -127,7 +129,7 @@ public final class FishrFishModel extends EntityModel<LivingEntityRenderState> {
                         PartPose.rotation(side * -0.35f, 0, 0));
             }
         }
-        // pectoral fins behind the gills
+        // Brustflossen hinter den Kiemen
         root.addOrReplaceChild(
                 "left_fin",
                 CubeListBuilder.create().texOffs(16, 50).addBox(0, 0, -1, 2.5f, 0, 2.5f),
@@ -137,7 +139,7 @@ public final class FishrFishModel extends EntityModel<LivingEntityRenderState> {
                 CubeListBuilder.create().texOffs(16, 50).addBox(-2.5f, 0, -1, 2.5f, 0, 2.5f),
                 PartPose.offsetAndRotation(-width / 2, 22 + height * 0.2f, 0.8f, 0, -0.3f, -0.5f));
         if (flat) {
-            // a fringe of fin all along both edges instead of a dorsal fin
+            // ein Flossensaum an beiden Kanten statt einer Rückenflosse
             for (int side : new int[] {-1, 1}) {
                 root.addOrReplaceChild(
                         "fringe_" + side,
@@ -146,7 +148,7 @@ public final class FishrFishModel extends EntityModel<LivingEntityRenderState> {
                                 .addBox(side < 0 ? -1 : 0, 0, 0, 1, 0, length * 0.85f),
                         PartPose.offset(side * width / 2, 22, length * 0.08f));
             }
-            // both eyes on the upper side
+            // beide Augen auf der Oberseite
             for (int side : new int[] {-1, 1}) {
                 root.addOrReplaceChild(
                         "eye_" + side,
@@ -162,7 +164,9 @@ public final class FishrFishModel extends EntityModel<LivingEntityRenderState> {
                         PartPose.offset(side * 0.6f, 22 - headH / 2 - 0.6f, -1.65f));
             }
         } else {
-            // dorsal fin on the highest point of the back, sloping back; anal and pelvic fins below
+            // Rückenflosse auf dem höchsten Punkt des Rückens, nach hinten geneigt; After- und
+            // Bauchflossen
+            // darunter
             float dorsal = Math.max(1.2f, height * 0.45f);
             root.addOrReplaceChild(
                     "dorsal",
@@ -228,8 +232,9 @@ public final class FishrFishModel extends EntityModel<LivingEntityRenderState> {
         super.setupAnim(state);
         float speed = state.isInWater ? 0.6f : 1.0f;
         float beat = Mth.sin(state.ageInTicks * speed);
-        // the wave runs down the body: the rear swings a little, the tail follows a moment later
-        // and further
+        // die Welle läuft den Körper entlang: das Hinterteil schwingt ein wenig, der Schwanz folgt
+        // einen
+        // Augenblick später und weiter
         float late = Mth.sin(state.ageInTicks * speed - 0.9f);
         float amount = state.isInWater ? 1f : 1.6f;
         if (flat) {

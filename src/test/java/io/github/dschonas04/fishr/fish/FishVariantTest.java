@@ -48,7 +48,7 @@ class FishVariantTest {
                         .collect(
                                 java.util.stream.Collectors.toMap(
                                         Map.Entry::getKey, Map.Entry::getValue)));
-        // albinos are rare everywhere, plain fish the most common
+        // Albinos sind überall selten, gewöhnliche Fische am häufigsten
         for (var counts : java.util.List.of(day, night, storm, cave)) {
             assertTrue(
                     counts.get(FishVariant.ALBINO) > 200 && counts.get(FishVariant.ALBINO) < 700);

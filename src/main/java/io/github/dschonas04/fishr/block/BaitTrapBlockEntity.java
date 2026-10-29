@@ -24,12 +24,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * What a bait trap has caught; every minute or so something may swim in, up to {@link #CAPACITY}.
+ * Was eine Köderreuse gefangen hat; etwa jede Minute kann etwas hineinschwimmen, bis {@link
+ * #CAPACITY}.
  */
 public final class BaitTrapBlockEntity extends BlockEntity {
     public static final int CAPACITY = 16;
 
-    /** Ticks between two looks into the trap. */
+    /** Ticks zwischen zwei Blicken in die Reuse. */
     private static final int INTERVAL = 1200;
 
     private final List<ItemStack> contents = new ArrayList<>();
@@ -51,8 +52,8 @@ public final class BaitTrapBlockEntity extends BlockEntity {
     }
 
     /**
-     * Baitfish everywhere in the water of the overworld; leeches in fresh water, most of all in
-     * rivers and swamps.
+     * Köderfische überall im Wasser der Oberwelt; Blutegel im Süßwasser, vor allem in Flüssen und
+     * Sümpfen.
      */
     private Item lure(Habitat habitat, float roll) {
         double leeches =

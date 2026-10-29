@@ -6,8 +6,9 @@ import net.minecraft.world.item.ItemStack;
 import java.util.Locale;
 
 /**
- * A landing net (Anforderung 14), held in the other hand during the fight. Its size decides which
- * fish fit and how wide the opening is for the landing gauge; bosses need the big game net.
+ * Ein Kescher (Anforderung 14), im Drill in der anderen Hand gehalten. Seine Größe entscheidet,
+ * welche Fische hineinpassen und wie breit die Öffnung für die Landeanzeige ist; Bosse brauchen den
+ * Großfischkescher.
  */
 public final class LandingNetItem extends Item {
     public enum NetType {

@@ -27,18 +27,18 @@ import java.util.List;
 import java.util.Random;
 
 /**
- * Crates come up instead of a fish now and then (as in Tide): opened they give what lies in that
- * water – some of it Fishr tackle, some of it a note on where a fish bites.
+ * Statt eines Fisches kommen ab und zu Kisten hoch (wie in Tide): Geöffnet geben sie, was in diesem
+ * Wasser liegt – manches davon Fishr-Zubehör, manches ein Fundzettel, wo ein Fisch beißt.
  */
 public final class FishingCrate extends Item {
-    /** Chance that a bite turns out to be a crate. */
+    /** Chance, dass ein Biss eine Kiste ist. */
     public static final double CHANCE = 0.06;
 
     public FishingCrate(Properties properties) {
         super(properties);
     }
 
-    /** A crate from this water. */
+    /** Eine Kiste aus diesem Wasser. */
     public static ItemStack create(Habitat habitat) {
         ItemStack crate = new ItemStack(FishrItems.FISHING_CRATE);
         CompoundTag tag = new CompoundTag();
@@ -85,7 +85,7 @@ public final class FishingCrate extends Item {
         return InteractionResult.SUCCESS;
     }
 
-    /** Two to four things from the water, a bait or a hook, and often a note. */
+    /** Zwei bis vier Dinge aus dem Wasser, ein Köder oder ein Haken und oft ein Fundzettel. */
     public static List<ItemStack> loot(Habitat habitat, Random random) {
         List<ItemStack> loot = new ArrayList<>();
         Item[] water =
@@ -162,8 +162,8 @@ public final class FishingCrate extends Item {
     }
 
     /**
-     * A note on one fish: where it lives, when it feeds and what it takes. Rarer fish are written
-     * about more often – nobody leaves notes about roach.
+     * Ein Fundzettel über einen Fisch: wo er lebt, wann er frisst und was er nimmt. Über seltenere
+     * Fische wird öfter geschrieben – über Rotaugen hinterlässt niemand Zettel.
      */
     public static final class FishyNote extends Item {
         public FishyNote(Properties properties) {
@@ -208,7 +208,7 @@ public final class FishingCrate extends Item {
             return note;
         }
 
-        /** The bait this fish likes best. */
+        /** Der Köder, den dieser Fisch am liebsten mag. */
         static BaitType bestBait(FishSpecies species) {
             BaitType best = BaitType.WORM;
             for (BaitType bait : BaitType.values()) {

@@ -8,23 +8,23 @@ import java.util.Locale;
 import java.util.Random;
 
 /**
- * The colouring of one fish (after Fish of Thieves): most fish look like their species, but sun,
- * moon, thunder, darkness and chance bring out rare colourings. A rare colouring is worth more at
- * the market and in experience, and the lexicon keeps track of the colourings each angler has
- * caught.
+ * Die Färbung eines Fisches (nach Fish of Thieves): Die meisten Fische sehen aus wie ihre Art, aber
+ * Sonne, Mond, Gewitter, Dunkelheit und Zufall bringen seltene Färbungen hervor. Eine seltene
+ * Färbung bringt am Markt und an Erfahrung mehr, und das Lexikon führt Buch über die Färbungen, die
+ * jeder Angler gefangen hat.
  */
 public enum FishVariant {
-    /** As the species looks. */
+    /** So, wie die Art aussieht. */
     NORMAL(0xFFFFFFFF, false, 1.0),
-    /** By day under open sky. */
+    /** Tagsüber unter freiem Himmel. */
     SUNLIT(0xFFFFC85A, true, 1.5),
-    /** By night under open sky, more often at full moon. */
+    /** Nachts unter freiem Himmel, bei Vollmond öfter. */
     MOONLIT(0xFF9DB4FF, true, 1.5),
-    /** In a thunderstorm. */
+    /** Bei Gewitter. */
     STORM(0xFF7C8AA6, false, 2.0),
-    /** Deep down, in caves, lava and the End. */
+    /** Tief unten, in Höhlen, Lava und dem End. */
     SHADOW(0xFF5E5872, false, 1.8),
-    /** Rare everywhere: without any colour. */
+    /** Überall selten: ganz ohne Farbe. */
     ALBINO(0xFFFFFFFF, true, 3.0);
 
     private final int tint;
@@ -45,17 +45,17 @@ public enum FishVariant {
         return "variant.fishr." + id();
     }
 
-    /** ARGB multiplied over the skin. */
+    /** ARGB, über die Haut multipliziert. */
     public int tint() {
         return tint;
     }
 
-    /** Drawn over the pale skin instead of the species' own one. */
+    /** Über die helle Haut gezeichnet statt über die eigene der Art. */
     public boolean pale() {
         return pale;
     }
 
-    /** Multiplier on market price and experience. */
+    /** Faktor auf Marktpreis und Erfahrung. */
     public double worth() {
         return worth;
     }
@@ -65,11 +65,13 @@ public enum FishVariant {
         return NORMAL;
     }
 
-    /** Where and when a fish is hooked or spawns; decides which colourings are possible. */
+    /**
+     * Wo und wann ein Fisch gehakt wird oder spawnt; entscheidet, welche Färbungen möglich sind.
+     */
     public record Conditions(
             boolean sky, boolean day, boolean thunder, boolean fullMoon, boolean underworld) {}
 
-    /** A colouring for a fish at this place and time. */
+    /** Eine Färbung für einen Fisch an diesem Ort zu dieser Zeit. */
     public static FishVariant at(ServerLevel level, BlockPos pos, Random random) {
         return pick(
                 new Conditions(
@@ -82,8 +84,8 @@ public enum FishVariant {
     }
 
     /**
-     * Nothing but water above: by the height map, so it holds for water the light has not reached
-     * yet.
+     * Über ihm nur Wasser: nach der Höhenkarte, damit es auch für Wasser gilt, das das Licht noch
+     * nicht erreicht hat.
      */
     static boolean openSky(ServerLevel level, BlockPos pos) {
         BlockPos.MutableBlockPos top = pos.mutable();
@@ -93,7 +95,7 @@ public enum FishVariant {
                 >= level.getHeight(Heightmap.Types.MOTION_BLOCKING, top.getX(), top.getZ());
     }
 
-    /** A colouring for a fish under these conditions. */
+    /** Eine Färbung für einen Fisch unter diesen Bedingungen. */
     public static FishVariant pick(Conditions conditions, Random random) {
         double roll = random.nextDouble();
         if (roll < 0.02) return ALBINO;

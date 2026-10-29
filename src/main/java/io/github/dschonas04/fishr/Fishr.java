@@ -53,7 +53,8 @@ public final class Fishr implements ModInitializer {
         ServerLifecycleEvents.SERVER_STARTED.register(Progression::load);
         ServerPlayConnectionEvents.DISCONNECT.register(
                 (handler, server) -> BATTLES.disconnect(handler.getPlayer()));
-        // Before the world is saved: hooked fish get their AI back and battle dummies are gone.
+        // Bevor die Welt gespeichert wird: Gehakte Fische bekommen ihre KI zurück, Drill-Attrappen
+        // verschwinden.
         ServerLifecycleEvents.SERVER_STOPPING.register(server -> BATTLES.clear());
         ServerLifecycleEvents.SERVER_STOPPED.register(server -> BATTLES.clear());
         CommandRegistrationCallback.EVENT.register(

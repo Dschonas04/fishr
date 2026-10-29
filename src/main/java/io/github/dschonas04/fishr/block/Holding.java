@@ -10,7 +10,7 @@ import net.minecraft.tags.FluidTags;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 
-/** Reads the water around a keepnet or a pen into {@link WaterConditions}. */
+/** Liest das Wasser um einen Setzkescher oder ein Netz in {@link WaterConditions} ein. */
 final class Holding {
     private Holding() {}
 
@@ -37,8 +37,8 @@ final class Holding {
     }
 
     /**
-     * How well the local water suits a species: its own habitat is right, others are tolerable at
-     * best.
+     * Wie gut das Wasser vor Ort zu einer Art passt: der eigene Lebensraum passt, andere sind
+     * bestenfalls erträglich.
      */
     static double temperature(ServerLevel level, BlockPos pos, Iterable<FishSpecies> species) {
         Habitat here = Habitat.at(level, pos);

@@ -19,9 +19,10 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.Vec3;
 
 /**
- * Catch and release (Anforderung 15): a caught fish held over water and used goes back as the same
- * individual, with its identity and condition. It brings a little experience, counts for release
- * orders and eases the fishing pressure. Anywhere else the item works as before (it can be eaten).
+ * Fangen und Zurücksetzen (Anforderung 15): Ein gefangener Fisch, über Wasser gehalten und benutzt,
+ * kehrt als dasselbe Individuum zurück, mit Identität und Zustand. Das bringt etwas Erfahrung,
+ * zählt für Rücksetz-Aufträge und senkt den Fangdruck. Überall sonst funktioniert der Gegenstand
+ * wie zuvor (er lässt sich essen).
  */
 public final class FishRelease {
     private FishRelease() {}
@@ -60,8 +61,8 @@ public final class FishRelease {
                     server.playSound(
                             null, water, SoundEvents.FISH_SWIM, SoundSource.PLAYERS, 0.8f, 1.1f);
                     Ecology.released(server, water);
-                    // Only the angler who caught it is rewarded, so passing fish around earns
-                    // nothing.
+                    // Belohnt wird nur der Angler, der ihn gefangen hat, Fische herumzureichen
+                    // bringt also nichts.
                     if (fish.angler().equals(serverPlayer.getName().getString())) {
                         Progression.released(
                                 serverPlayer, fish.specimen(), Habitat.at(server, water));

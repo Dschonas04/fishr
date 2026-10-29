@@ -37,11 +37,11 @@ import java.util.Optional;
 import java.util.UUID;
 
 /**
- * The rods in a holder: where each one's bait lies, when the next bite comes and whether a fish is
- * on now.
+ * Die Ruten in einem Halter: wo der Köder jeder Rute liegt, wann der nächste Biss kommt und ob
+ * gerade ein Fisch dran ist.
  */
 public final class RodHolderBlockEntity extends BlockEntity {
-    /** How long a bite waits for the angler; a bite sensor gives more time. */
+    /** Wie lange ein Biss auf den Angler wartet; ein Bisssensor gibt mehr Zeit. */
     static final int BITE_WINDOW = 160;
 
     private final ItemStack[] rods = {ItemStack.EMPTY, ItemStack.EMPTY, ItemStack.EMPTY};
@@ -65,8 +65,8 @@ public final class RodHolderBlockEntity extends BlockEntity {
     }
 
     /**
-     * The water spot in front of the holder where a rod's bait lies (each rod a little to the
-     * side).
+     * Die Wasserstelle vor dem Halter, an der der Köder einer Rute liegt (jede Rute etwas
+     * seitlich).
      */
     private BlockPos findWater(ServerLevel level, int slot, double reach) {
         Direction facing = getBlockState().getValue(RodHolderBlock.FACING);
@@ -129,7 +129,10 @@ public final class RodHolderBlockEntity extends BlockEntity {
                 Component.translatable("holder.fishr.placed", slot + 1, kind().rods()), true);
     }
 
-    /** Waiting time until the next bite: bait, pressure on the spot, groundbait, Lure, a float. */
+    /**
+     * Wartezeit bis zum nächsten Biss: Köder, Fangdruck an der Stelle, Futtermischung,
+     * Köder-Verzauberung, eine Pose.
+     */
     private int waitTicks(ServerLevel level, ServerPlayer player, ItemStack rod, BlockPos water) {
         double ticks = 600 + level.getRandom().nextInt(1800);
         boolean bait = !FishrRodItem.bait(rod).isEmpty();
@@ -165,7 +168,7 @@ public final class RodHolderBlockEntity extends BlockEntity {
             }
             return;
         }
-        // No bite: reel the last rod in.
+        // Kein Biss: die letzte Rute einholen.
         for (int i = kind().rods() - 1; i >= 0; i--) {
             if (rods[i].isEmpty()) continue;
             player.getInventory().placeItemBackInInventory(rods[i], Prediction.SERVER_ONLY);
@@ -214,7 +217,9 @@ public final class RodHolderBlockEntity extends BlockEntity {
     }
 
     private void bite(ServerLevel level, int slot) {
-        // Two baits lying close together: the fish runs across both lines and they tangle.
+        // Zwei Köder liegen dicht beieinander: Der Fisch schwimmt über beide Schnüre, und sie
+        // verheddern
+        // sich.
         for (BlockPos pos :
                 BlockPos.betweenClosed(
                         worldPosition.offset(-8, -3, -8), worldPosition.offset(8, 3, 8))) {
@@ -260,8 +265,8 @@ public final class RodHolderBlockEntity extends BlockEntity {
     }
 
     /**
-     * The indicator: a click and the rod tip for every holder, the pod's alarm beeps louder and
-     * faster.
+     * Der Anzeiger: ein Klicken und die Rutenspitze bei jedem Halter, der Alarm des Rod Pods piept
+     * lauter und schneller.
      */
     private void alarm(ServerLevel level, int slot) {
         int t = biting[slot];
@@ -299,8 +304,8 @@ public final class RodHolderBlockEntity extends BlockEntity {
     }
 
     /**
-     * Nobody came: the fish gets away with the bait, sometimes the lure, and a big one can take the
-     * rod.
+     * Niemand kam: Der Fisch entkommt mit dem Köder, manchmal mit dem Kunstköder, und ein großer
+     * kann die Rute mitnehmen.
      */
     private void unattended(ServerLevel level, int slot) {
         ItemStack rod = rods[slot];

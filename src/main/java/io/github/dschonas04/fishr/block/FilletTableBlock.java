@@ -27,12 +27,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Fillet table (after You Need Bait's fish cleaning station): fish in the main hand, the fillet
- * knife in the other. A fish gives fillets by its weight, now and then a fish bone (as in Fish of
- * Thieves), and one in ten has something in its stomach.
+ * Filetiertisch (nach der Fischputzstation aus You Need Bait): Fisch in die Haupthand,
+ * Filetiermesser in die andere. Ein Fisch gibt Filets nach seinem Gewicht, ab und zu eine Gräte
+ * (wie in Fish of Thieves), und jeder zehnte hat etwas im Magen.
  */
 public final class FilletTableBlock extends Block {
-    /** Chance of a find in the stomach. */
+    /** Chance auf einen Fund im Magen. */
     static final double FIND = 0.1;
 
     static final double BONE = 0.2;
@@ -41,7 +41,10 @@ public final class FilletTableBlock extends Block {
         super(properties);
     }
 
-    /** Fillets from a fish of this weight: one for a small fish, up to twelve for a giant. */
+    /**
+     * Filets aus einem Fisch dieses Gewichts: eines bei einem kleinen Fisch, bis zu zwölf bei einem
+     * Riesen.
+     */
     public static int fillets(double weightKg) {
         return (int) Math.clamp(1 + Math.floor(Math.sqrt(Math.max(0, weightKg)) * 1.6), 1, 12);
     }
@@ -94,8 +97,8 @@ public final class FilletTableBlock extends Block {
     }
 
     /**
-     * What a fish had swallowed: sea fish other things than river fish, rare fish now and then
-     * mother-of-pearl.
+     * Was ein Fisch verschluckt hatte: Meeresfische anderes als Flussfische, seltene Fische ab und
+     * zu Perlmutt.
      */
     private static ItemStack find(FishSpecies species, RandomSource random) {
         if (species != null

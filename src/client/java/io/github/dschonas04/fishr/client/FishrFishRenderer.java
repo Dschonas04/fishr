@@ -20,7 +20,7 @@ import net.minecraft.util.Mth;
 
 public final class FishrFishRenderer
         extends MobRenderer<FishrFishEntity, FishrFishRenderer.State, FishrFishModel> {
-    /** The fish's state for drawing, with its colouring. */
+    /** Der Zustand des Fisches zum Zeichnen, mit seiner Färbung. */
     public static final class State extends LivingEntityRenderState {
         FishVariant variant = FishVariant.NORMAL;
     }
@@ -62,7 +62,7 @@ public final class FishrFishRenderer
         state.variant = fish.variant();
     }
 
-    /** Rare colourings: the skin (the pale one for the bright colourings) tinted. */
+    /** Seltene Färbungen: die Haut (die helle bei den leuchtenden Färbungen) eingefärbt. */
     @Override
     protected int getModelTint(State state) {
         return state.variant.tint();
@@ -72,7 +72,7 @@ public final class FishrFishRenderer
     protected void setupRotations(State state, PoseStack poses, float rotation, float scale) {
         super.setupRotations(state, poses, rotation, scale);
         poses.rotate(Axis.YP.rotationDegrees(4.3f * Mth.sin(0.6f * state.ageInTicks)));
-        // stranded fish lie on their side; a flatfish already does
+        // gestrandete Fische liegen auf der Seite; ein Plattfisch tut das schon
         if (!state.isInWater && !flat) {
             poses.translate(0.1f, 0.1f, -0.1f);
             poses.rotate(Axis.ZP.rotationDegrees(90));

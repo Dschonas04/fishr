@@ -16,12 +16,12 @@ import java.util.List;
 import java.util.UUID;
 
 /**
- * The fish kept in a keepnet: limited in number, total weight and size. Every fish keeps its
- * identity (an id, its measurements, its condition); the same fish can never be stored twice, so
- * nothing is duplicated when fish move between the world, the hand and the net.
+ * Die Fische in einem Setzkescher: begrenzt in Anzahl, Gesamtgewicht und Größe. Jeder Fisch behält
+ * seine Identität (eine Kennung, seine Maße, seinen Zustand); derselbe Fisch kann nie doppelt
+ * liegen, damit nichts verdoppelt wird, wenn Fische zwischen Welt, Hand und Kescher wechseln.
  */
 public final class FishStore {
-    /** One kept fish. Condition 0..100; at 0 it is dead. */
+    /** Ein gehaltener Fisch. Zustand 0..100; bei 0 ist er tot. */
     public record Kept(
             UUID id,
             FishSpecies species,
@@ -164,7 +164,7 @@ public final class FishStore {
         return fish.stream().mapToDouble(Kept::condition).average().orElse(100);
     }
 
-    /** Lets time pass in this water; returns the fish that died. */
+    /** Lässt in diesem Wasser Zeit vergehen; gibt die Fische zurück, die gestorben sind. */
     public List<Kept> age(WaterConditions water, double minutes) {
         List<Kept> dead = new ArrayList<>();
         double change = water.perMinute() * minutes;
@@ -176,7 +176,10 @@ public final class FishStore {
         return dead;
     }
 
-    /** Restores stored fish (from the block entity's save data); skips duplicates. */
+    /**
+     * Stellt gespeicherte Fische wieder her (aus den Speicherdaten der Block-Entity); überspringt
+     * Doppelte.
+     */
     public void restore(Kept kept) {
         if (fish.stream().noneMatch(other -> other.id().equals(kept.id()))) fish.add(kept);
     }

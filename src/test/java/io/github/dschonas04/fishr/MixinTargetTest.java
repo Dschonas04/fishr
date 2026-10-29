@@ -12,7 +12,7 @@ import java.io.IOException;
 class MixinTargetTest {
     @Test
     void fishingHooksAndLootInvocationMatchMinecraft262Bytecode() throws IOException {
-        // Read bytecode only: do not initialize Minecraft or launch a world.
+        // Nur Bytecode lesen: Minecraft nicht initialisieren und keine Welt starten.
         try (var input =
                 getClass()
                         .getClassLoader()

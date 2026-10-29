@@ -6,7 +6,7 @@ import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 
-/** What the angler does: reel in (R), give line (F) or give up. */
+/** Was der Angler tut: einholen (R), Schnur geben (F) oder aufgeben. */
 public record ReelPayload(int battleId, boolean reeling, boolean giving, boolean cancel)
         implements CustomPacketPayload {
     public static final Type<ReelPayload> TYPE = new Type<>(Fishr.id("reel"));

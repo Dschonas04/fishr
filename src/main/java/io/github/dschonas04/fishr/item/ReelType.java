@@ -1,8 +1,8 @@
 package io.github.dschonas04.fishr.item;
 
 /**
- * The reels, from beginner to best: speed (metres of line per tick), winch force (kg) and line
- * capacity (m).
+ * Die Rollen, von der Anfänger- bis zur besten: Geschwindigkeit (Meter Schnur pro Tick), Zugkraft
+ * (kg) und Schnurfassung (m).
  */
 public enum ReelType {
     COPPER("copper_reel", 0.11, 5, 120),

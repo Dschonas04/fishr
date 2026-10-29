@@ -5,9 +5,9 @@ import io.github.dschonas04.fishr.fish.Habitat;
 import java.util.Locale;
 
 /**
- * Fishing grounds (Anforderung 19). Every habitat belongs to one ground; a ground below the
- * angler's level still gives bites, but only common and uncommon fish until the angler has the
- * level for it.
+ * Angelgebiete (Anforderung 19). Jeder Lebensraum gehört zu einem Gebiet; ein Gebiet über der Stufe
+ * des Anglers gibt trotzdem Bisse, aber nur gewöhnliche und ungewöhnliche Fische, bis der Angler
+ * die Stufe dafür hat.
  */
 public enum Area {
     HOME_LAKE(0),

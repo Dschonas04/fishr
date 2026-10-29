@@ -16,9 +16,9 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 
 /**
- * Bait is found while digging (after Fish of Thieves and You Need Bait): earthworms in dry earth
- * (twice as often in the rain), maggots in dry sand, leeches in wet sand and mud by rivers, beaches
- * and swamps, caterpillars in leaves.
+ * Köder findet man beim Graben (nach Fish of Thieves und You Need Bait): Regenwürmer in trockener
+ * Erde (bei Regen doppelt so oft), Maden in trockenem Sand, Blutegel in nassem Sand und Schlamm an
+ * Flüssen, Stränden und Sümpfen, Raupen im Laub.
  */
 public final class BaitFinds {
     static final double WORM = 0.04, GRUB = 0.03, LEECH = 0.04, CATERPILLAR = 0.03;
@@ -35,7 +35,7 @@ public final class BaitFinds {
                 });
     }
 
-    /** What a broken block gives away, or null. */
+    /** Was ein abgebauter Block hergibt, oder null. */
     static Item find(ServerLevel level, BlockPos pos, BlockState state, double roll) {
         boolean wet = wet(level, pos);
         if (earth(state)) {
@@ -70,7 +70,7 @@ public final class BaitFinds {
                 || state.is(Blocks.FARMLAND);
     }
 
-    /** Water next to the block or right above it. */
+    /** Wasser neben dem Block oder direkt darüber. */
     private static boolean wet(Level level, BlockPos pos) {
         for (Direction direction : Direction.values()) {
             if (direction != Direction.DOWN
@@ -80,7 +80,7 @@ public final class BaitFinds {
         return false;
     }
 
-    /** Leeches live by rivers, at the beach and in swamps. */
+    /** Blutegel leben an Flüssen, am Strand und in Sümpfen. */
     private static boolean leechWater(ServerLevel level, BlockPos pos) {
         Habitat habitat = Habitat.of(level.getBiome(pos));
         return habitat == Habitat.RIVER

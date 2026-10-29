@@ -5,7 +5,10 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.component.CustomData;
 
-/** The workshop's work on a rod: up to three mother-of-pearl upgrades, kept on the rod. */
+/**
+ * Die Arbeit der Werkstatt an einer Rute: bis zu drei Perlmutt-Verstärkungen, an der Rute
+ * gespeichert.
+ */
 public final class RodMods {
     private RodMods() {}
 

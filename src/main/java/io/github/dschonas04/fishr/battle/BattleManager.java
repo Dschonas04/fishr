@@ -58,14 +58,17 @@ import java.util.Random;
 import java.util.UUID;
 
 /**
- * Runs the fights on the server: starts one when an angler strikes a bite, feeds it the angler's
- * input every tick, moves the fish everyone sees on the line, and hands out the catch.
+ * Führt die Drills auf dem Server: startet einen, wenn ein Angler bei einem Biss anschlägt, gibt
+ * ihm jeden Tick die Eingabe des Anglers, bewegt den Fisch, den alle an der Schnur sehen, und
+ * verteilt den Fang.
  */
 public final class BattleManager {
     private final Map<UUID, Session> sessions = new HashMap<>();
     private final Map<UUID, Session> completing = new HashMap<>();
 
-    /** Fish swimming to or biting a float, by float UUID (see BiteHookGoal). */
+    /**
+     * Fische, die zu einer Pose schwimmen oder an ihr beißen, nach Posen-UUID (siehe BiteHookGoal).
+     */
     private final Map<UUID, FishrFishEntity> biters = new HashMap<>();
 
     private final BossEncounters bosses = new BossEncounters();
@@ -76,13 +79,14 @@ public final class BattleManager {
                 || completing.containsKey(hook.getUUID())) return false;
         Session active = sessions.get(player.getUUID());
         if (active != null) {
-            // Right-click during a fight: land the fish if it is close and worn out.
+            // Rechtsklick im Drill: den Fisch landen, wenn er nah und erschöpft ist.
             if (active.hook == hook && active.battle.landable()) land(active);
             return active.hook == hook;
         }
         FishrFishEntity liveFish = hook.getHookedIn() instanceof FishrFishEntity fish ? fish : null;
         if (liveFish == null && nibble > 0) {
-            // A fish from the world bit this float: the fight is against that very fish.
+            // Ein Fisch aus der Welt hat an dieser Pose gebissen: Der Drill läuft gegen genau
+            // diesen Fisch.
             FishrFishEntity biter = biters.get(hook.getUUID());
             if (biter != null
                     && biter.isAlive()
@@ -97,7 +101,7 @@ public final class BattleManager {
                         ? InteractionHand.MAIN_HAND
                         : InteractionHand.OFF_HAND;
         if (player.getItemInHand(hand) != rod) return false;
-        // Bait loaded into the rod's slot comes first; bait held in the other hand still works.
+        // Köder im Köderplatz der Rute geht vor; Köder in der anderen Hand funktioniert weiterhin.
         ItemStack loaded = FishrRodItem.bait(rod);
         ItemStack other =
                 player.getItemInHand(
@@ -122,7 +126,7 @@ public final class BattleManager {
                 && random.nextDouble()
                         < io.github.dschonas04.fishr.item.FishingCrate.CHANCE
                                 * (1 + 0.5 * BattleEquipment.luck(player, rod))) {
-            // Not a fish but a crate: it comes up without a fight.
+            // Kein Fisch, sondern eine Kiste: Sie kommt ohne Drill hoch.
             player.spawnAtLocation(
                     level,
                     io.github.dschonas04.fishr.item.FishingCrate.create(
@@ -196,9 +200,9 @@ public final class BattleManager {
     }
 
     /**
-     * Which fish bites: habitat, bait appeal and the time of day; a fished-out spot gives fewer and
-     * smaller fish, a ground not yet unlocked only common ones, Luck of the Sea and groundbait
-     * help.
+     * Welcher Fisch beißt: Lebensraum, Köderwirkung und Tageszeit; ein leergefischter Platz gibt
+     * weniger und kleinere Fische, ein noch nicht freigeschaltetes Gebiet nur gewöhnliche, Glück
+     * des Meeres und Futtermischung helfen.
      */
     private FishSpecimen choose(
             ServerPlayer player,
@@ -236,14 +240,17 @@ public final class BattleManager {
                 .withVariant(io.github.dschonas04.fishr.fish.FishVariant.at(level, pos, random));
     }
 
-    /** Uses one bait from the rod's slot; an empty slot is refilled from a bait box. */
+    /**
+     * Verbraucht einen Köder aus dem Köderplatz der Rute; ein leerer Platz wird aus einer Köderbox
+     * nachgefüllt.
+     */
     private static void consumeBait(ServerPlayer player, ItemStack rod) {
         BaitType before = FishrItems.bait(FishrRodItem.bait(rod));
         FishrRodItem.consumeBait(rod, player);
         FishingTools.BaitBox.refill(player, rod, before);
     }
 
-    /** Builds the fight and the session (shared by the float and the rod holder). */
+    /** Baut den Drill und die Sitzung (gemeinsam für Pose und Rutenhalter). */
     private Session begin(
             ServerPlayer player,
             FishingHook hook,
@@ -275,9 +282,9 @@ public final class BattleManager {
     }
 
     /**
-     * A bite at a rod holder taken up: the rod is in the angler's hand now, the hook sets itself
-     * (more or less well), and the fight runs without a float. Returns false if a fight could not
-     * start.
+     * Ein Biss am Rutenhalter wurde aufgenommen: Die Rute ist jetzt in der Hand des Anglers, der
+     * Haken setzt sich selbst (mehr oder weniger gut), und der Drill läuft ohne Pose. Gibt false
+     * zurück, wenn kein Drill beginnen konnte.
      */
     public boolean startFromHolder(
             ServerPlayer player, ItemStack rod, Vec3 target, boolean sensor) {
@@ -323,8 +330,8 @@ public final class BattleManager {
     }
 
     /**
-     * A click with the rod during a fight without a float (rod holder): land the fish. True if it
-     * was used.
+     * Ein Klick mit der Rute während eines Drills ohne Pose (Rutenhalter): den Fisch landen. True,
+     * wenn er verwendet wurde.
      */
     public boolean click(ServerPlayer player) {
         Session session = sessions.get(player.getUUID());
@@ -339,9 +346,9 @@ public final class BattleManager {
     }
 
     /**
-     * Landing (Anforderung 14): with a net in the other hand the gauge decides – a scoop with the
-     * fish inside the opening almost always works. Without a net only small fish (up to 2 kg) can
-     * be taken by hand; bosses need the big game net.
+     * Landen (Anforderung 14): Mit einem Kescher in der anderen Hand entscheidet die Anzeige –
+     * keschern, während der Fisch in der Öffnung ist, klappt fast immer. Ohne Kescher lassen sich
+     * nur kleine Fische (bis 2 kg) mit der Hand herausheben; Bosse brauchen den Großfischkescher.
      */
     private void land(Session session) {
         ServerPlayer player = session.player;
@@ -389,7 +396,7 @@ public final class BattleManager {
                             0.8f);
         }
         if (landed) return;
-        // It kicked free and runs again.
+        // Er hat sich losgerissen und flüchtet wieder.
         if (player.level() instanceof ServerLevel level && session.dummy != null) {
             level.sendParticles(
                     ParticleTypes.SPLASH,
@@ -415,7 +422,7 @@ public final class BattleManager {
                 true);
     }
 
-    /** Fish up to this weight can be lifted out by hand. */
+    /** Fische bis zu diesem Gewicht lassen sich mit der Hand herausheben. */
     public static final double HAND_LIMIT_KG = 2;
 
     private static ItemStack netOf(Session session) {
@@ -425,7 +432,7 @@ public final class BattleManager {
                         : InteractionHand.MAIN_HAND);
     }
 
-    /** Half-width of the net's opening for the gauge, -1 without a fitting net. */
+    /** Halbe Breite der Kescheröffnung für die Anzeige, -1 ohne passenden Kescher. */
     private static float netWindow(Session session) {
         LandingNetItem.NetType type = LandingNetItem.type(netOf(session));
         if (type == null || !type.fits(session.specimen.lengthCm(), session.specimen.weightKg()))
@@ -434,8 +441,8 @@ public final class BattleManager {
     }
 
     /**
-     * The fish everyone sees on the line: a non-saved, invulnerable copy of the specimen that is
-     * being fought.
+     * Der Fisch, den alle an der Schnur sehen: eine nicht gespeicherte, unverwundbare Kopie des
+     * Exemplars, das gedrillt wird.
      */
     private void spawnDummy(Session session) {
         if (!(session.player.level() instanceof ServerLevel level)) return;
@@ -489,10 +496,10 @@ public final class BattleManager {
     }
 
     /**
-     * Server-side choreography, visible to every player: the fish sits where the line says it is
-     * (the line out, off to the side in a sideways run, deep in a dive), thrashes before an action,
-     * leaps in a jump, lies flat at the surface when worn out. The float follows the fish so the
-     * line moves with it.
+     * Choreografie auf dem Server, für alle Spieler sichtbar: Der Fisch ist dort, wo die Schnur
+     * sagt (die Schnur hinaus, bei einer Seitenflucht zur Seite, tief bei einem Abtauchen), schlägt
+     * vor einer Aktion um sich, springt bei einem Sprung und liegt erschöpft flach an der
+     * Oberfläche. Die Pose folgt dem Fisch, damit die Schnur mitgeht.
      */
     private void animate(Session session) {
         if (session.practice || !(session.player.level() instanceof ServerLevel level)) return;
@@ -582,7 +589,7 @@ public final class BattleManager {
                     0.15,
                     0.05);
         }
-        // Only over water: at the bank the fish stays where it last could swim.
+        // Nur über Wasser: Am Ufer bleibt der Fisch, wo er zuletzt schwimmen konnte.
         if (level.getFluidState(BlockPos.containing(flat.x, session.surface - 0.3, flat.z))
                 .is(FluidTags.WATER)) {
             session.fishPos = session.fishPos.lerp(new Vec3(flat.x, y, flat.z), 0.3);
@@ -601,7 +608,7 @@ public final class BattleManager {
         session.dummy.setYBodyRot(yaw);
         session.dummy.setDeltaMovement(Vec3.ZERO);
         if (session.hook == null) {
-            // No float from a rod holder: a thin trail of bubbles shows the line.
+            // Keine Pose am Rutenhalter: Eine dünne Blasenspur zeigt die Schnur.
             if (t % 5 == 0)
                 level.sendParticles(
                         ParticleTypes.BUBBLE,
@@ -624,8 +631,9 @@ public final class BattleManager {
 
     private static void removeDummy(Session session) {
         if (session.dummy == null || session.dummy.isRemoved()) return;
-        // A real fish from the world swims on (unless it was caught, then finish() removes it); a
-        // dummy vanishes.
+        // Ein echter Fisch aus der Welt schwimmt weiter (außer er wurde gefangen, dann entfernt ihn
+        // finish());
+        // eine Attrappe verschwindet.
         if (session.dummy == session.liveFish) session.dummy.setNoAi(false);
         else session.dummy.discard();
     }
@@ -640,7 +648,8 @@ public final class BattleManager {
         Session session = sessions.get(player.getUUID());
         if (session == null || session.player != player || session.id != payload.battleId()) return;
         if (payload.cancel()) session.battle.cancel();
-        // Updating intent never advances the simulation; packet spam cannot speed up a catch.
+        // Eine neue Absicht bringt die Simulation nie voran; Paketflut kann keinen Fang
+        // beschleunigen.
         session.reeling = payload.reeling();
         session.giving = payload.giving();
         session.inputAge = 0;
@@ -678,8 +687,9 @@ public final class BattleManager {
             FishAction previousPending = session.battle.pending();
             session.inputAge++;
             session.battle.tick(session.input());
-            // Training has no float to right-click: a worn-out fish close in is landed by hand at
-            // once.
+            // Im Training gibt es keine Pose zum Rechtsklicken: Ein erschöpfter Fisch in der Nähe
+            // wird sofort
+            // mit der Hand gelandet.
             if (session.practice && session.battle.landable()) session.battle.land();
             if (session.battle.action() != previous) session.actionStart = session.battle.elapsed();
             if (session.battle.result() != FishingBattle.Result.ACTIVE) {
@@ -694,7 +704,8 @@ public final class BattleManager {
     }
 
     private void finish(Session session) {
-        // Remove before giving loot, and guard re-entry through the retrieve mixin.
+        // Entfernen, bevor die Beute verteilt wird, und den erneuten Eintritt über das Einhol-Mixin
+        // absichern.
         sessions.remove(session.player.getUUID());
         FishingBattle.Result result = session.battle.result();
         boolean caught = result == FishingBattle.Result.CAUGHT;
@@ -719,8 +730,8 @@ public final class BattleManager {
                 if (session.hook != null) completing.put(session.hook.getUUID(), session);
                 try {
                     int damage;
-                    // Caves, lava and the End have no vanilla loot: the fish comes straight to the
-                    // angler.
+                    // Höhlen, Lava und End haben keine Vanilla-Beute: Der Fisch kommt direkt zum
+                    // Angler.
                     boolean underworld =
                             Habitat.at(
                                             (ServerLevel) player.level(),
@@ -758,7 +769,7 @@ public final class BattleManager {
                                             .withStyle(ChatFormatting.GOLD));
                         }
                     }
-                    // an overloaded rod wears faster
+                    // eine überlastete Rute nutzt sich schneller ab
                     session.rod.hurtAndBreak(damage, player, session.hand);
                 } finally {
                     if (session.hook != null) completing.remove(session.hook.getUUID());
@@ -774,7 +785,7 @@ public final class BattleManager {
                 }
             }
         }
-        // The outcome for everyone around: the catch, a snapping line, a fish that got away.
+        // Das Ergebnis für alle in der Nähe: der Fang, eine reißende Schnur, ein entkommener Fisch.
         var outcome =
                 switch (result) {
                     case CAUGHT -> FishrSounds.CATCH;
@@ -814,7 +825,8 @@ public final class BattleManager {
             FishingHook hook, ObjectArrayList<ItemStack> original) {
         Session session = completing.get(hook.getUUID());
         if (session == null || session.specimen == null) return original;
-        // Only replace the fish slot. Vanilla treasure, junk, luck and XP remain intact.
+        // Nur den Fisch-Platz ersetzen. Vanilla-Schätze, Müll, Glück und Erfahrung bleiben
+        // erhalten.
         var result = new ObjectArrayList<ItemStack>(original.size());
         for (ItemStack stack : original)
             result.add(stack.is(ItemTags.FISHES) ? caughtItem(session) : stack);
@@ -822,8 +834,8 @@ public final class BattleManager {
     }
 
     /**
-     * The landed fish as an item: a fish from the world keeps its identity and health; a long fight
-     * and lifting it out by hand stress it.
+     * Der gelandete Fisch als Gegenstand: Ein Fisch aus der Welt behält Identität und Zustand; ein
+     * langer Drill und das Herausheben mit der Hand stressen ihn.
      */
     private ItemStack caughtItem(Session session) {
         UUID id = session.liveFish != null ? session.liveFish.identity() : UUID.randomUUID();
@@ -871,7 +883,7 @@ public final class BattleManager {
         }
         Random random = new Random(player.getRandom().nextLong());
         FishSpecimen specimen = species.roll(random);
-        // Training runs on the tackle in hand, so gear can be tried out.
+        // Das Training läuft mit dem Gerät in der Hand, damit man Ausrüstung ausprobieren kann.
         ItemStack rod = player.getMainHandItem();
         Rig rig =
                 rod.getItem() instanceof FishrRodItem
@@ -1117,7 +1129,7 @@ public final class BattleManager {
         boolean giving;
         int inputAge;
 
-        /** Training: no rod, no loot, landed automatically. */
+        /** Training: keine Rute, keine Beute, automatisch gelandet. */
         final boolean practice;
 
         boolean handLanded;
@@ -1153,8 +1165,8 @@ public final class BattleManager {
         }
 
         /**
-         * Input goes stale after a second without packets: a frozen client neither reels nor gives
-         * line.
+         * Eingaben veralten nach einer Sekunde ohne Pakete: Ein eingefrorener Client holt weder ein
+         * noch gibt er Schnur.
          */
         FishingBattle.Input input() {
             return inputAge <= 20

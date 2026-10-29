@@ -22,7 +22,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.Vec3;
 
 /**
- * Draws the fish on a plaque: flat on the board like in an item frame, bigger the bigger the fish.
+ * Zeichnet den Fisch auf eine Fischtafel: flach auf dem Brett wie im Rahmen, je größer der Fisch,
+ * desto größer.
  */
 public final class FishPlaqueRenderer
         implements BlockEntityRenderer<FishPlaqueBlockEntity, FishPlaqueRenderer.State> {
@@ -73,7 +74,7 @@ public final class FishPlaqueRenderer
             State state, PoseStack poses, SubmitNodeCollector collector, CameraRenderState camera) {
         if (state.empty) return;
         poses.pushPose();
-        // in front of the board, which hangs on the side away from the facing
+        // vor dem Brett, das an der Seite gegenüber der Blickrichtung hängt
         poses.translate(
                 0.5 - state.facing.getStepX() * 0.36, 0.5, 0.5 - state.facing.getStepZ() * 0.36);
         poses.rotate(Axis.YP.rotationDegrees(180 - state.facing.toYRot()));

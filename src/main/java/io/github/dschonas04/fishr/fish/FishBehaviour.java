@@ -15,14 +15,14 @@ import java.util.Comparator;
 import java.util.EnumSet;
 
 /**
- * What a fish does when it is not biting: keep its depth, hunt, and as the leader of a shoal (or
- * alone) follow the behaviour of the moment. All of it only runs near players and checks rarely, so
- * large waters stay cheap.
+ * Was ein Fisch tut, wenn er nicht beißt: seine Tiefe halten, jagen und als Anführer eines Schwarms
+ * (oder allein) dem Verhalten des Augenblicks folgen. All das läuft nur in der Nähe von Spielern
+ * und prüft selten, damit große Gewässer günstig bleiben.
  */
 final class FishBehaviour {
     private FishBehaviour() {}
 
-    /** The shoal behaviours (Anforderung 16.3). */
+    /** Das Verhalten von Schwärmen (Anforderung 16.3). */
     enum School {
         FEEDING,
         SHY,
@@ -34,8 +34,8 @@ final class FishBehaviour {
     }
 
     /**
-     * Picks what a fish (or the shoal it leads) does now, from species, time, weather, moon, food
-     * and danger.
+     * Wählt, was ein Fisch (oder der Schwarm, den er anführt) jetzt tut, nach Art, Zeit, Wetter,
+     * Mond, Futter und Gefahr.
      */
     static School pick(FishrFishEntity fish) {
         FishSpecies species = fish.species();
@@ -54,7 +54,8 @@ final class FishBehaviour {
     }
 
     /**
-     * Leaders and loners move with purpose; followers just follow their leader (vanilla schooling).
+     * Anführer und Einzelgänger bewegen sich zielstrebig; Mitläufer folgen nur ihrem Anführer
+     * (Vanilla-Schwarmverhalten).
      */
     static final class SchoolGoal extends Goal {
         private final FishrFishEntity fish;
@@ -122,7 +123,7 @@ final class FishBehaviour {
                     yield plant == null ? null : Vec3.atCenterOf(plant);
                 }
                 case MIGRATING -> {
-                    // A shoal wanders the same way all day long.
+                    // Ein Schwarm zieht den ganzen Tag in dieselbe Richtung.
                     double angle = (level.getOverworldClockTime() / 24000 % 8) * Math.PI / 4;
                     yield fish.position().add(Math.cos(angle) * 12, 0, Math.sin(angle) * 12);
                 }
@@ -163,8 +164,8 @@ final class FishBehaviour {
     }
 
     /**
-     * Keeps a fish at its depth: bottom fish near the ground, shoal fish near the surface, sea fish
-     * deeper by day.
+     * Hält einen Fisch in seiner Tiefe: Grundfische nahe am Boden, Schwarmfische nahe der
+     * Oberfläche, Meeresfische tagsüber tiefer.
      */
     static final class DepthGoal extends Goal {
         private final FishrFishEntity fish;
@@ -210,7 +211,8 @@ final class FishBehaviour {
     }
 
     /**
-     * A hungry predator stalks a much smaller fish nearby; it catches it now and then, not always.
+     * Ein hungriger Raubfisch pirscht sich an einen viel kleineren Fisch in der Nähe heran; ab und
+     * zu erwischt er ihn, nicht immer.
      */
     static final class HuntGoal extends Goal {
         private final FishrFishEntity fish;
@@ -268,8 +270,9 @@ final class FishBehaviour {
 
         @Override
         public void tick() {
-            // The selector re-checks canContinueToUse only every other tick, so the prey can
-            // already be gone here.
+            // Der Selektor prüft canContinueToUse nur jeden zweiten Tick, die Beute kann hier also
+            // schon weg
+            // sein.
             if (prey == null || !prey.isAlive()) return;
             if (ticks % 10 == 0) fish.getNavigation().moveTo(prey, 1.6);
             if (fish.distanceToSqr(prey) < 1.5) {

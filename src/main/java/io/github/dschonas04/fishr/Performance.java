@@ -3,8 +3,9 @@ package io.github.dschonas04.fishr;
 import java.util.Locale;
 
 /**
- * Performance tiers (Anforderung 22): how far from players fish behave fully and how often rod
- * holders are checked. Set by an operator with {@code /fishr leistung}; kept with the world.
+ * Leistungsstufen (Anforderung 22): wie weit von Spielern entfernt Fische ihr volles Verhalten
+ * zeigen und wie oft Rutenhalter geprüft werden. Ein Operator setzt sie mit {@code /fishr
+ * leistung}; sie werden mit der Welt gespeichert.
  */
 public enum Performance {
     LOW(24, 40, "niedrig"),
@@ -14,7 +15,7 @@ public enum Performance {
     private static Performance current = NORMAL;
     private final int activeRadius, holderInterval;
 
-    /** The word for the command. */
+    /** Das Wort für den Befehl. */
     private final String word;
 
     Performance(int activeRadius, int holderInterval, String word) {

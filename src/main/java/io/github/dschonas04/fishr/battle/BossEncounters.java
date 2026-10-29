@@ -14,16 +14,18 @@ import java.util.Random;
 import java.util.UUID;
 
 /**
- * When a boss takes the bait. Every boss needs its own bait, cast in its own water at its own time:
+ * Wann ein Boss beißt. Jeder Boss braucht seinen eigenen Köder, ausgeworfen in seinem Gewässer zu
+ * seiner Zeit:
  *
  * <ul>
- *   <li>The Old One of the Deep: at night, in a lake or swamp at least five blocks deep.
- *   <li>The Reed King: in a swamp in the rain, or at dawn or dusk.
- *   <li>The Black Sturgeon: by day, in a river at least four blocks deep.
- *   <li>The Deep Warden: in hidden water, below y 0 and out of sight of the sky.
+ *   <li>Der Alte vom Grund: nachts, in einem See oder Sumpf, mindestens fünf Blöcke tief.
+ *   <li>Der Schilfkönig: in einem Sumpf bei Regen oder in der Dämmerung.
+ *   <li>Der Schwarze Stör: tagsüber, in einem Fluss, mindestens vier Blöcke tief.
+ *   <li>Der Tiefenwächter: in verborgenem Wasser, unter y 0 und ohne Blick zum Himmel.
  * </ul>
  *
- * Even then only about every third bite is the boss, and each angler meets each boss once per day.
+ * Selbst dann ist nur etwa jeder dritte Biss der Boss, und jeder Angler trifft jeden Boss einmal am
+ * Tag.
  */
 public final class BossEncounters {
     private static final double CHANCE = 0.4;

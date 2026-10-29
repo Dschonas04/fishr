@@ -9,11 +9,11 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 
-/** Turns rod, reel, line and bait into the {@link Rig} the fight runs on. */
+/** Macht aus Rute, Rolle, Schnur und Köder das {@link Rig}, mit dem der Drill läuft. */
 public final class BattleEquipment {
     private BattleEquipment() {}
 
-    /** The rig as the tooltip shows it. */
+    /** Das Gerät, wie der Tooltip es zeigt. */
     public static Rig preview(ItemStack rod) {
         return rig(rod, FishrRodItem.bait(rod));
     }
@@ -43,27 +43,27 @@ public final class BattleEquipment {
         return rig.upgraded(RodMods.upgrades(rod));
     }
 
-    /** Strike sensitivity: how well the rod lets the angler feel the bite. */
+    /** Feingefühl beim Anschlag: wie gut die Rute den Angler den Biss spüren lässt. */
     public static double sensitivity(ItemStack rod) {
         return rodType(rod).sensitivity();
     }
 
-    /** Luck of the Sea (vanilla) makes rare fish likelier. */
+    /** Glück des Meeres (Vanilla) macht seltene Fische wahrscheinlicher. */
     public static int luck(ServerPlayer player, ItemStack rod) {
         return vanillaLevel(player, rod, "luck_of_the_sea");
     }
 
-    /** Lure (vanilla) shortens the wait at a rod holder. */
+    /** Köder (Vanilla-Verzauberung) verkürzt die Wartezeit am Rutenhalter. */
     public static int lure(ServerPlayer player, ItemStack rod) {
         return vanillaLevel(player, rod, "lure");
     }
 
-    /** The rod's type, for strike sensitivity and casting. */
+    /** Die Art der Rute, für Feingefühl und Wurf. */
     public static RodType rodType(ItemStack rod) {
         return FishrItems.rod(rod);
     }
 
-    /** How far the float flies. */
+    /** Wie weit die Pose fliegt. */
     public static double castFactor(ItemStack rod) {
         return FishrItems.rod(rod).cast();
     }
@@ -73,8 +73,8 @@ public final class BattleEquipment {
     }
 
     /**
-     * How keen a fish is on this bait (a bare hook {@link BaitType#BARE_HOOK}); a glow bait shines
-     * at night.
+     * Wie gern ein Fisch diesen Köder nimmt (ein blanker Haken: {@link BaitType#BARE_HOOK}); ein
+     * Leuchtköder leuchtet nachts.
      */
     public static double appeal(ItemStack bait, ItemStack rod, FishSpecies species, boolean night) {
         BaitType type = FishrItems.bait(bait);

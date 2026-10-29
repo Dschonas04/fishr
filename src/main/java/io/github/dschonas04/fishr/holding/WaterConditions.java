@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * The water a kept fish lives in, every value 0 (bad) .. 1 (good): enough water around it, oxygen
- * (moving water, plants, few fish), a temperature that suits the species, a stocking density that
- * leaves room, and water quality that drops with crowding and time. Bad water stresses fish first
- * (they lose condition), only neglect kills them.
+ * Das Wasser, in dem ein gehaltener Fisch lebt, jeder Wert 0 (schlecht) .. 1 (gut): genug Wasser
+ * ringsum, Sauerstoff (Strömung, Pflanzen, wenige Fische), eine Temperatur, die zur Art passt, eine
+ * Besatzdichte, die Platz lässt, und eine Wasserqualität, die mit Enge und Zeit sinkt. Schlechtes
+ * Wasser stresst Fische zuerst (sie verlieren an Zustand), erst Vernachlässigung tötet sie.
  */
 public record WaterConditions(
         double volume, double oxygen, double temperature, double density, double quality) {
@@ -23,7 +23,10 @@ public record WaterConditions(
         return Double.isFinite(value) ? Math.clamp(value, 0, 1) : 0;
     }
 
-    /** The worst value counts most: one bad factor is enough to stress a fish. */
+    /**
+     * Der schlechteste Wert zählt am meisten: Ein schlechter Faktor genügt, um einen Fisch zu
+     * stressen.
+     */
     public double score() {
         double worst =
                 Math.min(
@@ -33,13 +36,16 @@ public record WaterConditions(
         return worst * 0.6 + mean * 0.4;
     }
 
-    /** Condition change per minute: good water heals slowly, bad water stresses quickly. */
+    /** Zustandsänderung pro Minute: Gutes Wasser heilt langsam, schlechtes stresst schnell. */
     public double perMinute() {
         double score = score();
         return score >= 0.6 ? 3 * (score - 0.6) / 0.4 : -12 * (0.6 - score) / 0.6;
     }
 
-    /** Translation keys of what is wrong, worst first, so the player sees it early. */
+    /**
+     * Übersetzungsschlüssel dessen, was nicht stimmt, das Schlimmste zuerst, damit der Spieler es
+     * früh sieht.
+     */
     public List<String> problems() {
         List<String> problems = new ArrayList<>();
         if (volume < 0.5) problems.add("holding.fishr.problem.volume");

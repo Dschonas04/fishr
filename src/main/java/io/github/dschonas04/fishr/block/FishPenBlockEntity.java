@@ -32,11 +32,12 @@ import java.util.Random;
 import java.util.UUID;
 
 /**
- * The fish living in a pen are real fish entities bound to it (they keep their identity, age,
- * hunger and health); the pen only checks the water every minute and lets healthy pairs breed.
+ * Die Fische in einem Netz sind echte Fisch-Entities, die an es gebunden sind (sie behalten
+ * Identität, Alter, Hunger und Gesundheit); das Netz prüft nur jede Minute das Wasser und lässt
+ * gesunde Paare sich vermehren.
  */
 public final class FishPenBlockEntity extends BlockEntity {
-    /** Water blocks one fish needs. */
+    /** Wasserblöcke, die ein Fisch braucht. */
     public static final int WATER_PER_FISH = 24;
 
     private double quality = 1;
@@ -80,7 +81,7 @@ public final class FishPenBlockEntity extends BlockEntity {
                         fish.size() / (double) capacity,
                         temperature,
                         quality);
-        // Hungry fish are stressed fish: feeding counts like water quality.
+        // Hungrige Fische sind gestresste Fische: Füttern zählt wie die Wasserqualität.
         double hunger = fish.stream().mapToDouble(FishrFishEntity::hunger).average().orElse(0);
         return new WaterConditions(
                 water.volume(),
@@ -104,7 +105,7 @@ public final class FishPenBlockEntity extends BlockEntity {
         WaterConditions water = conditions(level, fish);
         double change = water.perMinute() * minutes;
         for (FishrFishEntity one : fish) {
-            // The condition in per cent of the fish's health.
+            // Der Zustand in Prozent der Gesundheit des Fisches.
             float health = (float) (one.getHealth() + one.getMaxHealth() * change / 100);
             if (health <= 0) one.kill(level);
             else one.setHealth(Math.min(one.getMaxHealth(), health));
@@ -126,7 +127,7 @@ public final class FishPenBlockEntity extends BlockEntity {
     }
 
     /**
-     * Every ten minutes one well-fed, healthy pair of a species may have young, if there is room.
+     * Alle zehn Minuten darf ein sattes, gesundes Paar einer Art Junge bekommen, wenn Platz ist.
      */
     private void breed(ServerLevel level, List<FishrFishEntity> fish, int capacity) {
         if (level.getGameTime() - lastBreeding < 12000 || fish.size() >= capacity) return;
@@ -137,8 +138,9 @@ public final class FishPenBlockEntity extends BlockEntity {
                 FishSpecies species = a.species();
                 Random random = new Random(level.getRandom().nextLong());
                 FishSpecimen young = species.roll(random, -1);
-                // the young take the colouring of a parent now and then: rare colourings can be
-                // bred
+                // die Jungen übernehmen ab und zu die Färbung eines Elternteils: seltene Färbungen
+                // lassen sich
+                // züchten
                 FishVariant colouring =
                         random.nextBoolean()
                                 ? (random.nextBoolean() ? a : b).specimen().variant()
@@ -212,7 +214,7 @@ public final class FishPenBlockEntity extends BlockEntity {
                     true);
             return true;
         }
-        // One individual exists only once: the item turns into the fish.
+        // Jedes Individuum gibt es nur einmal: Der Gegenstand wird zum Fisch.
         for (FishrFishEntity other : fish) if (other.identity().equals(caught.id())) return true;
         FishrFishEntity entity =
                 FishrFishEntity.spawn(

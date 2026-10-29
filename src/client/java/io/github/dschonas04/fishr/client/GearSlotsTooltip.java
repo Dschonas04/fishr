@@ -13,8 +13,9 @@ import net.minecraft.world.item.ItemStack;
 import java.util.Locale;
 
 /**
- * A rod's tooltip: three slots side by side (reel, line, bait) with a label under each, then two
- * short lines on what the rod holds and how fast it reels, and the workshop upgrades as stars.
+ * Der Tooltip einer Rute: drei Plätze nebeneinander (Rolle, Schnur, Köder) mit einer Beschriftung
+ * darunter, dann zwei kurze Zeilen, was die Rute hält und wie schnell sie einholt, und die
+ * Verstärkungen aus der Werkstatt als Sterne.
  */
 final class GearSlotsTooltip implements ClientTooltipComponent {
     private static final int SLOT = 20;

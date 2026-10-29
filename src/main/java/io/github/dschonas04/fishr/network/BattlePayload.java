@@ -12,8 +12,8 @@ import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 
 /**
- * The state of a fight as the angler's client needs it for the gauge and the camera. Tension and
- * drag are shares of the line's breaking load; distances in metres.
+ * Der Zustand eines Drills, wie ihn der Client des Anglers für Anzeige und Kamera braucht. Spannung
+ * und Bremse sind Anteile der Tragkraft der Schnur; Entfernungen in Metern.
  */
 public record BattlePayload(
         int battleId,

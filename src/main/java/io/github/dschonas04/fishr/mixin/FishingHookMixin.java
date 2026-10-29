@@ -93,7 +93,9 @@ public abstract class FishingHookMixin implements BiteTarget {
 
     @Inject(method = "tick", at = @At("HEAD"))
     private void fishr$trackBite(CallbackInfo ci) {
-        // Vanilla and Fishr bites alike: remember when the float went under, for the strike timing.
+        // Bei Vanilla- und Fishr-Bissen gleichermaßen: merken, wann die Pose abgetaucht ist, für
+        // den
+        // Zeitpunkt des Anschlags.
         if (nibble > 0 && fishr$lastNibble <= 0)
             fishr$biteStart = ((FishingHook) (Object) this).tickCount;
         fishr$lastNibble = nibble;
@@ -119,7 +121,8 @@ public abstract class FishingHookMixin implements BiteTarget {
 
     @Inject(method = "catchingFish", at = @At("HEAD"), cancellable = true)
     private void fishr$preserveBite(BlockPos pos, CallbackInfo ci) {
-        // Keep vanilla physics, owner checks and open-water checks while pausing the bite timer.
+        // Vanilla-Physik, Besitzerprüfung und Freiwasserprüfung behalten, während der Bisszähler
+        // pausiert.
         if (Fishr.BATTLES.isBattling((FishingHook) (Object) this)) ci.cancel();
     }
 
@@ -134,7 +137,9 @@ public abstract class FishingHookMixin implements BiteTarget {
         }
     }
 
-    /** With a netherite rod the float bobs on lava as on water, and the fish bite there. */
+    /**
+     * Mit einer Netheritrute schwimmt die Pose auf Lava wie auf Wasser, und die Fische beißen dort.
+     */
     @WrapOperation(
             method = "tick",
             at =
@@ -156,7 +161,7 @@ public abstract class FishingHookMixin implements BiteTarget {
                         || owner.getOffhandItem().is(FishrItems.NETHERITE_ROD));
     }
 
-    /** A float does not burn up in lava. */
+    /** Eine Pose verbrennt in Lava nicht. */
     public boolean fireImmune() {
         return true;
     }

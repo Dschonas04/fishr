@@ -34,11 +34,11 @@ import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 
-/** The aids from Anforderung 11: groundbait, echo sounder, bait box and the fish lexicon. */
+/** Die Hilfsmittel aus Anforderung 11: Futtermischung, Echolot, Köderbox und das Fischlexikon. */
 public final class FishingTools {
     private FishingTools() {}
 
-    /** The water surface the player looks at, within reach; null if none. */
+    /** Die Wasseroberfläche, auf die der Spieler schaut, in Reichweite; null, wenn keine. */
     public static BlockPos water(Level level, Player player, double reach) {
         Vec3 eye = player.getEyePosition();
         BlockHitResult hit =
@@ -54,7 +54,7 @@ public final class FishingTools {
         return hit.getBlockPos();
     }
 
-    /** Groundbait: thrown on water it makes a feeding spot for five minutes. */
+    /** Futtermischung: Aufs Wasser geworfen, entsteht für fünf Minuten ein Futterplatz. */
     public static final class Groundbait extends Item {
         public Groundbait(Properties properties) {
             super(properties);
@@ -88,8 +88,8 @@ public final class FishingTools {
     }
 
     /**
-     * Echo sounder: lists the fish below within 24 blocks, the depth, and how fished-out the spot
-     * is.
+     * Echolot: Listet die Fische darunter im Umkreis von 24 Blöcken, die Tiefe und wie leergefischt
+     * die Stelle ist.
      */
     public static final class EchoSounder extends Item {
         public EchoSounder(Properties properties) {
@@ -154,9 +154,9 @@ public final class FishingTools {
     }
 
     /**
-     * Bait box: right-click packs all bait from the inventory into it (up to nine stacks);
-     * sneak-right-click empties it. When the rod's bait runs out, the box refills it with the same
-     * bait.
+     * Köderbox: Rechtsklick packt alle Köder aus dem Inventar hinein (bis zu neun Stapel);
+     * schleichend Rechtsklick leert sie. Geht der Köder der Rute aus, füllt die Box mit demselben
+     * Köder nach.
      */
     public static final class BaitBox extends Item {
         public static final int STACKS = 9;
@@ -222,8 +222,8 @@ public final class FishingTools {
         }
 
         /**
-         * Refills an empty bait slot from a box in the inventory: the same bait first, otherwise
-         * nothing.
+         * Füllt einen leeren Köderplatz aus einer Box im Inventar nach: zuerst derselbe Köder,
+         * sonst nichts.
          */
         public static void refill(Player player, ItemStack rod, BaitType wanted) {
             if (wanted == null || !FishrRodItem.bait(rod).isEmpty()) return;
@@ -242,7 +242,7 @@ public final class FishingTools {
         }
     }
 
-    /** The fish lexicon: species, orders, records, ranking and statistics. */
+    /** Das Fischlexikon: Arten, Aufträge, Rekorde, Rangliste und Statistik. */
     public static final class Lexicon extends Item {
         public Lexicon(Properties properties) {
             super(properties);
@@ -255,7 +255,7 @@ public final class FishingTools {
         }
     }
 
-    /** Is a rod item (vanilla or Fishr). */
+    /** Ist eine Rute (Vanilla oder Fishr). */
     public static boolean isRod(ItemStack stack) {
         return stack.getItem() instanceof FishingRodItem;
     }

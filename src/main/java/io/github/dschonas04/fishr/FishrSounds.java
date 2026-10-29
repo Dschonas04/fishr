@@ -6,8 +6,8 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.sounds.SoundEvent;
 
 /**
- * The fishing sounds, synthesised by scripts/sounds.py; files in assets/fishr/sounds, listed in
- * sounds.json.
+ * Die Angelgeräusche, synthetisiert von scripts/sounds.py; Dateien in assets/fishr/sounds,
+ * aufgeführt in sounds.json.
  */
 public final class FishrSounds {
     private FishrSounds() {}
@@ -30,6 +30,6 @@ public final class FishrSounds {
                 BuiltInRegistries.SOUND_EVENT, id, SoundEvent.createVariableRangeEvent(id));
     }
 
-    /** Loads the class, which registers the sounds. */
+    /** Lädt die Klasse, die die Geräusche registriert. */
     public static void initialize() {}
 }

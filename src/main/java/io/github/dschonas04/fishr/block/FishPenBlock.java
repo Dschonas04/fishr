@@ -31,10 +31,10 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
 /**
- * Fish pen (Anforderung 15.2–15.4): a net set under water. Fish put in (from the hand) live in the
- * water around it, as many as the water's volume allows; feed them with groundbait or bait, and
- * well-fed healthy pairs breed. Empty hand: state of the pen; sneaking with an empty hand: open the
- * net and let them all go.
+ * Unterwasser-Netz (Anforderung 15.2–15.4): ein Netz unter Wasser. Hineingesetzte Fische (aus der
+ * Hand) leben im Wasser ringsum, so viele, wie das Wasservolumen erlaubt; mit Futtermischung oder
+ * Köder füttern, satte, gesunde Paare vermehren sich. Leere Hand: Zustand des Netzes; schleichend
+ * mit leerer Hand: Netz öffnen und alle freilassen.
  */
 public final class FishPenBlock extends BaseEntityBlock implements SimpleWaterloggedBlock {
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;

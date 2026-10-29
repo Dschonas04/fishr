@@ -28,12 +28,12 @@ import java.util.List;
 import java.util.Locale;
 
 /**
- * The angler's progress (Anforderung 20): experience and level, the fish lexicon (every species
- * caught, how many, the best one), statistics, daily and weekly orders, market credit, server-wide
- * records and a ranking of the heaviest catches, and tournaments. Levels open fishing grounds
- * (Anforderung 19, see {@link Area}).
+ * Der Fortschritt des Anglers (Anforderung 20): Erfahrung und Stufe, das Fischlexikon (jede
+ * gefangene Art, wie viele, der beste Fang), Statistik, tägliche und wöchentliche Aufträge,
+ * Guthaben am Markt, serverweite Rekorde und eine Rangliste der schwersten Fänge sowie Turniere.
+ * Stufen schalten Angelgebiete frei (Anforderung 19, siehe {@link Area}).
  *
- * <p>Player data lives in a persistent attachment on the player, server data on the overworld.
+ * <p>Spielerdaten liegen in einem dauerhaften Attachment am Spieler, Serverdaten an der Oberwelt.
  */
 public final class Progression {
     private Progression() {}
@@ -52,7 +52,7 @@ public final class Progression {
 
     public static void initialize() {}
 
-    /** Loads the performance tier kept with the world. */
+    /** Lädt die mit der Welt gespeicherte Leistungsstufe. */
     public static void load(MinecraftServer server) {
         io.github.dschonas04.fishr.Performance.set(
                 io.github.dschonas04.fishr.Performance.of(
@@ -67,7 +67,7 @@ public final class Progression {
         saveServer(server, data);
     }
 
-    // ------------------------------------------------------------------ data access
+    // ------------------------------------------------------------------ Datenzugriff
 
     public static CompoundTag data(ServerPlayer player) {
         return player.getAttachedOrCreate(PLAYER).copy();
@@ -93,7 +93,9 @@ public final class Progression {
         return Valuation.level(data(player).getLongOr("xp", 0));
     }
 
-    /** Counter per species for today (resets with the day); used against farming one fish. */
+    /**
+     * Zähler je Art für heute (setzt sich mit dem Tag zurück); gegen das Abfarmen eines Fisches.
+     */
     private static int todayCount(CompoundTag data, String key, long day, String species) {
         CompoundTag today = data.getCompoundOrEmpty(key);
         if (today.getLongOr("day", -1) != day) return 0;
@@ -112,10 +114,10 @@ public final class Progression {
         data.put(key, today);
     }
 
-    // ------------------------------------------------------------------ events
+    // ------------------------------------------------------------------ Ereignisse
 
     /**
-     * A fish was landed. Gives experience, fills the lexicon, records, orders and the tournament.
+     * Ein Fisch wurde gelandet. Gibt Erfahrung, füllt Lexikon, Rekorde, Aufträge und das Turnier.
      */
     public static void caught(
             ServerPlayer player, FishSpecimen fish, int quality, Habitat habitat) {
@@ -140,7 +142,7 @@ public final class Progression {
         CompoundTag species = data.getCompoundOrEmpty("species");
         CompoundTag entry = species.getCompoundOrEmpty(id);
         entry.putInt("count", entry.getIntOr("count", 0) + 1);
-        // the colourings caught of this species, one bit each
+        // die gefangenen Färbungen dieser Art, je ein Bit
         int colourings = entry.getIntOr("variants", 0);
         if ((colourings & 1 << fish.variant().ordinal()) == 0
                 && fish.variant() != FishVariant.NORMAL) {
@@ -166,7 +168,7 @@ public final class Progression {
                 true);
         int after = Valuation.level(data.getLongOr("xp", 0));
         if (after > before) levelUp(player, after);
-        // rare catches sometimes bring mother-of-pearl, the material for rod upgrades
+        // seltene Fänge bringen manchmal Perlmutt, das Material für Rutenverstärkungen
         if (fish.species().rarity().ordinal() >= FishSpecies.Rarity.EPIC.ordinal()
                 && player.getRandom().nextFloat() < 0.35f) {
             player.spawnAtLocation(level, new ItemStack(FishrItems.MOTHER_OF_PEARL));
@@ -228,7 +230,7 @@ public final class Progression {
                                 .withStyle(ChatFormatting.GREEN));
             }
         }
-        // forget orders older than two weeks
+        // Aufträge vergessen, die älter als zwei Wochen sind
         for (String key : List.copyOf(progress.keySet())) {
             String number = key.replaceAll("^[dw](\\d+).*$", "$1");
             if (number.matches("\\d+")
@@ -257,9 +259,12 @@ public final class Progression {
                 String.format(Locale.GERMAN, "%.0f", quest.amount()));
     }
 
-    // ------------------------------------------------------------------ market
+    // ------------------------------------------------------------------ Markt
 
-    /** Sells one fish; returns emeralds paid (the market keeps the change as credit). */
+    /**
+     * Verkauft einen Fisch; gibt die gezahlten Smaragde zurück (der Markt behält das Wechselgeld
+     * als Guthaben).
+     */
     public static int sell(ServerPlayer player, FishSpecimen fish, int quality, double condition) {
         long day = day((ServerLevel) player.level());
         CompoundTag data = data(player);
@@ -285,8 +290,8 @@ public final class Progression {
         return emeralds;
     }
 
-    // ------------------------------------------------------------------ records, ranking,
-    // tournament
+    // ------------------------------------------------------------------ Rekorde, Rangliste,
+    // Turnier
 
     private static void record(ServerPlayer player, FishSpecimen fish) {
         MinecraftServer server = player.level().getServer();
@@ -309,7 +314,7 @@ public final class Progression {
                                 .withStyle(ChatFormatting.GOLD));
             }
         }
-        // the ranking of the ten heaviest catches
+        // die Rangliste der zehn schwersten Fänge
         ListTag top = data.getListOrEmpty("top");
         List<CompoundTag> list = new ArrayList<>();
         for (int i = 0; i < top.size(); i++) list.add(top.getCompoundOrEmpty(i));
@@ -324,8 +329,9 @@ public final class Progression {
         ListTag trimmed = new ListTag();
         list.stream().limit(10).forEach(trimmed::add);
         data.put("top", trimmed);
-        // a running tournament counts the heaviest fish of each angler (of the chosen species, if
-        // any)
+        // ein laufendes Turnier zählt den schwersten Fisch jedes Anglers (der gewählten Art, falls
+        // es eine
+        // gibt)
         CompoundTag tournament = data.getCompoundOrEmpty("tournament");
         if (tournament.getBooleanOr("active", false)) {
             String species = tournament.getStringOr("species", "");
@@ -360,7 +366,8 @@ public final class Progression {
     }
 
     /**
-     * Ends the tournament if its time is up (or now): announces the podium and pays the winners.
+     * Beendet das Turnier, wenn seine Zeit um ist (oder jetzt): verkündet das Siegertreppchen und
+     * zahlt die Gewinner aus.
      */
     public static void tick(MinecraftServer server, boolean force) {
         if (server.overworld().getGameTime() % 20 != 0 && !force) return;
@@ -403,9 +410,9 @@ public final class Progression {
         saveServer(server, data);
     }
 
-    // ------------------------------------------------------------------ lexicon
+    // ------------------------------------------------------------------ Lexikon
 
-    /** Everything the lexicon screen shows, sent when the player opens it. */
+    /** Alles, was der Lexikon-Bildschirm zeigt, geschickt, wenn der Spieler ihn öffnet. */
     public static void openLexicon(ServerPlayer player) {
         if (!ServerPlayNetworking.canSend(player, LexiconPayload.TYPE)) return;
         MinecraftServer server = player.level().getServer();

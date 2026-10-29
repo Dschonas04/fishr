@@ -1,6 +1,6 @@
 package io.github.dschonas04.fishr.battle;
 
-/** Fighting styles, independent of the vanilla loot rolled when the catch lands. */
+/** Kampfstile, unabhängig von der Vanilla-Beute, die beim Landen ausgewürfelt wird. */
 public enum FishStyle {
     DARTER(1.0, 1.15),
     FIGHTER(1.15, 1.0),

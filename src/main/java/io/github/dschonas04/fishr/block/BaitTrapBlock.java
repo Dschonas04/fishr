@@ -28,8 +28,8 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
 /**
- * Bait trap (after You Need Bait's minnow trap): set it in water and it slowly fills with baitfish,
- * and in rivers, lakes and swamps with leeches too. Right-click empties it.
+ * Köderreuse (nach der Elritzenfalle aus You Need Bait): Ins Wasser gestellt, füllt sie sich
+ * langsam mit Köderfischen, in Flüssen, Seen und Sümpfen auch mit Blutegeln. Rechtsklick leert sie.
  */
 public final class BaitTrapBlock extends BaseEntityBlock implements SimpleWaterloggedBlock {
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;

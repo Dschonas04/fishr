@@ -16,10 +16,11 @@ import java.util.Locale;
 import java.util.function.Predicate;
 
 /**
- * Where a fish lives. Every biome belongs to exactly one of the surface habitats: the one the hook
- * lands in decides which fish bite, and fish spawn in the biomes of the habitats they live in. The
- * last three are not biomes but places: water deep under the ground, lava (the Nether's and the
- * overworld's) and the water of the End. No fish spawn there on their own; they only bite.
+ * Wo ein Fisch lebt. Jedes Biom gehört zu genau einem der Oberflächen-Lebensräume: Der, in dem der
+ * Haken landet, entscheidet, welche Fische beißen, und Fische spawnen in den Biomen der
+ * Lebensräume, in denen sie leben. Die letzten drei sind keine Biome, sondern Orte: Wasser tief
+ * unter der Erde, Lava (im Nether und in der Oberwelt) und das Wasser des End. Dort spawnen keine
+ * Fische von selbst; sie beißen nur.
  */
 public enum Habitat {
     RIVER,
@@ -34,11 +35,11 @@ public enum Habitat {
     LAVA,
     END;
 
-    /** The habitats found on the surface of the overworld, in biomes. */
+    /** Die Lebensräume an der Oberfläche der Oberwelt, in Biomen. */
     public static final List<Habitat> SURFACE =
             List.of(RIVER, LAKE, SWAMP, COLD, OCEAN, WARM_OCEAN, COLD_OCEAN, DEEP_OCEAN);
 
-    /** Water this far below sea level and out of sight of the sky is a cave. */
+    /** Wasser so weit unter dem Meeresspiegel und ohne Blick zum Himmel ist eine Höhle. */
     public static final int CAVE_BELOW = 50;
 
     public String translationKey() {
@@ -46,8 +47,8 @@ public enum Habitat {
     }
 
     /**
-     * Cave, lava and End: no natural spawns, the catch goes straight to the angler (no vanilla
-     * junk).
+     * Höhle, Lava und End: keine natürlichen Spawns, der Fang geht direkt an den Angler (kein
+     * Vanilla-Müll).
      */
     public boolean underworld() {
         return ordinal() >= CAVE.ordinal();
@@ -82,7 +83,8 @@ public enum Habitat {
     }
 
     /**
-     * The overworld biomes of this habitat, for spawn registration; the same split as {@link #of}.
+     * Die Oberwelt-Biome dieses Lebensraums, für die Spawn-Registrierung; dieselbe Aufteilung wie
+     * {@link #of}.
      */
     public Predicate<BiomeSelectionContext> biomes() {
         return BiomeSelectors.foundInOverworld()

@@ -25,10 +25,11 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
 /**
- * Rod holders (Anforderung 13): a single holder, a double stand and a rod pod with an electronic
- * alarm. Click with a rod to cast it out in front of the holder; when the indicator goes, click the
- * holder to take the rod and strike. An unattended bite costs the bait, sometimes the lure, and a
- * big fish can pull a rod from a simple holder.
+ * Rutenhalter (Anforderung 13): ein einfacher Halter, ein Doppelständer und ein Rod Pod mit
+ * elektronischem Bissanzeiger. Mit einer Rute klicken wirft sie vor dem Halter aus; wenn der
+ * Anzeiger anschlägt, den Halter anklicken, die Rute nehmen und anschlagen. Ein unbeaufsichtigter
+ * Biss kostet den Köder, manchmal den Kunstköder, und ein großer Fisch kann eine Rute aus einem
+ * einfachen Halter ziehen.
  */
 public final class RodHolderBlock extends BaseEntityBlock {
     public enum Kind {

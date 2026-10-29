@@ -22,9 +22,9 @@ import java.util.List;
 import java.util.Locale;
 
 /**
- * The fish lexicon (Anforderung 20): every species with how often and how big it was caught
- * (unknown ones stay hidden), the open orders, the fishing grounds, the server records and ranking,
- * and the angler's statistics.
+ * Das Fischlexikon (Anforderung 20): jede Art mit Anzahl und Größe der Fänge (unbekannte bleiben
+ * verborgen), die offenen Aufträge, die Angelgebiete, die Serverrekorde und die Rangliste sowie die
+ * Statistik des Anglers.
  */
 final class LexiconScreen extends Screen {
     private enum Tab {
@@ -82,8 +82,8 @@ final class LexiconScreen extends Screen {
     }
 
     /**
-     * One row: an optional icon, a text, an optional right-aligned detail; a heading spans the row
-     * in gold.
+     * Eine Zeile: ein optionales Symbol, ein Text, ein optionales rechtsbündiges Detail; eine
+     * Überschrift füllt die Zeile in Gold.
      */
     private record Line(
             ItemStack icon, Component text, Component detail, int colour, boolean heading) {
@@ -101,8 +101,8 @@ final class LexiconScreen extends Screen {
     }
 
     /**
-     * Where the fish lives, as in Tide's journal: shown for unknown fish too, as a hint where to
-     * look.
+     * Wo der Fisch lebt, wie im Tagebuch von Tide: auch bei unbekannten Fischen, als Hinweis, wo
+     * man suchen kann.
      */
     private static Component where(FishSpecies fish) {
         var text = Component.empty();
@@ -134,7 +134,7 @@ final class LexiconScreen extends Screen {
                                         0xFF6A747E));
                         continue;
                     }
-                    // rare colourings caught (the plain one does not count)
+                    // gefangene seltene Färbungen (die gewöhnliche zählt nicht)
                     int colourings = Integer.bitCount(entry.getIntOr("variants", 0) & ~1);
                     Component detail =
                             Component.translatable(
@@ -289,7 +289,7 @@ final class LexiconScreen extends Screen {
             GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partial) {
         super.extractRenderState(graphics, mouseX, mouseY, partial);
         int panelWidth = 336, left = width / 2 - panelWidth / 2, top = 36, bottom = height - 10;
-        // the book: a dark page with a gold edge, the title and how much is discovered
+        // das Buch: eine dunkle Seite mit goldenem Rand, der Titel und wie viel entdeckt ist
         graphics.fill(left, top - 2, left + panelWidth, bottom, 0xE0141A20);
         graphics.outline(left, top - 2, panelWidth, bottom - top + 2, 0xFF6A5420);
         graphics.fill(left, top - 2, left + panelWidth, top - 1, 0xFFFFC94A);
@@ -345,7 +345,7 @@ final class LexiconScreen extends Screen {
                         0xFF8A98A4,
                         false);
         }
-        // a slim scroll bar on the right edge
+        // eine schmale Bildlaufleiste am rechten Rand
         if (lines.size() > visible) {
             int trackTop = listTop, trackHeight = visible * ROW;
             int thumb = Math.max(10, trackHeight * visible / lines.size());

@@ -42,27 +42,33 @@ import java.util.UUID;
 import java.util.stream.Stream;
 
 /**
- * One fish in the world, an individual: species, identity, length, weight, age, hunger, shyness and
- * health. It keeps its preferred depth, hunts smaller fish if it is a predator, flees from
- * predators, swims in shoals with the behaviour of the hour (see {@link FishBehaviour}), notices
- * floats and bites ({@link BiteHookGoal}), and can live in a fish pen. Far from every player its
- * extra behaviour pauses, so large waters stay cheap.
+ * Ein Fisch in der Welt, ein Individuum: Art, Identität, Länge, Gewicht, Alter, Hunger, Scheu und
+ * Gesundheit. Er hält seine bevorzugte Tiefe, jagt als Raubfisch kleinere Fische, flieht vor
+ * Räubern, schwimmt im Schwarm mit dem Verhalten der Stunde (siehe {@link FishBehaviour}), bemerkt
+ * Posen und beißt ({@link BiteHookGoal}) und kann in einem Unterwasser-Netz leben. Fern von allen
+ * Spielern ruht sein zusätzliches Verhalten, damit große Gewässer günstig bleiben.
  */
 public final class FishrFishEntity extends Cod {
-    /** The colouring, for the renderer. */
+    /** Die Färbung, für den Renderer. */
     private static final EntityDataAccessor<Integer> VARIANT =
             SynchedEntityData.defineId(FishrFishEntity.class, EntityDataSerializers.INT);
 
-    /** Share of the species' length range a fish grows per feeding with worms. */
+    /** Anteil des Längenbereichs der Art, um den ein Fisch pro Fütterung mit Würmern wächst. */
     private static final double GROWTH = 0.05;
 
     private final FishSpecies species;
     private FishSpecimen specimen;
 
-    /** Shown on the line during a battle; never saved, never bucketed, never drops anything. */
+    /**
+     * Wird im Drill an der Schnur gezeigt; nie gespeichert, nie in einen Eimer gesteckt, lässt nie
+     * etwas fallen.
+     */
     private boolean battleDummy;
 
-    /** The fish's identity: it stays the same in the hand, the keepnet, the pen and the water. */
+    /**
+     * Die Identität des Fisches: Sie bleibt in der Hand, im Setzkescher, im Netz und im Wasser
+     * dieselbe.
+     */
     private UUID identity = UUID.randomUUID();
 
     private long ageTicks;
@@ -86,13 +92,13 @@ public final class FishrFishEntity extends Cod {
         builder.define(VARIANT, 0);
     }
 
-    /** The colouring; on the client from the synchronized data. */
+    /** Die Färbung; auf dem Client aus den synchronisierten Daten. */
     public FishVariant variant() {
         FishVariant[] variants = FishVariant.values();
         return variants[Math.clamp(entityData.get(VARIANT), 0, variants.length - 1)];
     }
 
-    /** A wild fish takes the colouring of the place and hour it appears at. */
+    /** Ein wilder Fisch bekommt die Färbung des Ortes und der Stunde, an dem er erscheint. */
     @Override
     public SpawnGroupData finalizeSpawn(
             ServerLevelAccessor level,
@@ -110,7 +116,7 @@ public final class FishrFishEntity extends Cod {
         return super.finalizeSpawn(level, difficulty, reason, data);
     }
 
-    /** Lava fish do not burn, on the line or in the bucket's water. */
+    /** Lavafische brennen nicht, weder an der Schnur noch im Wasser des Eimers. */
     @Override
     public boolean fireImmune() {
         return (species != null && species.lava()) || super.fireImmune();
@@ -144,7 +150,7 @@ public final class FishrFishEntity extends Cod {
         return pen;
     }
 
-    /** Extra behaviour only near players (simulation tiers). */
+    /** Zusätzliches Verhalten nur in der Nähe von Spielern (Leistungsstufen). */
     boolean active() {
         return nearPlayer;
     }
@@ -157,7 +163,7 @@ public final class FishrFishEntity extends Cod {
         shyness = Math.min(1, shyness + amount);
     }
 
-    /** 0..100, from health. */
+    /** 0..100, aus der Gesundheit. */
     public double condition() {
         return 100.0 * getHealth() / getMaxHealth();
     }
@@ -173,7 +179,8 @@ public final class FishrFishEntity extends Cod {
     }
 
     /**
-     * Brings a fish (from a hand, a keepnet or a pen) back into the world as this very individual.
+     * Bringt einen Fisch (aus einer Hand, einem Setzkescher oder einem Netz) als genau dieses
+     * Individuum zurück in die Welt.
      */
     public static FishrFishEntity spawn(
             ServerLevel level, FishSpecimen specimen, UUID identity, double condition, Vec3 at) {
@@ -206,7 +213,9 @@ public final class FishrFishEntity extends Cod {
 
     @Override
     public void tick() {
-        // A dummy whose battle is gone (server restart, crash of the session) must not linger.
+        // Eine Attrappe, deren Drill weg ist (Serverneustart, Absturz der Sitzung), darf nicht
+        // liegen
+        // bleiben.
         if (battleDummy && !level().isClientSide() && !Fishr.BATTLES.ownsDummy(this)) {
             discard();
             return;
@@ -221,12 +230,12 @@ public final class FishrFishEntity extends Cod {
                                             io.github.dschonas04.fishr.Performance.current()
                                                     .activeRadius())
                             != null;
-            // Hunger grows, shyness fades; both move slowly.
+            // Der Hunger wächst, die Scheu lässt nach; beides ändert sich langsam.
             hunger = Math.min(1, hunger + 0.004f);
             shyness = Math.max(0, shyness - 0.003f);
         }
         if (pen != null && tickCount % 20 == 0 && distanceToSqr(Vec3.atCenterOf(pen)) > 36) {
-            // Out of the pen's net: the net holds it back.
+            // Aus dem Netz heraus: Das Netz hält ihn zurück.
             Vec3 home = Vec3.atCenterOf(pen).add(0, -1.5, 0);
             setDeltaMovement(home.subtract(position()).normalize().scale(0.2));
             if (distanceToSqr(home) > 144) snapTo(home.x, home.y, home.z, getYRot(), 0);
@@ -254,15 +263,15 @@ public final class FishrFishEntity extends Cod {
         return super.mobInteract(player, hand);
     }
 
-    /** Worms, maggots, leeches and caterpillars: fish follow them and grow on them. */
+    /** Würmer, Maden, Blutegel und Raupen: Fische folgen ihnen und wachsen davon. */
     static boolean feedsOn(ItemStack stack) {
         BaitType bait = FishrItems.bait(stack);
         return bait != null && bait.natural();
     }
 
     /**
-     * Fed by hand (as in Fish of Thieves): a hungry fish eats and grows a little, up to trophy size
-     * and on to the largest of its kind; a full one turns away.
+     * Mit der Hand gefüttert (wie in Fish of Thieves): Ein hungriger Fisch frisst und wächst ein
+     * wenig, bis zur Trophäengröße und weiter bis zum größten seiner Art; ein satter dreht ab.
      */
     private void feed(ServerLevel level, Player player, ItemStack stack) {
         if (hunger < 0.15f) {
@@ -298,7 +307,8 @@ public final class FishrFishEntity extends Cod {
         this.specimen = specimen;
         if (!level().isClientSide()) {
             entityData.set(VARIANT, specimen.variant().ordinal());
-            // Scale is a vanilla synchronized attribute: visuals and hitbox follow the same size.
+            // Die Größe ist ein synchronisiertes Vanilla-Attribut: Darstellung und Hitbox folgen
+            // derselben Größe.
             getAttribute(Attributes.SCALE)
                     .setBaseValue(specimen.lengthCm() / species.modelLengthCm());
             getAttribute(Attributes.MAX_HEALTH).setBaseValue(3 + specimen.sizeFraction() * 5);
@@ -311,7 +321,7 @@ public final class FishrFishEntity extends Cod {
         super.registerGoals();
         goalSelector.addGoal(1, new BiteHookGoal(this));
         goalSelector.addGoal(1, new TemptGoal(this, 1.25, FishrFishEntity::feedsOn, false));
-        // Small fish flee from predators that could swallow them.
+        // Kleine Fische fliehen vor Räubern, die sie verschlucken könnten.
         goalSelector.addGoal(
                 0,
                 new AvoidEntityGoal<>(
@@ -367,7 +377,7 @@ public final class FishrFishEntity extends Cod {
                     tag.putString("FishrVariant", specimen.variant().id());
                 });
         bucket.set(DataComponents.LORE, new ItemLore(FishCatch.measurementLore(specimen)));
-        // A bucketed fish is no longer in its pen.
+        // Ein Fisch im Eimer ist nicht mehr in seinem Netz.
         pen = null;
     }
 
@@ -379,7 +389,9 @@ public final class FishrFishEntity extends Cod {
                 FishVariant.byId(tag.getStringOr("FishrVariant", "")));
         identity = parse(tag.getStringOr("FishrIdentity", ""), identity);
         ageTicks = tag.getLongOr("FishrAge", ageTicks);
-        // Restore maximum health before vanilla restores the saved current health.
+        // Die maximale Gesundheit wiederherstellen, bevor Vanilla die gespeicherte aktuelle
+        // Gesundheit
+        // wiederherstellt.
         super.loadFromBucketTag(tag);
     }
 

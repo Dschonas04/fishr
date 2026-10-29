@@ -4,10 +4,11 @@ import java.util.List;
 import java.util.Locale;
 
 /**
- * The four boss fish. Their fights are not just bigger numbers: each has phases with their own
- * behaviour, and each has a trick. The Old One fakes exhaustion right before the landing; the Reed
- * King leaps again and again; the Black Sturgeon pulls with the current and erupts out of long
- * quiet spells; the Deep Warden learns: it answers the technique the angler keeps using.
+ * Die vier Bossfische. Ihre Drills sind nicht nur größere Zahlen: Jeder hat Phasen mit eigenem
+ * Verhalten und einen Kniff. Der Alte vom Grund täuscht kurz vor der Landung Erschöpfung vor; der
+ * Schilfkönig springt wieder und wieder; der Schwarze Stör zieht mit der Strömung und bricht aus
+ * langen Ruhephasen aus; der Tiefenwächter lernt: Er antwortet auf die Technik, die der Angler
+ * immer wieder benutzt.
  */
 public enum Boss {
     ANCIENT_CATFISH(
@@ -101,14 +102,15 @@ public enum Boss {
                             0.8)));
 
     /**
-     * One phase of a boss fight; the boss's stamina is split evenly between its phases.
+     * Eine Phase eines Bossdrills; die Ausdauer des Bosses wird gleichmäßig auf seine Phasen
+     * verteilt.
      *
-     * @param power multiplier on the boss's pull
-     * @param speed multiplier on its swimming speed
-     * @param warning ticks of warning before an action
-     * @param snags how fast sideways runs reach cover
-     * @param current share of the boss's strength the water adds to the line all the time
-     * @param calm multiplier on how long it rests between actions
+     * @param power Faktor auf den Zug des Bosses
+     * @param speed Faktor auf seine Schwimmgeschwindigkeit
+     * @param warning Ticks Vorwarnung vor einer Aktion
+     * @param snags wie schnell Seitenfluchten Deckung erreichen
+     * @param current Anteil der Kraft des Bosses, den das Wasser ständig auf die Schnur gibt
+     * @param calm Faktor darauf, wie lange er zwischen Aktionen ruht
      */
     public record Phase(
             String id,

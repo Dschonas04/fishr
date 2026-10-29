@@ -31,9 +31,9 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
 /**
- * Keepnet (Anforderung 15.1): set it in water at the bank and keep caught fish alive in it.
- * Right-click with a fish to put it in, with an empty hand to take the last one out, sneaking with
- * an empty hand to release them all.
+ * Setzkescher (Anforderung 15.1): am Ufer ins Wasser stellen und gefangene Fische darin lebend
+ * halten. Rechtsklick mit einem Fisch legt ihn hinein, mit leerer Hand nimmt man den letzten
+ * heraus, schleichend mit leerer Hand lässt man alle frei.
  */
 public final class KeepnetBlock extends BaseEntityBlock implements SimpleWaterloggedBlock {
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;

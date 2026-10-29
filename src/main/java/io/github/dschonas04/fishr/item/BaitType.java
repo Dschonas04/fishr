@@ -4,26 +4,31 @@ import io.github.dschonas04.fishr.battle.Boss;
 import io.github.dschonas04.fishr.fish.FishSpecies;
 
 /**
- * Every bait and lure. Natural baits stack and one is used per fight; lures do not stack, wear down
- * with every fight (a worn lure runs worse) and are lost when the line breaks. The appeal says how
- * much each diet likes it: a fish ignores a bait it does not like, a big bait selects bigger fish.
+ * Alle Köder und Kunstköder. Naturköder stapeln sich, und pro Drill wird einer verbraucht;
+ * Kunstköder stapeln sich nicht, nutzen sich mit jedem Drill ab (ein abgenutzter läuft schlechter)
+ * und gehen verloren, wenn die Schnur reißt. Die Wirkung sagt, wie sehr jede Ernährungsweise ihn
+ * mag: Ein Fisch beachtet einen Köder nicht, den er nicht mag, ein großer Köder wählt größere
+ * Fische.
  */
 public enum BaitType {
-    // natural baits; appeal for: coarse, predator, salmonid, sea predator, sea bottom, shoal
-    /** For the peaceful fish: coarse fish, trout, bottom fish, shoals. */
+    // Naturköder; Wirkung für: Friedfisch, Raubfisch, Salmonide, Meeresräuber, Meeresgrund, Schwarm
+    /** Für die friedlichen Fische: Friedfische, Forellen, Grundfische, Schwärme. */
     WORM("worm_bait", 0, new double[] {1.3, 0.4, 1.2, 0.3, 1.1, 1.0}, 0, 1, 1, 1),
-    /** For the predators, fresh water and sea. */
+    /** Für die Raubfische, im Süßwasser und im Meer. */
     BAITFISH("baitfish_bait", 0, new double[] {0, 1.5, 0.6, 1.4, 0.6, 0}, 0.5, 1, 1, 1),
-    /** Draws every fish, at night most of all; runs pull weaker. */
+    /** Lockt jeden Fisch, nachts am stärksten; Fluchten ziehen schwächer. */
     GLOW("glow_bait", 0, new double[] {0.8, 0.8, 0.8, 0.8, 0.8, 0.8}, 0, 1, 0.8, 1),
-    // found in the world (after You Need Bait and Fish of Thieves): dug from sand, mud and leaves
-    /** Maggots from sand: the classic for roach, bream and every small coarse fish. */
+    // in der Welt zu finden (nach You Need Bait und Fish of Thieves): aus Sand, Schlamm und Laub
+    // gegraben
+    /** Maden aus Sand: der Klassiker für Rotauge, Brasse und jeden kleinen Friedfisch. */
     GRUB("grub_bait", 0, new double[] {1.4, 0.2, 1.0, 0, 0.6, 1.3}, -0.3, 1, 1, 1),
-    /** Leeches from mud and river sand: wels, eel and zander love them; brings bigger fish. */
+    /**
+     * Blutegel aus Schlamm und Flusssand: Wels, Aal und Zander lieben sie; bringt größere Fische.
+     */
     LEECH("leech_bait", 0, new double[] {0.6, 1.3, 0.8, 0.6, 0.9, 0}, 0.4, 1, 1, 1),
-    /** Caterpillars from leaves: what trout and grayling rise for. */
+    /** Raupen aus dem Laub: wofür Forelle und Äsche steigen. */
     CATERPILLAR("caterpillar_bait", 0, new double[] {0.9, 0.2, 1.7, 0, 0, 0.5}, 0, 1, 1, 1),
-    // boss baits: on their own a strong bait, in the right place the call of a boss
+    // Bossköder: für sich ein starker Köder, am richtigen Ort der Ruf eines Bosses
     ANCIENT("ancient_bait", 0, new double[] {0, 1.4, 0, 0, 0, 0}, 0.8, 1, 1, 1),
     REED_KING("reed_king_lure", 60, new double[] {0, 1.6, 0.4, 0, 0, 0}, 0.8, 1, 1, 1),
     CURRENT("current_bait", 0, new double[] {1.2, 0, 0, 0, 1.0, 0}, 0.8, 1, 1, 1),
@@ -60,8 +65,8 @@ public enum BaitType {
     }
 
     /**
-     * Worms and their kin, not a lure and not a boss bait: fish follow them and can be fed with
-     * them.
+     * Würmer und Verwandte, kein Kunstköder und kein Bossköder: Fische folgen ihnen und lassen sich
+     * damit füttern.
      */
     public boolean natural() {
         return !lure() && boss() == null && this != GLOW;
@@ -75,17 +80,17 @@ public enum BaitType {
         return sizeBias;
     }
 
-    /** Multiplier on how fast the fish tires. */
+    /** Faktor darauf, wie schnell der Fisch ermüdet. */
     public double drain() {
         return drain;
     }
 
-    /** Multiplier on how hard the fish pulls in runs. */
+    /** Faktor darauf, wie hart der Fisch in Fluchten zieht. */
     public double run() {
         return run;
     }
 
-    /** Multiplier on line strain (more than 1 is worse). */
+    /** Faktor auf die Schnurbelastung (über 1 ist schlechter). */
     public double strain() {
         return strain;
     }
@@ -100,12 +105,12 @@ public enum BaitType {
         };
     }
 
-    /** How keen this species is on this bait; below 0.5 it ignores the bait. */
+    /** Wie gern diese Art diesen Köder nimmt; unter 0.5 beachtet sie ihn nicht. */
     public double appeal(FishSpecies species) {
         return appeal[species.diet().ordinal()];
     }
 
-    /** Without bait the hook only now and then catches something. */
+    /** Ohne Köder fängt der Haken nur ab und zu etwas. */
     public static final double BARE_HOOK = 0.4;
 
     public String translationKey() {

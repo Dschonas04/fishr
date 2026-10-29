@@ -9,8 +9,8 @@ import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 
 /**
- * Everything the fish lexicon shows: the angler's progress, today's orders, records, ranking and
- * tournament.
+ * Alles, was das Fischlexikon zeigt: der Fortschritt des Anglers, die heutigen Aufträge, Rekorde,
+ * Rangliste und Turnier.
  */
 public record LexiconPayload(CompoundTag data) implements CustomPacketPayload {
     public static final Type<LexiconPayload> TYPE = new Type<>(Fishr.id("lexicon"));
