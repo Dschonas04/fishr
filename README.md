@@ -4,6 +4,10 @@ Fabric-Mod für **Minecraft Java 26.3**: ein Angelspiel mit echtem Drill, aber e
 
 **Stand: 1.1.0.** Die vollständige Anforderungsliste steht in [docs/ANFORDERUNGEN.md](docs/ANFORDERUNGEN.md), der Umsetzungsplan in [docs/ROADMAP.md](docs/ROADMAP.md). Deutsch und Englisch sind enthalten.
 
+![Steg mit Filetiertisch, Fischmarkt, Werkstatt, Setzkescher, Rutenhaltern und Fischtafel](docs/bilder/steg.jpg)
+
+![Goldkoi, Karpfen, Wels, Glutkarpfen, Stör und weitere Fischarten unter Wasser](docs/bilder/unterwasser.jpg)
+
 ## Installation
 
 Benötigt werden Minecraft **26.3**, Java **25**, Fabric Loader **0.20.1 oder neuer** und Fabric API **0.165.0+26.3** (für 26.2: Fishr 1.0.0).
