@@ -1,15 +1,17 @@
 package io.github.dschonas04.fishr.fish;
 
-import java.util.Locale;
-import java.util.Random;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.levelgen.Heightmap;
 
+import java.util.Locale;
+import java.util.Random;
+
 /**
- * The colouring of one fish (after Fish of Thieves): most fish look like their species, but sun, moon, thunder,
- * darkness and chance bring out rare colourings. A rare colouring is worth more at the market and in experience,
- * and the lexicon keeps track of the colourings each angler has caught.
+ * The colouring of one fish (after Fish of Thieves): most fish look like their species, but sun,
+ * moon, thunder, darkness and chance bring out rare colourings. A rare colouring is worth more at
+ * the market and in experience, and the lexicon keeps track of the colourings each angler has
+ * caught.
  */
 public enum FishVariant {
     /** As the species looks. */
@@ -35,14 +37,28 @@ public enum FishVariant {
         this.worth = worth;
     }
 
-    public String id() { return name().toLowerCase(Locale.ROOT); }
-    public String translationKey() { return "variant.fishr." + id(); }
+    public String id() {
+        return name().toLowerCase(Locale.ROOT);
+    }
+
+    public String translationKey() {
+        return "variant.fishr." + id();
+    }
+
     /** ARGB multiplied over the skin. */
-    public int tint() { return tint; }
+    public int tint() {
+        return tint;
+    }
+
     /** Drawn over the pale skin instead of the species' own one. */
-    public boolean pale() { return pale; }
+    public boolean pale() {
+        return pale;
+    }
+
     /** Multiplier on market price and experience. */
-    public double worth() { return worth; }
+    public double worth() {
+        return worth;
+    }
 
     public static FishVariant byId(String id) {
         for (FishVariant variant : values()) if (variant.id().equals(id)) return variant;
@@ -50,19 +66,31 @@ public enum FishVariant {
     }
 
     /** Where and when a fish is hooked or spawns; decides which colourings are possible. */
-    public record Conditions(boolean sky, boolean day, boolean thunder, boolean fullMoon, boolean underworld) { }
+    public record Conditions(
+            boolean sky, boolean day, boolean thunder, boolean fullMoon, boolean underworld) {}
 
     /** A colouring for a fish at this place and time. */
     public static FishVariant at(ServerLevel level, BlockPos pos, Random random) {
-        return pick(new Conditions(openSky(level, pos), level.isBrightOutside(), level.isThundering(),
-                level.getMoonBrightness(pos) > 0.99f, Habitat.at(level, pos).underworld()), random);
+        return pick(
+                new Conditions(
+                        openSky(level, pos),
+                        level.isBrightOutside(),
+                        level.isThundering(),
+                        level.getMoonBrightness(pos) > 0.99f,
+                        Habitat.at(level, pos).underworld()),
+                random);
     }
 
-    /** Nothing but water above: by the height map, so it holds for water the light has not reached yet. */
+    /**
+     * Nothing but water above: by the height map, so it holds for water the light has not reached
+     * yet.
+     */
     static boolean openSky(ServerLevel level, BlockPos pos) {
         BlockPos.MutableBlockPos top = pos.mutable();
-        while (top.getY() < level.getMaxY() && !level.getFluidState(top).isEmpty()) top.move(0, 1, 0);
-        return top.getY() >= level.getHeight(Heightmap.Types.MOTION_BLOCKING, top.getX(), top.getZ());
+        while (top.getY() < level.getMaxY() && !level.getFluidState(top).isEmpty())
+            top.move(0, 1, 0);
+        return top.getY()
+                >= level.getHeight(Heightmap.Types.MOTION_BLOCKING, top.getX(), top.getZ());
     }
 
     /** A colouring for a fish under these conditions. */

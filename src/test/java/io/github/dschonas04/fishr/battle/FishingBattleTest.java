@@ -1,22 +1,27 @@
 package io.github.dschonas04.fishr.battle;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 import io.github.dschonas04.fishr.fish.FishSpecies;
 import io.github.dschonas04.fishr.fish.FishSpecimen;
+
+import org.junit.jupiter.api.Test;
+
 import java.util.EnumMap;
 import java.util.Map;
-import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
 
 /** The fight without Minecraft: a scripted angler plays it with R and F and different tackle. */
 class FishingBattleTest {
     /** Bamboo rod, copper reel, fishing line. */
     static final Rig BASIC = new Rig(20, 0.2, 0.8, 7, 0.11, 5, 120, 1, 1);
+
     /** Carbon rod, diamond reel, fishing line. */
     static final Rig GOOD = new Rig(20, 0.2, 0.6, 24, 0.176, 12, 300, 1, 1);
 
     /**
-     * A competent angler, as the panel tells it: reels while the fish holds or rests, stops reeling when it announces
-     * something or pulls away, gives line in jumps and head shakes and when the line is about to break.
+     * A competent angler, as the panel tells it: reels while the fish holds or rests, stops reeling
+     * when it announces something or pulls away, gives line in jumps and head shakes and when the
+     * line is about to break.
      */
     static FishingBattle play(Fighter fighter, Rig rig, long seed) {
         FishingBattle battle = new FishingBattle(fighter, rig, 15, 90, seed);
@@ -24,11 +29,12 @@ class FishingBattleTest {
             if (battle.landable()) battle.land();
             FishAction pending = battle.pending(), action = battle.action();
             boolean give = false, reel = false;
-            if (pending == null) switch (action) {
-                case JUMP, SHAKE -> give = true;
-                case RUN, DIVE, SIDE -> give = battle.tension() >= battle.dragKg() * 0.95;
-                default -> reel = true;
-            }
+            if (pending == null)
+                switch (action) {
+                    case JUMP, SHAKE -> give = true;
+                    case RUN, DIVE, SIDE -> give = battle.tension() >= battle.dragKg() * 0.95;
+                    default -> reel = true;
+                }
             battle.tick(new FishingBattle.Input(reel, give));
             assertTrue(battle.tension() >= 0 && Double.isFinite(battle.tension()));
             assertTrue(battle.stamina() >= 0 && battle.stamina() <= 1);
@@ -47,23 +53,36 @@ class FishingBattleTest {
 
     /** A specimen of typical weight for its length. */
     static Fighter fish(FishSpecies species, double length) {
-        double weight = switch (species) {
-            case ROACH -> 0.3; case PERCH -> 1; case PIKE -> 8; case CARP -> 12; case CATFISH -> 50;
-            default -> 2;
-        };
+        double weight =
+                switch (species) {
+                    case ROACH -> 0.3;
+                    case PERCH -> 1;
+                    case PIKE -> 8;
+                    case CARP -> 12;
+                    case CATFISH -> 50;
+                    default -> 2;
+                };
         return new FishSpecimen(species, length, weight).fighter();
     }
 
     @Test
     void skillLandsEveryCommonFishWithFittingTackle() {
-        Object[][] cases = {{FishSpecies.ROACH, 30.0, Rig.VANILLA}, {FishSpecies.PERCH, 40.0, BASIC},
-                {FishSpecies.PIKE, 100.0, GOOD}, {FishSpecies.CARP, 80.0, GOOD}, {FishSpecies.CATFISH, 180.0, GOOD}};
+        Object[][] cases = {
+            {FishSpecies.ROACH, 30.0, Rig.VANILLA},
+            {FishSpecies.PERCH, 40.0, BASIC},
+            {FishSpecies.PIKE, 100.0, GOOD},
+            {FishSpecies.CARP, 80.0, GOOD},
+            {FishSpecies.CATFISH, 180.0, GOOD}
+        };
         for (Object[] c : cases) {
             Fighter fighter = fish((FishSpecies) c[0], (double) c[1]);
             int caught = 0, ticks = 0;
             for (long seed = 0; seed < 30; seed++) {
                 FishingBattle battle = play(fighter, (Rig) c[2], seed);
-                if (battle.result() == FishingBattle.Result.CAUGHT) { caught++; ticks += battle.elapsed(); }
+                if (battle.result() == FishingBattle.Result.CAUGHT) {
+                    caught++;
+                    ticks += battle.elapsed();
+                }
             }
             assertTrue(caught >= 27, c[0] + " caught " + caught + "/30");
             assertTrue(ticks / caught > 200, c[0] + " should be a fight, not a click");
@@ -73,9 +92,11 @@ class FishingBattleTest {
     @Test
     void bigFishBeatWeakTackleAndJustHoldingReelIsNotEnough() {
         Fighter catfish = fish(FishSpecies.CATFISH, 180);
-        for (long seed = 0; seed < 20; seed++) assertNotEquals(FishingBattle.Result.CAUGHT, play(catfish, Rig.VANILLA, seed).result());
+        for (long seed = 0; seed < 20; seed++)
+            assertNotEquals(FishingBattle.Result.CAUGHT, play(catfish, Rig.VANILLA, seed).result());
         int held = 0;
-        for (long seed = 0; seed < 30; seed++) if (holdReel(catfish, GOOD, seed).result() == FishingBattle.Result.CAUGHT) held++;
+        for (long seed = 0; seed < 30; seed++)
+            if (holdReel(catfish, GOOD, seed).result() == FishingBattle.Result.CAUGHT) held++;
         assertTrue(held < 15, "holding R down caught " + held + "/30");
     }
 
@@ -84,10 +105,14 @@ class FishingBattleTest {
         for (Boss boss : Boss.values()) {
             Fighter fighter = Fighter.of(boss, 100);
             Map<FishingBattle.Result, Integer> results = new EnumMap<>(FishingBattle.Result.class);
-            for (long seed = 0; seed < 20; seed++) results.merge(play(fighter, GOOD, seed).result(), 1, Integer::sum);
-            assertTrue(results.getOrDefault(FishingBattle.Result.CAUGHT, 0) >= 10, boss + " " + results);
+            for (long seed = 0; seed < 20; seed++)
+                results.merge(play(fighter, GOOD, seed).result(), 1, Integer::sum);
+            assertTrue(
+                    results.getOrDefault(FishingBattle.Result.CAUGHT, 0) >= 10,
+                    boss + " " + results);
             int basic = 0;
-            for (long seed = 0; seed < 10; seed++) if (play(fighter, BASIC, seed).result() == FishingBattle.Result.CAUGHT) basic++;
+            for (long seed = 0; seed < 10; seed++)
+                if (play(fighter, BASIC, seed).result() == FishingBattle.Result.CAUGHT) basic++;
             assertTrue(basic <= 6, boss + " with basic gear " + basic + "/10");
         }
     }
@@ -96,7 +121,8 @@ class FishingBattleTest {
     void bossesGoThroughAllTheirPhases() {
         for (Boss boss : Boss.values()) {
             FishingBattle battle = play(Fighter.of(boss, 100), GOOD, 3);
-            if (battle.result() == FishingBattle.Result.CAUGHT) assertEquals(boss.phases() - 1, battle.bossPhase(), boss.name());
+            if (battle.result() == FishingBattle.Result.CAUGHT)
+                assertEquals(boss.phases() - 1, battle.bossPhase(), boss.name());
         }
     }
 
@@ -104,14 +130,16 @@ class FishingBattleTest {
     void reelingAgainstARunWearsTheLineThrough() {
         Fighter catfish = fish(FishSpecies.CATFISH, 180);
         int snapped = 0;
-        for (long seed = 0; seed < 20; seed++) if (holdReel(catfish, GOOD, seed).result() == FishingBattle.Result.SNAPPED) snapped++;
+        for (long seed = 0; seed < 20; seed++)
+            if (holdReel(catfish, GOOD, seed).result() == FishingBattle.Result.SNAPPED) snapped++;
         assertTrue(snapped >= 5, "snapped " + snapped);
     }
 
     @Test
     void aSlackLineLetsTheFishThrowTheHook() {
         FishingBattle battle = new FishingBattle(fish(FishSpecies.CARP, 80), GOOD, 15, 90, 1);
-        while (battle.result() == FishingBattle.Result.ACTIVE) battle.tick(new FishingBattle.Input(false, true));
+        while (battle.result() == FishingBattle.Result.ACTIVE)
+            battle.tick(new FishingBattle.Input(false, true));
         assertNotEquals(FishingBattle.Result.CAUGHT, battle.result());
     }
 

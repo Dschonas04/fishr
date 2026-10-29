@@ -1,17 +1,14 @@
 package io.github.dschonas04.fishr.block;
 
-import net.minecraft.util.Prediction;
-
 import io.github.dschonas04.fishr.Fishr;
 import io.github.dschonas04.fishr.Performance;
 import io.github.dschonas04.fishr.ecology.Ecology;
 import io.github.dschonas04.fishr.fish.FishSpecies;
 import io.github.dschonas04.fishr.fish.Habitat;
-import io.github.dschonas04.fishr.item.FishrRodItem;
 import io.github.dschonas04.fishr.item.BattleEquipment;
+import io.github.dschonas04.fishr.item.FishrRodItem;
 import io.github.dschonas04.fishr.item.GearSlot;
-import java.util.Optional;
-import java.util.UUID;
+
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -23,6 +20,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.FluidTags;
+import net.minecraft.util.Prediction;
 import net.minecraft.world.Containers;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.item.ItemEntity;
@@ -35,25 +33,41 @@ import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.Vec3;
 
-/** The rods in a holder: where each one's bait lies, when the next bite comes and whether a fish is on now. */
+import java.util.Optional;
+import java.util.UUID;
+
+/**
+ * The rods in a holder: where each one's bait lies, when the next bite comes and whether a fish is
+ * on now.
+ */
 public final class RodHolderBlockEntity extends BlockEntity {
     /** How long a bite waits for the angler; a bite sensor gives more time. */
     static final int BITE_WINDOW = 160;
+
     private final ItemStack[] rods = {ItemStack.EMPTY, ItemStack.EMPTY, ItemStack.EMPTY};
     private final BlockPos[] targets = new BlockPos[3];
     private final int[] timers = new int[3];
     private final int[] biting = {-1, -1, -1};
     private UUID owner;
 
-    public RodHolderBlockEntity(BlockPos pos, BlockState state) { super(FishrBlocks.ROD_HOLDER_ENTITY, pos, state); }
-
-    static boolean isRod(ItemStack stack) { return stack.getItem() instanceof FishingRodItem; }
-
-    private RodHolderBlock.Kind kind() {
-        return getBlockState().getBlock() instanceof RodHolderBlock block ? block.kind() : RodHolderBlock.Kind.SINGLE;
+    public RodHolderBlockEntity(BlockPos pos, BlockState state) {
+        super(FishrBlocks.ROD_HOLDER_ENTITY, pos, state);
     }
 
-    /** The water spot in front of the holder where a rod's bait lies (each rod a little to the side). */
+    static boolean isRod(ItemStack stack) {
+        return stack.getItem() instanceof FishingRodItem;
+    }
+
+    private RodHolderBlock.Kind kind() {
+        return getBlockState().getBlock() instanceof RodHolderBlock block
+                ? block.kind()
+                : RodHolderBlock.Kind.SINGLE;
+    }
+
+    /**
+     * The water spot in front of the holder where a rod's bait lies (each rod a little to the
+     * side).
+     */
     private BlockPos findWater(ServerLevel level, int slot, double reach) {
         Direction facing = getBlockState().getValue(RodHolderBlock.FACING);
         Direction side = facing.getClockWise();
@@ -62,7 +76,8 @@ public final class RodHolderBlockEntity extends BlockEntity {
             BlockPos column = worldPosition.relative(facing, distance).relative(side, offset * 2);
             for (int dy = 2; dy >= -6; dy--) {
                 BlockPos pos = column.above(dy);
-                if (level.getFluidState(pos).is(FluidTags.WATER) && !level.getFluidState(pos.above()).is(FluidTags.WATER)) return pos;
+                if (level.getFluidState(pos).is(FluidTags.WATER)
+                        && !level.getFluidState(pos.above()).is(FluidTags.WATER)) return pos;
             }
         }
         return null;
@@ -71,7 +86,11 @@ public final class RodHolderBlockEntity extends BlockEntity {
     void place(ServerPlayer player, InteractionHand hand) {
         ServerLevel level = (ServerLevel) this.level;
         int slot = -1;
-        for (int i = 0; i < kind().rods(); i++) if (rods[i].isEmpty()) { slot = i; break; }
+        for (int i = 0; i < kind().rods(); i++)
+            if (rods[i].isEmpty()) {
+                slot = i;
+                break;
+            }
         if (slot < 0) {
             player.sendSystemMessage(Component.translatable("holder.fishr.full"), true);
             return;
@@ -88,10 +107,26 @@ public final class RodHolderBlockEntity extends BlockEntity {
         timers[slot] = waitTicks(level, player, rods[slot], water);
         biting[slot] = -1;
         owner = player.getUUID();
-        level.sendParticles(ParticleTypes.SPLASH, water.getX() + 0.5, water.getY() + 1, water.getZ() + 0.5, 10, 0.2, 0.1, 0.2, 0.1);
-        level.playSound(null, worldPosition, SoundEvents.FISHING_BOBBER_THROW, SoundSource.PLAYERS, 0.6f, 0.8f);
+        level.sendParticles(
+                ParticleTypes.SPLASH,
+                water.getX() + 0.5,
+                water.getY() + 1,
+                water.getZ() + 0.5,
+                10,
+                0.2,
+                0.1,
+                0.2,
+                0.1);
+        level.playSound(
+                null,
+                worldPosition,
+                SoundEvents.FISHING_BOBBER_THROW,
+                SoundSource.PLAYERS,
+                0.6f,
+                0.8f);
         update();
-        player.sendSystemMessage(Component.translatable("holder.fishr.placed", slot + 1, kind().rods()), true);
+        player.sendSystemMessage(
+                Component.translatable("holder.fishr.placed", slot + 1, kind().rods()), true);
     }
 
     /** Waiting time until the next bite: bait, pressure on the spot, groundbait, Lure, a float. */
@@ -112,7 +147,8 @@ public final class RodHolderBlockEntity extends BlockEntity {
             ItemStack held = player.getMainHandItem();
             if (!held.isEmpty()) {
                 if (player.getInventory().getFreeSlot() < 0) {
-                    player.sendSystemMessage(Component.translatable("holder.fishr.hands_full"), true);
+                    player.sendSystemMessage(
+                            Component.translatable("holder.fishr.hands_full"), true);
                     return;
                 }
                 player.setItemInHand(InteractionHand.MAIN_HAND, ItemStack.EMPTY);
@@ -123,8 +159,8 @@ public final class RodHolderBlockEntity extends BlockEntity {
             player.setItemInHand(InteractionHand.MAIN_HAND, rod);
             clear(i);
             update();
-            if (!Fishr.BATTLES.startFromHolder(player, rod, Vec3.atCenterOf(target).add(0, 0.4, 0),
-                    false)) {
+            if (!Fishr.BATTLES.startFromHolder(
+                    player, rod, Vec3.atCenterOf(target).add(0, 0.4, 0), false)) {
                 player.sendSystemMessage(Component.translatable("holder.fishr.missed"), true);
             }
             return;
@@ -135,7 +171,13 @@ public final class RodHolderBlockEntity extends BlockEntity {
             player.getInventory().placeItemBackInInventory(rods[i], Prediction.SERVER_ONLY);
             clear(i);
             update();
-            level.playSound(null, worldPosition, SoundEvents.FISHING_BOBBER_RETRIEVE, SoundSource.PLAYERS, 0.6f, 1f);
+            level.playSound(
+                    null,
+                    worldPosition,
+                    SoundEvents.FISHING_BOBBER_RETRIEVE,
+                    SoundSource.PLAYERS,
+                    0.6f,
+                    1f);
             return;
         }
         player.sendSystemMessage(Component.translatable("holder.fishr.empty"), true);
@@ -173,64 +215,128 @@ public final class RodHolderBlockEntity extends BlockEntity {
 
     private void bite(ServerLevel level, int slot) {
         // Two baits lying close together: the fish runs across both lines and they tangle.
-        for (BlockPos pos : BlockPos.betweenClosed(worldPosition.offset(-8, -3, -8), worldPosition.offset(8, 3, 8))) {
+        for (BlockPos pos :
+                BlockPos.betweenClosed(
+                        worldPosition.offset(-8, -3, -8), worldPosition.offset(8, 3, 8))) {
             if (!(level.getBlockEntity(pos) instanceof RodHolderBlockEntity other)) continue;
             for (int j = 0; j < other.kind().rods(); j++) {
-                if ((other == this && j == slot) || other.targets[j] == null || other.rods[j].isEmpty()) continue;
-                if (other.targets[j].distSqr(targets[slot]) <= 4 && level.getRandom().nextFloat() < 0.3f) {
+                if ((other == this && j == slot)
+                        || other.targets[j] == null
+                        || other.rods[j].isEmpty()) continue;
+                if (other.targets[j].distSqr(targets[slot]) <= 4
+                        && level.getRandom().nextFloat() < 0.3f) {
                     tangle(level, slot);
                     other.tangle(level, j);
                     other.update();
-                    message(level, Component.translatable("holder.fishr.tangled").withStyle(ChatFormatting.GOLD));
+                    message(
+                            level,
+                            Component.translatable("holder.fishr.tangled")
+                                    .withStyle(ChatFormatting.GOLD));
                     return;
                 }
             }
         }
         biting[slot] = 0;
         BlockPos water = targets[slot];
-        level.sendParticles(ParticleTypes.FISHING, water.getX() + 0.5, water.getY() + 1, water.getZ() + 0.5, 20, 0.3, 0.1, 0.3, 0.2);
-        level.playSound(null, water, SoundEvents.FISHING_BOBBER_SPLASH, SoundSource.NEUTRAL, 0.6f, 1f);
+        level.sendParticles(
+                ParticleTypes.FISHING,
+                water.getX() + 0.5,
+                water.getY() + 1,
+                water.getZ() + 0.5,
+                20,
+                0.3,
+                0.1,
+                0.3,
+                0.2);
+        level.playSound(
+                null, water, SoundEvents.FISHING_BOBBER_SPLASH, SoundSource.NEUTRAL, 0.6f, 1f);
     }
 
     private void tangle(ServerLevel level, int slot) {
-        FishrRodItem.set(rods[slot], GearSlot.BAIT, FishrRodItem.use(FishrRodItem.bait(rods[slot])));
+        FishrRodItem.set(
+                rods[slot], GearSlot.BAIT, FishrRodItem.use(FishrRodItem.bait(rods[slot])));
         timers[slot] = waitTicks(level, null, rods[slot], targets[slot]) * 2;
         biting[slot] = -1;
     }
 
-    /** The indicator: a click and the rod tip for every holder, the pod's alarm beeps louder and faster. */
+    /**
+     * The indicator: a click and the rod tip for every holder, the pod's alarm beeps louder and
+     * faster.
+     */
     private void alarm(ServerLevel level, int slot) {
         int t = biting[slot];
         if (kind().alarm()) {
-            if (t % 10 == 0) level.playSound(null, worldPosition, SoundEvents.NOTE_BLOCK_PLING.value(), SoundSource.BLOCKS, 1.2f, 1.4f + slot * 0.2f);
+            if (t % 10 == 0)
+                level.playSound(
+                        null,
+                        worldPosition,
+                        SoundEvents.NOTE_BLOCK_PLING.value(),
+                        SoundSource.BLOCKS,
+                        1.2f,
+                        1.4f + slot * 0.2f);
         } else if (t % 20 == 0) {
-            level.playSound(null, worldPosition, SoundEvents.NOTE_BLOCK_HAT.value(), SoundSource.BLOCKS, 0.7f, 1.2f);
+            level.playSound(
+                    null,
+                    worldPosition,
+                    SoundEvents.NOTE_BLOCK_HAT.value(),
+                    SoundSource.BLOCKS,
+                    0.7f,
+                    1.2f);
         }
         if (t % 20 == 0) {
             BlockPos water = targets[slot];
-            level.sendParticles(ParticleTypes.SPLASH, water.getX() + 0.5, water.getY() + 1, water.getZ() + 0.5, 6, 0.2, 0.05, 0.2, 0.1);
+            level.sendParticles(
+                    ParticleTypes.SPLASH,
+                    water.getX() + 0.5,
+                    water.getY() + 1,
+                    water.getZ() + 0.5,
+                    6,
+                    0.2,
+                    0.05,
+                    0.2,
+                    0.1);
         }
     }
 
-    /** Nobody came: the fish gets away with the bait, sometimes the lure, and a big one can take the rod. */
+    /**
+     * Nobody came: the fish gets away with the bait, sometimes the lure, and a big one can take the
+     * rod.
+     */
     private void unattended(ServerLevel level, int slot) {
         ItemStack rod = rods[slot];
         float roll = level.getRandom().nextFloat();
         Habitat habitat = Habitat.at(level, targets[slot]);
-        boolean big = FishSpecies.choose(habitat, new java.util.Random(level.getRandom().nextLong())).maxLength() > 100;
+        boolean big =
+                FishSpecies.choose(habitat, new java.util.Random(level.getRandom().nextLong()))
+                                .maxLength()
+                        > 100;
         if (big && roll < 0.2f && !kind().alarm()) {
-            ItemEntity drop = new ItemEntity(level, targets[slot].getX() + 0.5, targets[slot].getY() + 0.5, targets[slot].getZ() + 0.5, rod);
+            ItemEntity drop =
+                    new ItemEntity(
+                            level,
+                            targets[slot].getX() + 0.5,
+                            targets[slot].getY() + 0.5,
+                            targets[slot].getZ() + 0.5,
+                            rod);
             level.addFreshEntity(drop);
             clear(slot);
-            message(level, Component.translatable("holder.fishr.rod_pulled").withStyle(ChatFormatting.RED));
+            message(
+                    level,
+                    Component.translatable("holder.fishr.rod_pulled")
+                            .withStyle(ChatFormatting.RED));
             return;
         }
         if (roll < 0.45f) {
             FishrRodItem.loseLure(rod);
             rod.setDamageValue(Math.min(rod.getMaxDamage() - 1, rod.getDamageValue() + 1));
-            message(level, Component.translatable("holder.fishr.line_taken").withStyle(ChatFormatting.GOLD));
+            message(
+                    level,
+                    Component.translatable("holder.fishr.line_taken")
+                            .withStyle(ChatFormatting.GOLD));
         } else {
-            message(level, Component.translatable("holder.fishr.escaped").withStyle(ChatFormatting.GRAY));
+            message(
+                    level,
+                    Component.translatable("holder.fishr.escaped").withStyle(ChatFormatting.GRAY));
         }
         FishrRodItem.set(rod, GearSlot.BAIT, FishrRodItem.use(FishrRodItem.bait(rod)));
         biting[slot] = -1;
@@ -238,8 +344,12 @@ public final class RodHolderBlockEntity extends BlockEntity {
     }
 
     private void message(ServerLevel level, Component text) {
-        ServerPlayer player = owner == null ? null : level.getServer().getPlayerList().getPlayer(owner);
-        if (player != null && player.level() == level && player.distanceToSqr(Vec3.atCenterOf(worldPosition)) < 96 * 96) player.sendSystemMessage(text, true);
+        ServerPlayer player =
+                owner == null ? null : level.getServer().getPlayerList().getPlayer(owner);
+        if (player != null
+                && player.level() == level
+                && player.distanceToSqr(Vec3.atCenterOf(worldPosition)) < 96 * 96)
+            player.sendSystemMessage(text, true);
     }
 
     private void update() {
@@ -249,18 +359,30 @@ public final class RodHolderBlockEntity extends BlockEntity {
             loaded |= !rods[i].isEmpty();
         }
         BlockState state = getBlockState();
-        if (state.hasProperty(RodHolderBlock.BITE) && (state.getValue(RodHolderBlock.BITE) != bite || state.getValue(RodHolderBlock.LOADED) != loaded)) {
-            level.setBlock(worldPosition, state.setValue(RodHolderBlock.BITE, bite).setValue(RodHolderBlock.LOADED, loaded), 3);
+        if (state.hasProperty(RodHolderBlock.BITE)
+                && (state.getValue(RodHolderBlock.BITE) != bite
+                        || state.getValue(RodHolderBlock.LOADED) != loaded)) {
+            level.setBlock(
+                    worldPosition,
+                    state.setValue(RodHolderBlock.BITE, bite)
+                            .setValue(RodHolderBlock.LOADED, loaded),
+                    3);
         }
         setChanged();
     }
 
-    @Override public void preRemoveSideEffects(BlockPos pos, BlockState state) {
-        if (level != null) for (ItemStack rod : rods) if (!rod.isEmpty()) Containers.dropItemStack(level, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, rod);
+    @Override
+    public void preRemoveSideEffects(BlockPos pos, BlockState state) {
+        if (level != null)
+            for (ItemStack rod : rods)
+                if (!rod.isEmpty())
+                    Containers.dropItemStack(
+                            level, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, rod);
         super.preRemoveSideEffects(pos, state);
     }
 
-    @Override protected void saveAdditional(ValueOutput output) {
+    @Override
+    protected void saveAdditional(ValueOutput output) {
         super.saveAdditional(output);
         for (int i = 0; i < rods.length; i++) {
             if (rods[i].isEmpty()) continue;
@@ -273,7 +395,8 @@ public final class RodHolderBlockEntity extends BlockEntity {
         if (owner != null) output.store("Owner", UUIDUtil.CODEC, owner);
     }
 
-    @Override protected void loadAdditional(ValueInput input) {
+    @Override
+    protected void loadAdditional(ValueInput input) {
         super.loadAdditional(input);
         for (int i = 0; i < rods.length; i++) {
             Optional<ValueInput> child = input.child("Rod" + i);
@@ -288,5 +411,4 @@ public final class RodHolderBlockEntity extends BlockEntity {
         }
         owner = input.read("Owner", UUIDUtil.CODEC).orElse(null);
     }
-
 }

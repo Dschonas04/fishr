@@ -4,9 +4,9 @@ import io.github.dschonas04.fishr.battle.Boss;
 import io.github.dschonas04.fishr.fish.FishSpecies;
 
 /**
- * Every bait and lure. Natural baits stack and one is used per fight; lures do not stack, wear down with every
- * fight (a worn lure runs worse) and are lost when the line breaks. The appeal says how much each diet likes it:
- * a fish ignores a bait it does not like, a big bait selects bigger fish.
+ * Every bait and lure. Natural baits stack and one is used per fight; lures do not stack, wear down
+ * with every fight (a worn lure runs worse) and are lost when the line breaks. The appeal says how
+ * much each diet likes it: a fish ignores a bait it does not like, a big bait selects bigger fish.
  */
 public enum BaitType {
     // natural baits; appeal for: coarse, predator, salmonid, sea predator, sea bottom, shoal
@@ -34,7 +34,14 @@ public enum BaitType {
     private final double[] appeal;
     private final double sizeBias, drain, run, strain;
 
-    BaitType(String id, int durability, double[] appeal, double sizeBias, double drain, double run, double strain) {
+    BaitType(
+            String id,
+            int durability,
+            double[] appeal,
+            double sizeBias,
+            double drain,
+            double run,
+            double strain) {
         this.id = id;
         this.durability = durability;
         this.appeal = appeal;
@@ -44,18 +51,44 @@ public enum BaitType {
         this.strain = strain;
     }
 
-    public String id() { return id; }
-    public boolean lure() { return durability > 0; }
-    /** Worms and their kin, not a lure and not a boss bait: fish follow them and can be fed with them. */
-    public boolean natural() { return !lure() && boss() == null && this != GLOW; }
-    public int durability() { return durability; }
-    public double sizeBias() { return sizeBias; }
+    public String id() {
+        return id;
+    }
+
+    public boolean lure() {
+        return durability > 0;
+    }
+
+    /**
+     * Worms and their kin, not a lure and not a boss bait: fish follow them and can be fed with
+     * them.
+     */
+    public boolean natural() {
+        return !lure() && boss() == null && this != GLOW;
+    }
+
+    public int durability() {
+        return durability;
+    }
+
+    public double sizeBias() {
+        return sizeBias;
+    }
+
     /** Multiplier on how fast the fish tires. */
-    public double drain() { return drain; }
+    public double drain() {
+        return drain;
+    }
+
     /** Multiplier on how hard the fish pulls in runs. */
-    public double run() { return run; }
+    public double run() {
+        return run;
+    }
+
     /** Multiplier on line strain (more than 1 is worse). */
-    public double strain() { return strain; }
+    public double strain() {
+        return strain;
+    }
 
     public Boss boss() {
         return switch (this) {
@@ -68,11 +101,14 @@ public enum BaitType {
     }
 
     /** How keen this species is on this bait; below 0.5 it ignores the bait. */
-    public double appeal(FishSpecies species) { return appeal[species.diet().ordinal()]; }
+    public double appeal(FishSpecies species) {
+        return appeal[species.diet().ordinal()];
+    }
 
     /** Without bait the hook only now and then catches something. */
     public static final double BARE_HOOK = 0.4;
 
-    public String translationKey() { return "item.fishr." + id; }
-
+    public String translationKey() {
+        return "item.fishr." + id;
+    }
 }

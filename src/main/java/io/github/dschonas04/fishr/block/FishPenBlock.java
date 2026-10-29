@@ -31,9 +31,10 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
 /**
- * Fish pen (Anforderung 15.2–15.4): a net set under water. Fish put in (from the hand) live in the water around it,
- * as many as the water's volume allows; feed them with groundbait or bait, and well-fed healthy pairs breed.
- * Empty hand: state of the pen; sneaking with an empty hand: open the net and let them all go.
+ * Fish pen (Anforderung 15.2–15.4): a net set under water. Fish put in (from the hand) live in the
+ * water around it, as many as the water's volume allows; feed them with groundbait or bait, and
+ * well-fed healthy pairs breed. Empty hand: state of the pen; sneaking with an empty hand: open the
+ * net and let them all go.
  */
 public final class FishPenBlock extends BaseEntityBlock implements SimpleWaterloggedBlock {
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
@@ -44,41 +45,85 @@ public final class FishPenBlock extends BaseEntityBlock implements SimpleWaterlo
         registerDefaultState(stateDefinition.any().setValue(WATERLOGGED, false));
     }
 
-
-    @Override protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) { builder.add(WATERLOGGED); }
-
-    @Override public BlockState getStateForPlacement(BlockPlaceContext context) {
-        return defaultBlockState().setValue(WATERLOGGED, context.getLevel().getFluidState(context.getClickedPos()).getType() == Fluids.WATER);
+    @Override
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
+        builder.add(WATERLOGGED);
     }
 
-    @Override protected FluidState getFluidState(BlockState state) {
-        return state.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
+    @Override
+    public BlockState getStateForPlacement(BlockPlaceContext context) {
+        return defaultBlockState()
+                .setValue(
+                        WATERLOGGED,
+                        context.getLevel().getFluidState(context.getClickedPos()).getType()
+                                == Fluids.WATER);
     }
 
-    @Override protected BlockState updateShape(BlockState state, LevelReader level, ScheduledTickAccess ticks, BlockPos pos, Direction direction,
-                                               BlockPos neighbourPos, BlockState neighbour, RandomSource random) {
-        if (state.getValue(WATERLOGGED)) ticks.scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(level));
-        return super.updateShape(state, level, ticks, pos, direction, neighbourPos, neighbour, random);
+    @Override
+    protected FluidState getFluidState(BlockState state) {
+        return state.getValue(WATERLOGGED)
+                ? Fluids.WATER.getSource(false)
+                : super.getFluidState(state);
     }
 
-    @Override protected VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) { return SHAPE; }
-
-    @Override public BlockEntity newBlockEntity(BlockPos pos, BlockState state) { return new FishPenBlockEntity(pos, state); }
-
-    @Override public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
-        return level.isClientSide() ? null : createTickerHelper(type, FishrBlocks.FISH_PEN_ENTITY, FishPenBlockEntity::tick);
+    @Override
+    protected BlockState updateShape(
+            BlockState state,
+            LevelReader level,
+            ScheduledTickAccess ticks,
+            BlockPos pos,
+            Direction direction,
+            BlockPos neighbourPos,
+            BlockState neighbour,
+            RandomSource random) {
+        if (state.getValue(WATERLOGGED))
+            ticks.scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(level));
+        return super.updateShape(
+                state, level, ticks, pos, direction, neighbourPos, neighbour, random);
     }
 
-    @Override protected InteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player,
-                                                    InteractionHand hand, BlockHitResult hit) {
+    @Override
+    protected VoxelShape getShape(
+            BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
+        return SHAPE;
+    }
+
+    @Override
+    public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
+        return new FishPenBlockEntity(pos, state);
+    }
+
+    @Override
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(
+            Level level, BlockState state, BlockEntityType<T> type) {
+        return level.isClientSide()
+                ? null
+                : createTickerHelper(type, FishrBlocks.FISH_PEN_ENTITY, FishPenBlockEntity::tick);
+    }
+
+    @Override
+    protected InteractionResult useItemOn(
+            ItemStack stack,
+            BlockState state,
+            Level level,
+            BlockPos pos,
+            Player player,
+            InteractionHand hand,
+            BlockHitResult hit) {
         if (stack.isEmpty()) return InteractionResult.TRY_WITH_EMPTY_HAND;
-        if (!(level.getBlockEntity(pos) instanceof FishPenBlockEntity net)) return InteractionResult.PASS;
+        if (!(level.getBlockEntity(pos) instanceof FishPenBlockEntity net))
+            return InteractionResult.PASS;
         if (level.isClientSide()) return InteractionResult.SUCCESS;
-        return net.put((ServerPlayer) player, hand) ? InteractionResult.SUCCESS : InteractionResult.TRY_WITH_EMPTY_HAND;
+        return net.put((ServerPlayer) player, hand)
+                ? InteractionResult.SUCCESS
+                : InteractionResult.TRY_WITH_EMPTY_HAND;
     }
 
-    @Override protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hit) {
-        if (!(level.getBlockEntity(pos) instanceof FishPenBlockEntity net)) return InteractionResult.PASS;
+    @Override
+    protected InteractionResult useWithoutItem(
+            BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hit) {
+        if (!(level.getBlockEntity(pos) instanceof FishPenBlockEntity net))
+            return InteractionResult.PASS;
         if (level instanceof ServerLevel && player instanceof ServerPlayer serverPlayer) {
             if (player.isShiftKeyDown()) net.releaseAll(serverPlayer);
             else net.status(serverPlayer);

@@ -4,12 +4,12 @@ import io.github.dschonas04.fishr.battle.Boss;
 import io.github.dschonas04.fishr.battle.FishAction;
 import io.github.dschonas04.fishr.battle.FishingBattle;
 import io.github.dschonas04.fishr.battle.Landing;
-import io.github.dschonas04.fishr.fish.FishrFishRegistry;
 import io.github.dschonas04.fishr.fish.FishCatch;
 import io.github.dschonas04.fishr.fish.FishSpecies;
 import io.github.dschonas04.fishr.fish.FishVariant;
+import io.github.dschonas04.fishr.fish.FishrFishRegistry;
 import io.github.dschonas04.fishr.network.BattlePayload;
-import java.util.Locale;
+
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
@@ -18,11 +18,13 @@ import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 
+import java.util.Locale;
+
 /**
- * The fight panel above the hotbar, as wide as the hotbar: the fish with its name and distance, the line's tension
- * (green up to where the drag slips, red beyond) and the fish's strength. Above it one prompt says which key to
- * press now – R to reel, F to give line, right-click to land. A boss shows its name and phase at the top, a landed
- * fish a catch card.
+ * The fight panel above the hotbar, as wide as the hotbar: the fish with its name and distance, the
+ * line's tension (green up to where the drag slips, red beyond) and the fish's strength. Above it
+ * one prompt says which key to press now – R to reel, F to give line, right-click to land. A boss
+ * shows its name and phase at the top, a landed fish a catch card.
  */
 final class FightHud {
     private static final int WIDTH = 182;
@@ -33,28 +35,50 @@ final class FightHud {
     private static final int ORANGE = 0xFFFFA040;
     private static final int RED = 0xFFFF5B6E;
 
-    private FightHud() { }
+    private FightHud() {}
 
     /** What to do now: one key, one word. */
     enum Prompt {
-        LAND(GREEN), NET(GREEN), WARN(ORANGE), WAIT(ORANGE), GIVE(ORANGE), GIVE_NOW(RED), REEL(GREEN), TIGHTEN(0xFFFFD45B);
+        LAND(GREEN),
+        NET(GREEN),
+        WARN(ORANGE),
+        WAIT(ORANGE),
+        GIVE(ORANGE),
+        GIVE_NOW(RED),
+        REEL(GREEN),
+        TIGHTEN(0xFFFFD45B);
 
         final int colour;
 
-        Prompt(int colour) { this.colour = colour; }
+        Prompt(int colour) {
+            this.colour = colour;
+        }
 
-        String key() { return "hud.fishr.prompt." + name().toLowerCase(Locale.ROOT); }
+        String key() {
+            return "hud.fishr.prompt." + name().toLowerCase(Locale.ROOT);
+        }
 
-        boolean blinks() { return this == GIVE_NOW || this == WARN || this == LAND || this == NET; }
+        boolean blinks() {
+            return this == GIVE_NOW || this == WARN || this == LAND || this == NET;
+        }
     }
 
-    /** The same rules the fight runs on (see FishingBattle): reel while it rests, stop when it pulls, give in jumps. */
+    /**
+     * The same rules the fight runs on (see FishingBattle): reel while it rests, stop when it
+     * pulls, give in jumps.
+     */
     static Prompt prompt(BattlePayload state) {
-        if (state.has(BattlePayload.LANDABLE)) return state.netWindow() >= 0 ? Prompt.NET : Prompt.LAND;
+        if (state.has(BattlePayload.LANDABLE))
+            return state.netWindow() >= 0 ? Prompt.NET : Prompt.LAND;
         boolean giving = state.has(BattlePayload.GIVING);
-        boolean away = state.pending() == null && (state.action() == FishAction.RUN || state.action() == FishAction.DIVE
-                || state.action() == FishAction.SIDE);
-        if (state.has(BattlePayload.TWIST) || away && !giving && FishrClient.displayedTension >= state.drag() * 0.95f) return Prompt.GIVE_NOW;
+        boolean away =
+                state.pending() == null
+                        && (state.action() == FishAction.RUN
+                                || state.action() == FishAction.DIVE
+                                || state.action() == FishAction.SIDE);
+        if (state.has(BattlePayload.TWIST)
+                || away && !giving && FishrClient.displayedTension >= state.drag() * 0.95f)
+            return Prompt.GIVE_NOW;
         if (state.pending() != null) return Prompt.WARN;
         return switch (state.action()) {
             case JUMP, SHAKE -> Prompt.GIVE;
@@ -74,7 +98,8 @@ final class FightHud {
     static void render(GuiGraphicsExtractor graphics, DeltaTracker delta) {
         Minecraft client = Minecraft.getInstance();
         Font font = client.font;
-        if (FishrClient.trophyTicks > 0 && FishrClient.trophy != null) catchCard(graphics, font, FishrClient.trophy);
+        if (FishrClient.trophyTicks > 0 && FishrClient.trophy != null)
+            catchCard(graphics, font, FishrClient.trophy);
         var state = FishrClient.state;
         if (state == null || state.result() != FishingBattle.Result.ACTIVE) return;
         int x = (graphics.guiWidth() - WIDTH) / 2;
@@ -86,10 +111,25 @@ final class FightHud {
         graphics.fill(x, y, x + WIDTH, y + HEIGHT, PANEL);
         graphics.fill(x, y, x + WIDTH, y + 1, rarity);
         graphics.item(new ItemStack(FishrFishRegistry.fishItem(species)), x + 3, y + 3);
-        graphics.text(font, Component.translatable(species.translationKey()), x + 22, y + 4, rarity, true);
-        Component right = state.hookHold() < 35 ? Component.translatable("hud.fishr.hook_loose")
-                : Component.translatable("hud.fishr.distance", Math.round(state.distance()));
-        graphics.text(font, right, x + WIDTH - 4 - font.width(right), y + 4, state.hookHold() < 35 ? RED : 0xFF9AA8B4, true);
+        graphics.text(
+                font,
+                Component.translatable(species.translationKey()),
+                x + 22,
+                y + 4,
+                rarity,
+                true);
+        Component right =
+                state.hookHold() < 35
+                        ? Component.translatable("hud.fishr.hook_loose")
+                        : Component.translatable(
+                                "hud.fishr.distance", Math.round(state.distance()));
+        graphics.text(
+                font,
+                right,
+                x + WIDTH - 4 - font.width(right),
+                y + 4,
+                state.hookHold() < 35 ? RED : 0xFF9AA8B4,
+                true);
 
         // the line: green up to the drag, red beyond; the white mark is the tension
         int barX = x + 22, barW = WIDTH - 26, barY = y + 15;
@@ -109,7 +149,13 @@ final class FightHud {
         int stamina = Math.round(barW * Math.clamp(FishrClient.displayedStamina, 0, 1));
         graphics.fill(barX, y + 25, barX + barW, y + 28, TRACK);
         graphics.fill(barX, y + 25, barX + stamina, y + 28, 0xFF4CC8E0);
-        graphics.text(font, Component.translatable("hud.fishr.strength"), x + 3, y + 23, 0xFF6A7A88, false);
+        graphics.text(
+                font,
+                Component.translatable("hud.fishr.strength"),
+                x + 3,
+                y + 23,
+                0xFF6A7A88,
+                false);
 
         // the prompt: a key cap and one word; it blinks when it is urgent
         Prompt prompt = prompt(state);
@@ -117,17 +163,20 @@ final class FightHud {
         if (!hidden) prompt(graphics, font, prompt, graphics.guiWidth() / 2, y - 14);
 
         if (FishrClient.fightTicks < 50 && state.strike() > 0) {
-            String quality = state.strike() >= 90 ? "perfect" : state.strike() >= 72 ? "good" : "late";
+            String quality =
+                    state.strike() >= 90 ? "perfect" : state.strike() >= 72 ? "good" : "late";
             Component strike = Component.translatable("hud.fishr.strike." + quality);
             graphics.centeredText(font, strike, graphics.guiWidth() / 2, y - 27, 0xFFE0E6EA);
         }
-        if (state.has(BattlePayload.LANDABLE) && state.netWindow() >= 0) netGauge(graphics, x, y - 28, state);
+        if (state.has(BattlePayload.LANDABLE) && state.netWindow() >= 0)
+            netGauge(graphics, x, y - 28, state);
         Boss boss = species.boss();
         if (boss != null) bossBar(graphics, font, state, boss);
     }
 
     /** [R] Reel in – a key cap like on the keyboard, then the word. */
-    private static void prompt(GuiGraphicsExtractor graphics, Font font, Prompt prompt, int centre, int y) {
+    private static void prompt(
+            GuiGraphicsExtractor graphics, Font font, Prompt prompt, int centre, int y) {
         KeyMapping key = keyOf(prompt);
         Component word = Component.translatable(prompt.key());
         Component cap = key == null ? null : key.getTranslatedKeyMessage();
@@ -144,8 +193,9 @@ final class FightHud {
     }
 
     /**
-     * The landing gauge: the fish twists in front of the net; the green field is the net's opening. Scoop
-     * (right-click) while the marker is inside it. Same formula as the server, so what is seen is what counts.
+     * The landing gauge: the fish twists in front of the net; the green field is the net's opening.
+     * Scoop (right-click) while the marker is inside it. Same formula as the server, so what is
+     * seen is what counts.
      */
     private static void netGauge(GuiGraphicsExtractor graphics, int x, int y, BattlePayload state) {
         int half = WIDTH / 2, centre = x + half;
@@ -158,22 +208,42 @@ final class FightHud {
         graphics.fill(marker - 2, y - 2, marker + 2, y + 8, inside ? 0xFFFFFFFF : 0xFFFF7A5C);
     }
 
-    private static void bossBar(GuiGraphicsExtractor graphics, Font font, BattlePayload state, Boss boss) {
+    private static void bossBar(
+            GuiGraphicsExtractor graphics, Font font, BattlePayload state, Boss boss) {
         int width = 182;
         int x = (graphics.guiWidth() - width) / 2;
         int y = 16;
-        Component name = Component.translatable(boss.translationKey()).append(" – ")
-                .append(Component.translatable(boss.phase(state.bossPhase()).translationKey(boss)));
+        Component name =
+                Component.translatable(boss.translationKey())
+                        .append(" – ")
+                        .append(
+                                Component.translatable(
+                                        boss.phase(state.bossPhase()).translationKey(boss)));
         graphics.centeredText(font, name, graphics.guiWidth() / 2, y - 11, 0xFFFFC94A);
         graphics.fill(x - 1, y - 1, x + width + 1, y + 5, 0xC0101820);
-        graphics.fill(x, y, x + Math.round(width * Math.clamp(FishrClient.displayedStamina, 0, 1)), y + 4, 0xFFC0392B);
+        graphics.fill(
+                x,
+                y,
+                x + Math.round(width * Math.clamp(FishrClient.displayedStamina, 0, 1)),
+                y + 4,
+                0xFFC0392B);
         for (int phase = 0; phase < boss.phases(); phase++) {
             int pip = x + width / 2 + (phase - boss.phases() / 2) * 10;
-            graphics.fill(pip, y + 7, pip + 6, y + 9, phase < state.bossPhase() ? 0xFF505050 : phase == state.bossPhase() ? 0xFFFFC94A : 0xFFC0392B);
+            graphics.fill(
+                    pip,
+                    y + 7,
+                    pip + 6,
+                    y + 9,
+                    phase < state.bossPhase()
+                            ? 0xFF505050
+                            : phase == state.bossPhase() ? 0xFFFFC94A : 0xFFC0392B);
         }
     }
 
-    /** The catch: a card at the top with the fish, its rarity, its size and how cleanly it was fought. */
+    /**
+     * The catch: a card at the top with the fish, its rarity, its size and how cleanly it was
+     * fought.
+     */
     private static void catchCard(GuiGraphicsExtractor graphics, Font font, BattlePayload state) {
         FishSpecies species = state.species();
         int colour = rarityColour(species);
@@ -185,15 +255,37 @@ final class FightHud {
         FishCatch.colour(icon, state.variant());
         graphics.item(icon, x + 12, y + 14);
         int text = x + 42;
-        graphics.text(font, Component.translatable(species.translationKey()), text, y + 6, colour, true);
+        graphics.text(
+                font, Component.translatable(species.translationKey()), text, y + 6, colour, true);
         // a rare colouring takes the place of the rarity
-        Component rarity = state.variant() == FishVariant.NORMAL ? Component.translatable(species.rarityKey())
-                : Component.translatable(state.variant().translationKey());
-        graphics.text(font, rarity, x + width - 6 - font.width(rarity), y + 6,
-                state.variant() == FishVariant.NORMAL ? 0xFF8A98A4 : 0xFFE08CFF, false);
-        graphics.text(font, Component.translatable("catch.fishr.measurements", String.format(Locale.GERMAN, "%.1f", state.lengthCm()),
-                String.format(Locale.GERMAN, "%.2f", state.weightKg())), text, y + 18, 0xFFFFFFFF, true);
-        graphics.text(font, Component.translatable("hud.fishr.trophy_quality", state.quality()), text, y + 30, 0xFF7FD8C8, false);
+        Component rarity =
+                state.variant() == FishVariant.NORMAL
+                        ? Component.translatable(species.rarityKey())
+                        : Component.translatable(state.variant().translationKey());
+        graphics.text(
+                font,
+                rarity,
+                x + width - 6 - font.width(rarity),
+                y + 6,
+                state.variant() == FishVariant.NORMAL ? 0xFF8A98A4 : 0xFFE08CFF,
+                false);
+        graphics.text(
+                font,
+                Component.translatable(
+                        "catch.fishr.measurements",
+                        String.format(Locale.GERMAN, "%.1f", state.lengthCm()),
+                        String.format(Locale.GERMAN, "%.2f", state.weightKg())),
+                text,
+                y + 18,
+                0xFFFFFFFF,
+                true);
+        graphics.text(
+                font,
+                Component.translatable("hud.fishr.trophy_quality", state.quality()),
+                text,
+                y + 30,
+                0xFF7FD8C8,
+                false);
     }
 
     static int rarityColour(FishSpecies species) {

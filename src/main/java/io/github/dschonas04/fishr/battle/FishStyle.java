@@ -14,7 +14,15 @@ public enum FishStyle {
         this.catchSpeed = catchSpeed;
     }
 
-    public double pull() { return pull; }
-    public double catchSpeed() { return catchSpeed; }
-    public String translationKey() { return "fish.fishr." + name().toLowerCase(java.util.Locale.ROOT); }
+    public double pull() {
+        return pull;
+    }
+
+    public double catchSpeed() {
+        return catchSpeed;
+    }
+
+    public String translationKey() {
+        return "fish.fishr." + name().toLowerCase(java.util.Locale.ROOT);
+    }
 }

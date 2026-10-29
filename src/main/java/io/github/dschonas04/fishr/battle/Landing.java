@@ -1,13 +1,13 @@
 package io.github.dschonas04.fishr.battle;
 
 /**
- * Landing with a net: the worn-out fish still twists in front of the net. A marker swings back and forth; the net's
- * opening is a window around the middle, wider for a roomy net and a small fish. A scoop with the marker inside
- * the window lands well, outside it the fish often kicks free. Server and client use the same formula, so the
- * gauge the player sees is the one the server judges.
+ * Landing with a net: the worn-out fish still twists in front of the net. A marker swings back and
+ * forth; the net's opening is a window around the middle, wider for a roomy net and a small fish. A
+ * scoop with the marker inside the window lands well, outside it the fish often kicks free. Server
+ * and client use the same formula, so the gauge the player sees is the one the server judges.
  */
 public final class Landing {
-    private Landing() { }
+    private Landing() {}
 
     /** The fish's position in front of the net, -1 .. 1, ticks since the fish became landable. */
     public static double marker(int ticks) {
@@ -20,7 +20,9 @@ public final class Landing {
         return Math.clamp(0.6 * (1 - fishLengthCm / netLengthCm) + 0.12, 0.12, 0.6);
     }
 
-    public static boolean aligned(int ticks, double window) { return Math.abs(marker(ticks)) <= window; }
+    public static boolean aligned(int ticks, double window) {
+        return Math.abs(marker(ticks)) <= window;
+    }
 
     /** Landing chance for a net scoop; an aligned scoop of a worn-out fish almost always works. */
     public static double chance(boolean aligned, double stamina, boolean boss) {

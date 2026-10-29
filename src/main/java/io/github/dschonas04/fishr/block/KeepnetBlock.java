@@ -31,8 +31,9 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
 /**
- * Keepnet (Anforderung 15.1): set it in water at the bank and keep caught fish alive in it. Right-click with a fish
- * to put it in, with an empty hand to take the last one out, sneaking with an empty hand to release them all.
+ * Keepnet (Anforderung 15.1): set it in water at the bank and keep caught fish alive in it.
+ * Right-click with a fish to put it in, with an empty hand to take the last one out, sneaking with
+ * an empty hand to release them all.
  */
 public final class KeepnetBlock extends BaseEntityBlock implements SimpleWaterloggedBlock {
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
@@ -43,41 +44,85 @@ public final class KeepnetBlock extends BaseEntityBlock implements SimpleWaterlo
         registerDefaultState(stateDefinition.any().setValue(WATERLOGGED, false));
     }
 
-
-    @Override protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) { builder.add(WATERLOGGED); }
-
-    @Override public BlockState getStateForPlacement(BlockPlaceContext context) {
-        return defaultBlockState().setValue(WATERLOGGED, context.getLevel().getFluidState(context.getClickedPos()).getType() == Fluids.WATER);
+    @Override
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
+        builder.add(WATERLOGGED);
     }
 
-    @Override protected FluidState getFluidState(BlockState state) {
-        return state.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
+    @Override
+    public BlockState getStateForPlacement(BlockPlaceContext context) {
+        return defaultBlockState()
+                .setValue(
+                        WATERLOGGED,
+                        context.getLevel().getFluidState(context.getClickedPos()).getType()
+                                == Fluids.WATER);
     }
 
-    @Override protected BlockState updateShape(BlockState state, LevelReader level, ScheduledTickAccess ticks, BlockPos pos, Direction direction,
-                                               BlockPos neighbourPos, BlockState neighbour, RandomSource random) {
-        if (state.getValue(WATERLOGGED)) ticks.scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(level));
-        return super.updateShape(state, level, ticks, pos, direction, neighbourPos, neighbour, random);
+    @Override
+    protected FluidState getFluidState(BlockState state) {
+        return state.getValue(WATERLOGGED)
+                ? Fluids.WATER.getSource(false)
+                : super.getFluidState(state);
     }
 
-    @Override protected VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) { return SHAPE; }
-
-    @Override public BlockEntity newBlockEntity(BlockPos pos, BlockState state) { return new KeepnetBlockEntity(pos, state); }
-
-    @Override public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
-        return level.isClientSide() ? null : createTickerHelper(type, FishrBlocks.KEEPNET_ENTITY, KeepnetBlockEntity::tick);
+    @Override
+    protected BlockState updateShape(
+            BlockState state,
+            LevelReader level,
+            ScheduledTickAccess ticks,
+            BlockPos pos,
+            Direction direction,
+            BlockPos neighbourPos,
+            BlockState neighbour,
+            RandomSource random) {
+        if (state.getValue(WATERLOGGED))
+            ticks.scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(level));
+        return super.updateShape(
+                state, level, ticks, pos, direction, neighbourPos, neighbour, random);
     }
 
-    @Override protected InteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player,
-                                                    InteractionHand hand, BlockHitResult hit) {
+    @Override
+    protected VoxelShape getShape(
+            BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
+        return SHAPE;
+    }
+
+    @Override
+    public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
+        return new KeepnetBlockEntity(pos, state);
+    }
+
+    @Override
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(
+            Level level, BlockState state, BlockEntityType<T> type) {
+        return level.isClientSide()
+                ? null
+                : createTickerHelper(type, FishrBlocks.KEEPNET_ENTITY, KeepnetBlockEntity::tick);
+    }
+
+    @Override
+    protected InteractionResult useItemOn(
+            ItemStack stack,
+            BlockState state,
+            Level level,
+            BlockPos pos,
+            Player player,
+            InteractionHand hand,
+            BlockHitResult hit) {
         if (stack.isEmpty()) return InteractionResult.TRY_WITH_EMPTY_HAND;
-        if (!(level.getBlockEntity(pos) instanceof KeepnetBlockEntity net)) return InteractionResult.PASS;
+        if (!(level.getBlockEntity(pos) instanceof KeepnetBlockEntity net))
+            return InteractionResult.PASS;
         if (level.isClientSide()) return InteractionResult.SUCCESS;
-        return net.put((ServerPlayer) player, hand) ? InteractionResult.SUCCESS : InteractionResult.TRY_WITH_EMPTY_HAND;
+        return net.put((ServerPlayer) player, hand)
+                ? InteractionResult.SUCCESS
+                : InteractionResult.TRY_WITH_EMPTY_HAND;
     }
 
-    @Override protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hit) {
-        if (!(level.getBlockEntity(pos) instanceof KeepnetBlockEntity net)) return InteractionResult.PASS;
+    @Override
+    protected InteractionResult useWithoutItem(
+            BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hit) {
+        if (!(level.getBlockEntity(pos) instanceof KeepnetBlockEntity net))
+            return InteractionResult.PASS;
         if (level instanceof ServerLevel && player instanceof ServerPlayer serverPlayer) {
             if (player.isShiftKeyDown()) net.releaseAll(serverPlayer);
             else net.takeOut(serverPlayer);

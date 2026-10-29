@@ -1,21 +1,26 @@
 package io.github.dschonas04.fishr.fish;
 
+import static org.junit.jupiter.api.Assertions.*;
+
+import com.mojang.serialization.JsonOps;
+
 import io.github.dschonas04.fishr.block.FilletTableBlock;
 import io.github.dschonas04.fishr.holding.FishStore;
 import io.github.dschonas04.fishr.item.BaitType;
-import com.mojang.serialization.JsonOps;
+
+import org.junit.jupiter.api.Test;
+
 import java.util.EnumMap;
 import java.util.Map;
 import java.util.Random;
 import java.util.UUID;
-import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
 
 class FishVariantTest {
     private static Map<FishVariant, Integer> count(FishVariant.Conditions conditions) {
         Random random = new Random(16);
         Map<FishVariant, Integer> counts = new EnumMap<>(FishVariant.class);
-        for (int i = 0; i < 20000; i++) counts.merge(FishVariant.pick(conditions, random), 1, Integer::sum);
+        for (int i = 0; i < 20000; i++)
+            counts.merge(FishVariant.pick(conditions, random), 1, Integer::sum);
         return counts;
     }
 
@@ -32,12 +37,21 @@ class FishVariantTest {
         var storm = count(new FishVariant.Conditions(true, false, true, false, false));
         assertTrue(storm.get(FishVariant.STORM) > 6000);
         var cave = count(new FishVariant.Conditions(false, true, true, false, true));
-        assertEquals(Map.of(), Map.copyOf(cave).entrySet().stream()
-                .filter(e -> e.getKey() != FishVariant.NORMAL && e.getKey() != FishVariant.SHADOW && e.getKey() != FishVariant.ALBINO)
-                .collect(java.util.stream.Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue)));
+        assertEquals(
+                Map.of(),
+                Map.copyOf(cave).entrySet().stream()
+                        .filter(
+                                e ->
+                                        e.getKey() != FishVariant.NORMAL
+                                                && e.getKey() != FishVariant.SHADOW
+                                                && e.getKey() != FishVariant.ALBINO)
+                        .collect(
+                                java.util.stream.Collectors.toMap(
+                                        Map.Entry::getKey, Map.Entry::getValue)));
         // albinos are rare everywhere, plain fish the most common
         for (var counts : java.util.List.of(day, night, storm, cave)) {
-            assertTrue(counts.get(FishVariant.ALBINO) > 200 && counts.get(FishVariant.ALBINO) < 700);
+            assertTrue(
+                    counts.get(FishVariant.ALBINO) > 200 && counts.get(FishVariant.ALBINO) < 700);
             assertTrue(counts.get(FishVariant.NORMAL) > 10000);
         }
     }
@@ -45,7 +59,8 @@ class FishVariantTest {
     @Test
     void rareColouringsAreWorthMore() {
         for (FishVariant variant : FishVariant.values()) {
-            if (variant != FishVariant.NORMAL) assertTrue(variant.worth() > FishVariant.NORMAL.worth(), variant.name());
+            if (variant != FishVariant.NORMAL)
+                assertTrue(variant.worth() > FishVariant.NORMAL.worth(), variant.name());
             assertEquals(variant, FishVariant.byId(variant.id()));
         }
         assertEquals(FishVariant.NORMAL, FishVariant.byId("unknown"));
@@ -70,11 +85,22 @@ class FishVariantTest {
 
     @Test
     void keptFishKeepTheirColouring() {
-        var kept = new FishStore.Kept(UUID.randomUUID(), FishSpecies.PIKE, 80, 4, 90, 70, "Tester", FishVariant.STORM);
+        var kept =
+                new FishStore.Kept(
+                        UUID.randomUUID(),
+                        FishSpecies.PIKE,
+                        80,
+                        4,
+                        90,
+                        70,
+                        "Tester",
+                        FishVariant.STORM);
         var json = FishStore.Kept.CODEC.encodeStart(JsonOps.INSTANCE, kept).getOrThrow();
         assertEquals(kept, FishStore.Kept.CODEC.parse(JsonOps.INSTANCE, json).getOrThrow());
         json.getAsJsonObject().remove("variant");
-        assertEquals(FishVariant.NORMAL, FishStore.Kept.CODEC.parse(JsonOps.INSTANCE, json).getOrThrow().variant());
+        assertEquals(
+                FishVariant.NORMAL,
+                FishStore.Kept.CODEC.parse(JsonOps.INSTANCE, json).getOrThrow().variant());
         assertEquals(FishVariant.STORM, kept.withCondition(50).variant());
     }
 
@@ -87,12 +113,20 @@ class FishVariantTest {
 
     @Test
     void foundBaitsSuitTheirFish() {
-        assertTrue(BaitType.CATERPILLAR.appeal(FishSpecies.RIVER_TROUT) > BaitType.WORM.appeal(FishSpecies.RIVER_TROUT));
-        assertTrue(BaitType.LEECH.appeal(FishSpecies.CATFISH) > BaitType.WORM.appeal(FishSpecies.CATFISH));
-        assertTrue(BaitType.GRUB.appeal(FishSpecies.ROACH) > BaitType.WORM.appeal(FishSpecies.ROACH));
+        assertTrue(
+                BaitType.CATERPILLAR.appeal(FishSpecies.RIVER_TROUT)
+                        > BaitType.WORM.appeal(FishSpecies.RIVER_TROUT));
+        assertTrue(
+                BaitType.LEECH.appeal(FishSpecies.CATFISH)
+                        > BaitType.WORM.appeal(FishSpecies.CATFISH));
+        assertTrue(
+                BaitType.GRUB.appeal(FishSpecies.ROACH) > BaitType.WORM.appeal(FishSpecies.ROACH));
         assertTrue(BaitType.LEECH.sizeBias() > BaitType.GRUB.sizeBias());
         for (BaitType bait : BaitType.values()) {
-            assertEquals(bait.natural(), !bait.lure() && bait.boss() == null && bait != BaitType.GLOW, bait.name());
+            assertEquals(
+                    bait.natural(),
+                    !bait.lure() && bait.boss() == null && bait != BaitType.GLOW,
+                    bait.name());
         }
     }
 }

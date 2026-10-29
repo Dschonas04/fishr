@@ -5,9 +5,12 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.sounds.SoundEvent;
 
-/** The fishing sounds, synthesised by scripts/sounds.py; files in assets/fishr/sounds, listed in sounds.json. */
+/**
+ * The fishing sounds, synthesised by scripts/sounds.py; files in assets/fishr/sounds, listed in
+ * sounds.json.
+ */
 public final class FishrSounds {
-    private FishrSounds() { }
+    private FishrSounds() {}
 
     public static final SoundEvent BITE = register("bite");
     public static final SoundEvent HOOK_SET = register("hook_set");
@@ -23,9 +26,10 @@ public final class FishrSounds {
 
     private static SoundEvent register(String name) {
         Identifier id = Fishr.id(name);
-        return Registry.register(BuiltInRegistries.SOUND_EVENT, id, SoundEvent.createVariableRangeEvent(id));
+        return Registry.register(
+                BuiltInRegistries.SOUND_EVENT, id, SoundEvent.createVariableRangeEvent(id));
     }
 
     /** Loads the class, which registers the sounds. */
-    public static void initialize() { }
+    public static void initialize() {}
 }

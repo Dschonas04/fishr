@@ -2,6 +2,7 @@ package io.github.dschonas04.fishr.block;
 
 import io.github.dschonas04.fishr.item.FishrItems;
 import io.github.dschonas04.fishr.item.RodMods;
+
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
@@ -20,24 +21,34 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 
 /**
- * Workshop (Anforderung 20): rod in the main hand, material in the other. Emeralds repair (a quarter of the
- * durability each), mother-of-pearl upgrades the blank (up to three times).
+ * Workshop (Anforderung 20): rod in the main hand, material in the other. Emeralds repair (a
+ * quarter of the durability each), mother-of-pearl upgrades the blank (up to three times).
  */
 public final class WorkshopBlock extends Block {
 
-    public WorkshopBlock(Properties properties) { super(properties); }
+    public WorkshopBlock(Properties properties) {
+        super(properties);
+    }
 
-
-    @Override protected InteractionResult useItemOn(ItemStack rod, BlockState state, Level level, BlockPos pos, Player player,
-                                                    InteractionHand hand, BlockHitResult hit) {
-        if (!(rod.getItem() instanceof FishingRodItem) || hand != InteractionHand.MAIN_HAND) return InteractionResult.TRY_WITH_EMPTY_HAND;
+    @Override
+    protected InteractionResult useItemOn(
+            ItemStack rod,
+            BlockState state,
+            Level level,
+            BlockPos pos,
+            Player player,
+            InteractionHand hand,
+            BlockHitResult hit) {
+        if (!(rod.getItem() instanceof FishingRodItem) || hand != InteractionHand.MAIN_HAND)
+            return InteractionResult.TRY_WITH_EMPTY_HAND;
         if (!(player instanceof ServerPlayer serverPlayer)) return InteractionResult.SUCCESS;
         ItemStack material = player.getOffhandItem();
         String message;
         if (material.is(Items.EMERALD)) {
             if (!rod.isDamaged()) message = "workshop.fishr.not_damaged";
             else {
-                rod.setDamageValue(Math.max(0, rod.getDamageValue() - Math.max(1, rod.getMaxDamage() / 4)));
+                rod.setDamageValue(
+                        Math.max(0, rod.getDamageValue() - Math.max(1, rod.getMaxDamage() / 4)));
                 material.consume(1, player);
                 message = "workshop.fishr.repaired";
             }
@@ -51,14 +62,21 @@ public final class WorkshopBlock extends Block {
             message = "workshop.fishr.help";
         }
         boolean worked = message.endsWith("repaired") || message.endsWith("upgraded");
-        if (worked) level.playSound(null, pos, SoundEvents.SMITHING_TABLE_USE, SoundSource.BLOCKS, 0.8f, 1.0f);
-        serverPlayer.sendSystemMessage(Component.translatable(message, RodMods.upgrades(rod), RodMods.MAX_UPGRADES)
-                .withStyle(worked ? ChatFormatting.GREEN : ChatFormatting.GRAY), !message.endsWith("help"));
+        if (worked)
+            level.playSound(
+                    null, pos, SoundEvents.SMITHING_TABLE_USE, SoundSource.BLOCKS, 0.8f, 1.0f);
+        serverPlayer.sendSystemMessage(
+                Component.translatable(message, RodMods.upgrades(rod), RodMods.MAX_UPGRADES)
+                        .withStyle(worked ? ChatFormatting.GREEN : ChatFormatting.GRAY),
+                !message.endsWith("help"));
         return InteractionResult.SUCCESS;
     }
 
-    @Override protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hit) {
-        if (player instanceof ServerPlayer serverPlayer) serverPlayer.sendSystemMessage(Component.translatable("workshop.fishr.help"));
+    @Override
+    protected InteractionResult useWithoutItem(
+            BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hit) {
+        if (player instanceof ServerPlayer serverPlayer)
+            serverPlayer.sendSystemMessage(Component.translatable("workshop.fishr.help"));
         return InteractionResult.SUCCESS;
     }
 }

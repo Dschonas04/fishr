@@ -1,12 +1,8 @@
 package io.github.dschonas04.fishr.item;
 
-import net.minecraft.util.Prediction;
-
 import io.github.dschonas04.fishr.fish.FishSpecies;
 import io.github.dschonas04.fishr.fish.Habitat;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
@@ -15,6 +11,7 @@ import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.Prediction;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -25,15 +22,21 @@ import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.item.component.ItemLore;
 import net.minecraft.world.level.Level;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
 /**
- * Crates come up instead of a fish now and then (as in Tide): opened they give what lies in that water – some of
- * it Fishr tackle, some of it a note on where a fish bites.
+ * Crates come up instead of a fish now and then (as in Tide): opened they give what lies in that
+ * water – some of it Fishr tackle, some of it a note on where a fish bites.
  */
 public final class FishingCrate extends Item {
     /** Chance that a bite turns out to be a crate. */
     public static final double CHANCE = 0.06;
 
-    public FishingCrate(Properties properties) { super(properties); }
+    public FishingCrate(Properties properties) {
+        super(properties);
+    }
 
     /** A crate from this water. */
     public static ItemStack create(Habitat habitat) {
@@ -41,8 +44,15 @@ public final class FishingCrate extends Item {
         CompoundTag tag = new CompoundTag();
         tag.putString("habitat", habitat.name());
         crate.set(DataComponents.CUSTOM_DATA, CustomData.of(tag));
-        crate.set(DataComponents.LORE, new ItemLore(List.of(Component.translatable("tooltip.fishr.fishing_crate"),
-                Component.translatable("crate.fishr.from", Component.translatable(habitat.translationKey())).withStyle(ChatFormatting.GRAY))));
+        crate.set(
+                DataComponents.LORE,
+                new ItemLore(
+                        List.of(
+                                Component.translatable("tooltip.fishr.fishing_crate"),
+                                Component.translatable(
+                                                "crate.fishr.from",
+                                                Component.translatable(habitat.translationKey()))
+                                        .withStyle(ChatFormatting.GRAY))));
         return crate;
     }
 
@@ -61,9 +71,16 @@ public final class FishingCrate extends Item {
         if (!(player instanceof ServerPlayer serverPlayer)) return InteractionResult.SUCCESS;
         ItemStack crate = player.getItemInHand(hand);
         Random random = new Random(player.getRandom().nextLong());
-        for (ItemStack stack : loot(habitat(crate), random)) player.getInventory().placeItemBackInInventory(stack, Prediction.SERVER_ONLY);
+        for (ItemStack stack : loot(habitat(crate), random))
+            player.getInventory().placeItemBackInInventory(stack, Prediction.SERVER_ONLY);
         crate.consume(1, player);
-        level.playSound(null, player.blockPosition(), SoundEvents.BARREL_OPEN, SoundSource.PLAYERS, 0.8f, 1.1f);
+        level.playSound(
+                null,
+                player.blockPosition(),
+                SoundEvents.BARREL_OPEN,
+                SoundSource.PLAYERS,
+                0.8f,
+                1.1f);
         serverPlayer.sendOverlayMessage(Component.translatable("crate.fishr.opened"));
         return InteractionResult.SUCCESS;
     }
@@ -71,38 +88,87 @@ public final class FishingCrate extends Item {
     /** Two to four things from the water, a bait or a hook, and often a note. */
     public static List<ItemStack> loot(Habitat habitat, Random random) {
         List<ItemStack> loot = new ArrayList<>();
-        Item[] water = switch (habitat) {
-            case CAVE -> new Item[] {Items.AMETHYST_SHARD, Items.RAW_COPPER, Items.GLOW_BERRIES, Items.GLOW_INK_SAC, Items.POINTED_DRIPSTONE};
-            case LAVA -> new Item[] {Items.MAGMA_CREAM, Items.QUARTZ, Items.GOLD_NUGGET, Items.BLAZE_POWDER, Items.GLOWSTONE_DUST};
-            case END -> new Item[] {Items.CHORUS_FRUIT, Items.ENDER_PEARL, Items.POPPED_CHORUS_FRUIT, Items.END_ROD, Items.PURPUR_BLOCK};
-            case OCEAN, WARM_OCEAN, COLD_OCEAN, DEEP_OCEAN -> new Item[] {Items.PRISMARINE_SHARD, Items.INK_SAC, Items.KELP, Items.SEA_PICKLE,
-                    Items.NAUTILUS_SHELL};
-            default -> new Item[] {Items.CLAY_BALL, Items.LILY_PAD, Items.STRING, Items.LEATHER, Items.IRON_NUGGET};
-        };
+        Item[] water =
+                switch (habitat) {
+                    case CAVE ->
+                            new Item[] {
+                                Items.AMETHYST_SHARD,
+                                Items.RAW_COPPER,
+                                Items.GLOW_BERRIES,
+                                Items.GLOW_INK_SAC,
+                                Items.POINTED_DRIPSTONE
+                            };
+                    case LAVA ->
+                            new Item[] {
+                                Items.MAGMA_CREAM,
+                                Items.QUARTZ,
+                                Items.GOLD_NUGGET,
+                                Items.BLAZE_POWDER,
+                                Items.GLOWSTONE_DUST
+                            };
+                    case END ->
+                            new Item[] {
+                                Items.CHORUS_FRUIT,
+                                Items.ENDER_PEARL,
+                                Items.POPPED_CHORUS_FRUIT,
+                                Items.END_ROD,
+                                Items.PURPUR_BLOCK
+                            };
+                    case OCEAN, WARM_OCEAN, COLD_OCEAN, DEEP_OCEAN ->
+                            new Item[] {
+                                Items.PRISMARINE_SHARD,
+                                Items.INK_SAC,
+                                Items.KELP,
+                                Items.SEA_PICKLE,
+                                Items.NAUTILUS_SHELL
+                            };
+                    default ->
+                            new Item[] {
+                                Items.CLAY_BALL,
+                                Items.LILY_PAD,
+                                Items.STRING,
+                                Items.LEATHER,
+                                Items.IRON_NUGGET
+                            };
+                };
         for (int i = 2 + random.nextInt(3); i > 0; i--) {
             Item item = water[random.nextInt(water.length)];
-            loot.add(new ItemStack(item, item.getDefaultMaxStackSize() == 1 ? 1 : 1 + random.nextInt(4)));
+            loot.add(
+                    new ItemStack(
+                            item, item.getDefaultMaxStackSize() == 1 ? 1 : 1 + random.nextInt(4)));
         }
         if (random.nextDouble() < 0.6) {
             BaitType bait = BaitType.values()[random.nextInt(BaitType.values().length)];
-            if (bait.boss() == null) loot.add(new ItemStack(FishrItems.item(bait), bait.lure() ? 1 : 2 + random.nextInt(5)));
+            if (bait.boss() == null)
+                loot.add(
+                        new ItemStack(
+                                FishrItems.item(bait), bait.lure() ? 1 : 2 + random.nextInt(5)));
         } else {
-            loot.add(new ItemStack(random.nextBoolean() ? FishrItems.FISHING_LINE : FishrItems.CARBON_FIBER));
+            loot.add(
+                    new ItemStack(
+                            random.nextBoolean()
+                                    ? FishrItems.FISHING_LINE
+                                    : FishrItems.CARBON_FIBER));
         }
-        if (random.nextDouble() < 0.12) loot.add(new ItemStack(Items.EMERALD, 1 + random.nextInt(3)));
+        if (random.nextDouble() < 0.12)
+            loot.add(new ItemStack(Items.EMERALD, 1 + random.nextInt(3)));
         if (random.nextDouble() < 0.05) loot.add(new ItemStack(FishrItems.MOTHER_OF_PEARL));
-        if (habitat == Habitat.LAVA && random.nextDouble() < 0.03) loot.add(new ItemStack(Items.NETHERITE_SCRAP));
-        if (habitat == Habitat.END && random.nextDouble() < 0.05) loot.add(new ItemStack(Items.SHULKER_SHELL));
+        if (habitat == Habitat.LAVA && random.nextDouble() < 0.03)
+            loot.add(new ItemStack(Items.NETHERITE_SCRAP));
+        if (habitat == Habitat.END && random.nextDouble() < 0.05)
+            loot.add(new ItemStack(Items.SHULKER_SHELL));
         if (random.nextDouble() < 0.4) loot.add(FishyNote.create(random));
         return loot;
     }
 
     /**
-     * A note on one fish: where it lives, when it feeds and what it takes. Rarer fish are written about more often –
-     * nobody leaves notes about roach.
+     * A note on one fish: where it lives, when it feeds and what it takes. Rarer fish are written
+     * about more often – nobody leaves notes about roach.
      */
     public static final class FishyNote extends Item {
-        public FishyNote(Properties properties) { super(properties); }
+        public FishyNote(Properties properties) {
+            super(properties);
+        }
 
         public static ItemStack create(Random random) {
             List<FishSpecies> candidates = new ArrayList<>();
@@ -113,18 +179,31 @@ public final class FishingCrate extends Item {
             FishSpecies species = candidates.get(random.nextInt(candidates.size()));
             ItemStack note = new ItemStack(FishrItems.FISHY_NOTE);
             List<Component> lines = new ArrayList<>();
-            lines.add(Component.translatable("note.fishr.fish", Component.translatable(species.translationKey())
-                    .withStyle(io.github.dschonas04.fishr.fish.FishCatch.colour(species.rarity()))));
+            lines.add(
+                    Component.translatable(
+                            "note.fishr.fish",
+                            Component.translatable(species.translationKey())
+                                    .withStyle(
+                                            io.github.dschonas04.fishr.fish.FishCatch.colour(
+                                                    species.rarity()))));
             MutableComponent where = Component.empty();
             for (Habitat habitat : species.habitats()) {
                 if (!where.getSiblings().isEmpty()) where.append(", ");
                 where.append(Component.translatable(habitat.translationKey()));
             }
-            lines.add(Component.translatable("note.fishr.where", where).withStyle(ChatFormatting.GRAY));
-            lines.add(Component.translatable("note.fishr.when." + species.feedingTime()).withStyle(ChatFormatting.GRAY));
-            lines.add(Component.translatable("note.fishr.bait", Component.translatable(bestBait(species).translationKey()))
-                    .withStyle(ChatFormatting.GRAY));
-            if (species.lava()) lines.add(Component.translatable("note.fishr.lava").withStyle(ChatFormatting.GOLD));
+            lines.add(
+                    Component.translatable("note.fishr.where", where)
+                            .withStyle(ChatFormatting.GRAY));
+            lines.add(
+                    Component.translatable("note.fishr.when." + species.feedingTime())
+                            .withStyle(ChatFormatting.GRAY));
+            lines.add(
+                    Component.translatable(
+                                    "note.fishr.bait",
+                                    Component.translatable(bestBait(species).translationKey()))
+                            .withStyle(ChatFormatting.GRAY));
+            if (species.lava())
+                lines.add(Component.translatable("note.fishr.lava").withStyle(ChatFormatting.GOLD));
             note.set(DataComponents.LORE, new ItemLore(lines));
             return note;
         }

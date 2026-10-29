@@ -1,6 +1,9 @@
 package io.github.dschonas04.fishr.item;
 
-/** The reels, from beginner to best: speed (metres of line per tick), winch force (kg) and line capacity (m). */
+/**
+ * The reels, from beginner to best: speed (metres of line per tick), winch force (kg) and line
+ * capacity (m).
+ */
 public enum ReelType {
     COPPER("copper_reel", 0.11, 5, 120),
     IRON("iron_reel", 0.13, 8, 180),
@@ -16,8 +19,19 @@ public enum ReelType {
         this.capacity = capacity;
     }
 
-    public String id() { return id; }
-    public double speed() { return speed; }
-    public double force() { return force; }
-    public double capacity() { return capacity; }
+    public String id() {
+        return id;
+    }
+
+    public double speed() {
+        return speed;
+    }
+
+    public double force() {
+        return force;
+    }
+
+    public double capacity() {
+        return capacity;
+    }
 }

@@ -1,7 +1,5 @@
 package io.github.dschonas04.fishr.progress;
 
-import net.minecraft.util.Prediction;
-
 import io.github.dschonas04.fishr.Fishr;
 import io.github.dschonas04.fishr.fish.FishSpecies;
 import io.github.dschonas04.fishr.fish.FishSpecimen;
@@ -9,10 +7,7 @@ import io.github.dschonas04.fishr.fish.FishVariant;
 import io.github.dschonas04.fishr.fish.Habitat;
 import io.github.dschonas04.fishr.item.FishrItems;
 import io.github.dschonas04.fishr.network.LexiconPayload;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Locale;
+
 import net.fabricmc.fabric.api.attachment.v1.AttachmentRegistry;
 import net.fabricmc.fabric.api.attachment.v1.AttachmentType;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
@@ -23,32 +18,49 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.util.Prediction;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Locale;
+
 /**
- * The angler's progress (Anforderung 20): experience and level, the fish lexicon (every species caught, how many,
- * the best one), statistics, daily and weekly orders, market credit, server-wide records and a ranking of the
- * heaviest catches, and tournaments. Levels open fishing grounds (Anforderung 19, see {@link Area}).
+ * The angler's progress (Anforderung 20): experience and level, the fish lexicon (every species
+ * caught, how many, the best one), statistics, daily and weekly orders, market credit, server-wide
+ * records and a ranking of the heaviest catches, and tournaments. Levels open fishing grounds
+ * (Anforderung 19, see {@link Area}).
  *
- * <p>Player data lives in a persistent attachment on the player, server data on the overworld.</p>
+ * <p>Player data lives in a persistent attachment on the player, server data on the overworld.
  */
 public final class Progression {
-    private Progression() { }
+    private Progression() {}
 
-    public static final AttachmentType<CompoundTag> PLAYER = AttachmentRegistry.<CompoundTag>builder()
-            .persistent(CompoundTag.CODEC).copyOnDeath().initializer(CompoundTag::new).buildAndRegister(Fishr.id("angler"));
-    public static final AttachmentType<CompoundTag> SERVER = AttachmentRegistry.<CompoundTag>builder()
-            .persistent(CompoundTag.CODEC).initializer(CompoundTag::new).buildAndRegister(Fishr.id("records"));
+    public static final AttachmentType<CompoundTag> PLAYER =
+            AttachmentRegistry.<CompoundTag>builder()
+                    .persistent(CompoundTag.CODEC)
+                    .copyOnDeath()
+                    .initializer(CompoundTag::new)
+                    .buildAndRegister(Fishr.id("angler"));
+    public static final AttachmentType<CompoundTag> SERVER =
+            AttachmentRegistry.<CompoundTag>builder()
+                    .persistent(CompoundTag.CODEC)
+                    .initializer(CompoundTag::new)
+                    .buildAndRegister(Fishr.id("records"));
 
-    public static void initialize() { }
+    public static void initialize() {}
 
     /** Loads the performance tier kept with the world. */
     public static void load(MinecraftServer server) {
-        io.github.dschonas04.fishr.Performance.set(io.github.dschonas04.fishr.Performance.of(server(server).getStringOr("performance", "normal")));
+        io.github.dschonas04.fishr.Performance.set(
+                io.github.dschonas04.fishr.Performance.of(
+                        server(server).getStringOr("performance", "normal")));
     }
 
-    public static void setPerformance(MinecraftServer server, io.github.dschonas04.fishr.Performance tier) {
+    public static void setPerformance(
+            MinecraftServer server, io.github.dschonas04.fishr.Performance tier) {
         io.github.dschonas04.fishr.Performance.set(tier);
         CompoundTag data = server(server);
         data.putString("performance", tier.id());
@@ -57,17 +69,29 @@ public final class Progression {
 
     // ------------------------------------------------------------------ data access
 
-    public static CompoundTag data(ServerPlayer player) { return player.getAttachedOrCreate(PLAYER).copy(); }
+    public static CompoundTag data(ServerPlayer player) {
+        return player.getAttachedOrCreate(PLAYER).copy();
+    }
 
-    private static void save(ServerPlayer player, CompoundTag data) { player.setAttached(PLAYER, data); }
+    private static void save(ServerPlayer player, CompoundTag data) {
+        player.setAttached(PLAYER, data);
+    }
 
-    private static CompoundTag server(MinecraftServer server) { return server.overworld().getAttachedOrCreate(SERVER).copy(); }
+    private static CompoundTag server(MinecraftServer server) {
+        return server.overworld().getAttachedOrCreate(SERVER).copy();
+    }
 
-    private static void saveServer(MinecraftServer server, CompoundTag data) { server.overworld().setAttached(SERVER, data); }
+    private static void saveServer(MinecraftServer server, CompoundTag data) {
+        server.overworld().setAttached(SERVER, data);
+    }
 
-    public static long day(ServerLevel level) { return level.getOverworldClockTime() / 24000; }
+    public static long day(ServerLevel level) {
+        return level.getOverworldClockTime() / 24000;
+    }
 
-    public static int level(ServerPlayer player) { return Valuation.level(data(player).getLongOr("xp", 0)); }
+    public static int level(ServerPlayer player) {
+        return Valuation.level(data(player).getLongOr("xp", 0));
+    }
 
     /** Counter per species for today (resets with the day); used against farming one fish. */
     private static int todayCount(CompoundTag data, String key, long day, String species) {
@@ -90,15 +114,25 @@ public final class Progression {
 
     // ------------------------------------------------------------------ events
 
-    /** A fish was landed. Gives experience, fills the lexicon, records, orders and the tournament. */
-    public static void caught(ServerPlayer player, FishSpecimen fish, int quality, Habitat habitat) {
+    /**
+     * A fish was landed. Gives experience, fills the lexicon, records, orders and the tournament.
+     */
+    public static void caught(
+            ServerPlayer player, FishSpecimen fish, int quality, Habitat habitat) {
         ServerLevel level = (ServerLevel) player.level();
         long day = day(level);
         CompoundTag data = data(player);
         String id = fish.species().id();
         int before = Valuation.level(data.getLongOr("xp", 0));
-        int xp = (int) Math.round(Valuation.experience(fish.species().rarity(), fish.sizeFraction(), Math.max(0, quality),
-                todayCount(data, "caught_today", day, id)) * fish.variant().worth());
+        int xp =
+                (int)
+                        Math.round(
+                                Valuation.experience(
+                                                fish.species().rarity(),
+                                                fish.sizeFraction(),
+                                                Math.max(0, quality),
+                                                todayCount(data, "caught_today", day, id))
+                                        * fish.variant().worth());
         data.putLong("xp", data.getLongOr("xp", 0) + xp);
         data.putInt("catches", data.getIntOr("catches", 0) + 1);
         if (fish.species().boss() != null) data.putInt("bosses", data.getIntOr("bosses", 0) + 1);
@@ -108,9 +142,14 @@ public final class Progression {
         entry.putInt("count", entry.getIntOr("count", 0) + 1);
         // the colourings caught of this species, one bit each
         int colourings = entry.getIntOr("variants", 0);
-        if ((colourings & 1 << fish.variant().ordinal()) == 0 && fish.variant() != FishVariant.NORMAL) {
-            player.sendSystemMessage(Component.translatable("progress.fishr.new_variant", Component.translatable(fish.variant().translationKey()),
-                    Component.translatable(fish.species().translationKey())).withStyle(ChatFormatting.LIGHT_PURPLE));
+        if ((colourings & 1 << fish.variant().ordinal()) == 0
+                && fish.variant() != FishVariant.NORMAL) {
+            player.sendSystemMessage(
+                    Component.translatable(
+                                    "progress.fishr.new_variant",
+                                    Component.translatable(fish.variant().translationKey()),
+                                    Component.translatable(fish.species().translationKey()))
+                            .withStyle(ChatFormatting.LIGHT_PURPLE));
         }
         entry.putInt("variants", colourings | 1 << fish.variant().ordinal());
         if (fish.weightKg() > entry.getDoubleOr("kg", 0)) {
@@ -122,11 +161,14 @@ public final class Progression {
         quests(player, data, new Quest.Event(fish.species(), fish.weightKg(), habitat, false));
         save(player, data);
         player.giveExperiencePoints(Math.max(1, xp / 5));
-        player.sendSystemMessage(Component.translatable("progress.fishr.xp", xp).withStyle(ChatFormatting.AQUA), true);
+        player.sendSystemMessage(
+                Component.translatable("progress.fishr.xp", xp).withStyle(ChatFormatting.AQUA),
+                true);
         int after = Valuation.level(data.getLongOr("xp", 0));
         if (after > before) levelUp(player, after);
         // rare catches sometimes bring mother-of-pearl, the material for rod upgrades
-        if (fish.species().rarity().ordinal() >= FishSpecies.Rarity.EPIC.ordinal() && player.getRandom().nextFloat() < 0.35f) {
+        if (fish.species().rarity().ordinal() >= FishSpecies.Rarity.EPIC.ordinal()
+                && player.getRandom().nextFloat() < 0.35f) {
             player.spawnAtLocation(level, new ItemStack(FishrItems.MOTHER_OF_PEARL));
         }
         record(player, fish);
@@ -139,15 +181,23 @@ public final class Progression {
         data.putLong("xp", data.getLongOr("xp", 0) + xp);
         quests(player, data, new Quest.Event(fish.species(), fish.weightKg(), habitat, true));
         save(player, data);
-        player.sendSystemMessage(Component.translatable("progress.fishr.released", xp).withStyle(ChatFormatting.GREEN), true);
+        player.sendSystemMessage(
+                Component.translatable("progress.fishr.released", xp)
+                        .withStyle(ChatFormatting.GREEN),
+                true);
     }
 
     private static void levelUp(ServerPlayer player, int level) {
-        player.sendSystemMessage(Component.translatable("progress.fishr.level_up", level).withStyle(ChatFormatting.GOLD));
+        player.sendSystemMessage(
+                Component.translatable("progress.fishr.level_up", level)
+                        .withStyle(ChatFormatting.GOLD));
         for (Area area : Area.values()) {
             if (area.level() == level) {
-                player.sendSystemMessage(Component.translatable("progress.fishr.area_unlocked",
-                        Component.translatable(area.translationKey())).withStyle(ChatFormatting.GOLD));
+                player.sendSystemMessage(
+                        Component.translatable(
+                                        "progress.fishr.area_unlocked",
+                                        Component.translatable(area.translationKey()))
+                                .withStyle(ChatFormatting.GOLD));
             }
         }
     }
@@ -158,33 +208,53 @@ public final class Progression {
         List<Quest> active = new ArrayList<>(Quest.daily(day));
         active.addAll(Quest.weekly(day / 7));
         for (Quest quest : active) {
-            if (progress.getBooleanOr(quest.id() + ".done", false) || !quest.counts(event)) continue;
+            if (progress.getBooleanOr(quest.id() + ".done", false) || !quest.counts(event))
+                continue;
             int count = progress.getIntOr(quest.id(), 0) + 1;
             progress.putInt(quest.id(), count);
             if (count >= quest.count()) {
                 progress.putBoolean(quest.id() + ".done", true);
                 data.putLong("xp", data.getLongOr("xp", 0) + quest.experience());
-                player.getInventory().placeItemBackInInventory(new ItemStack(Items.EMERALD, quest.emeralds()), Prediction.SERVER_ONLY);
-                player.sendSystemMessage(Component.translatable("progress.fishr.quest_done", questText(quest),
-                        quest.emeralds(), quest.experience()).withStyle(ChatFormatting.GREEN));
+                player.getInventory()
+                        .placeItemBackInInventory(
+                                new ItemStack(Items.EMERALD, quest.emeralds()),
+                                Prediction.SERVER_ONLY);
+                player.sendSystemMessage(
+                        Component.translatable(
+                                        "progress.fishr.quest_done",
+                                        questText(quest),
+                                        quest.emeralds(),
+                                        quest.experience())
+                                .withStyle(ChatFormatting.GREEN));
             }
         }
         // forget orders older than two weeks
         for (String key : List.copyOf(progress.keySet())) {
             String number = key.replaceAll("^[dw](\\d+).*$", "$1");
-            if (number.matches("\\d+") && Long.parseLong(number) < (key.startsWith("w") ? day / 7 - 2 : day - 14)) progress.remove(key);
+            if (number.matches("\\d+")
+                    && Long.parseLong(number) < (key.startsWith("w") ? day / 7 - 2 : day - 14))
+                progress.remove(key);
         }
         data.put("quests", progress);
     }
 
     public static Component questText(Quest quest) {
-        Component target = switch (quest.kind()) {
-            case SPECIES -> Component.translatable("entity.fishr." + quest.target());
-            case HABITAT -> Component.translatable("habitat.fishr." + quest.target().toLowerCase(Locale.ROOT));
-            case RARITY -> Component.translatable("rarity.fishr." + quest.target().toLowerCase(Locale.ROOT));
-            default -> Component.empty();
-        };
-        return Component.translatable(quest.translationKey(), quest.count(), target, String.format(Locale.GERMAN, "%.0f", quest.amount()));
+        Component target =
+                switch (quest.kind()) {
+                    case SPECIES -> Component.translatable("entity.fishr." + quest.target());
+                    case HABITAT ->
+                            Component.translatable(
+                                    "habitat.fishr." + quest.target().toLowerCase(Locale.ROOT));
+                    case RARITY ->
+                            Component.translatable(
+                                    "rarity.fishr." + quest.target().toLowerCase(Locale.ROOT));
+                    default -> Component.empty();
+                };
+        return Component.translatable(
+                quest.translationKey(),
+                quest.count(),
+                target,
+                String.format(Locale.GERMAN, "%.0f", quest.amount()));
     }
 
     // ------------------------------------------------------------------ market
@@ -194,19 +264,29 @@ public final class Progression {
         long day = day((ServerLevel) player.level());
         CompoundTag data = data(player);
         String id = fish.species().id();
-        double value = Valuation.price(fish.species().rarity(), fish.weightKg(), quality, condition, todayCount(data, "sold_today", day, id))
-                * fish.variant().worth();
+        double value =
+                Valuation.price(
+                                fish.species().rarity(),
+                                fish.weightKg(),
+                                quality,
+                                condition,
+                                todayCount(data, "sold_today", day, id))
+                        * fish.variant().worth();
         countToday(data, "sold_today", day, id);
         double credit = data.getDoubleOr("credit", 0) + value;
         int emeralds = (int) Math.floor(credit);
         data.putDouble("credit", credit - emeralds);
         data.putDouble("earned", data.getDoubleOr("earned", 0) + value);
         save(player, data);
-        if (emeralds > 0) player.getInventory().placeItemBackInInventory(new ItemStack(Items.EMERALD, emeralds), Prediction.SERVER_ONLY);
+        if (emeralds > 0)
+            player.getInventory()
+                    .placeItemBackInInventory(
+                            new ItemStack(Items.EMERALD, emeralds), Prediction.SERVER_ONLY);
         return emeralds;
     }
 
-    // ------------------------------------------------------------------ records, ranking, tournament
+    // ------------------------------------------------------------------ records, ranking,
+    // tournament
 
     private static void record(ServerPlayer player, FishSpecimen fish) {
         MinecraftServer server = player.level().getServer();
@@ -222,8 +302,11 @@ public final class Progression {
             records.put(fish.species().id(), best);
             data.put("records", records);
             if (best.getDoubleOr("kg", 0) > 0) {
-                player.sendSystemMessage(Component.translatable("progress.fishr.record",
-                        Component.translatable(fish.species().translationKey())).withStyle(ChatFormatting.GOLD));
+                player.sendSystemMessage(
+                        Component.translatable(
+                                        "progress.fishr.record",
+                                        Component.translatable(fish.species().translationKey()))
+                                .withStyle(ChatFormatting.GOLD));
             }
         }
         // the ranking of the ten heaviest catches
@@ -235,17 +318,21 @@ public final class Progression {
         entry.putDouble("kg", fish.weightKg());
         entry.putString("angler", name);
         list.add(entry);
-        list.sort(Comparator.comparingDouble((CompoundTag tag) -> tag.getDoubleOr("kg", 0)).reversed());
+        list.sort(
+                Comparator.comparingDouble((CompoundTag tag) -> tag.getDoubleOr("kg", 0))
+                        .reversed());
         ListTag trimmed = new ListTag();
         list.stream().limit(10).forEach(trimmed::add);
         data.put("top", trimmed);
-        // a running tournament counts the heaviest fish of each angler (of the chosen species, if any)
+        // a running tournament counts the heaviest fish of each angler (of the chosen species, if
+        // any)
         CompoundTag tournament = data.getCompoundOrEmpty("tournament");
         if (tournament.getBooleanOr("active", false)) {
             String species = tournament.getStringOr("species", "");
             if (species.isEmpty() || species.equals(fish.species().id())) {
                 CompoundTag entries = tournament.getCompoundOrEmpty("entries");
-                if (fish.weightKg() > entries.getDoubleOr(name, 0)) entries.putDouble(name, fish.weightKg());
+                if (fish.weightKg() > entries.getDoubleOr(name, 0))
+                    entries.putDouble(name, fish.weightKg());
                 tournament.put("entries", entries);
                 data.put("tournament", tournament);
             }
@@ -261,12 +348,20 @@ public final class Progression {
         tournament.putString("species", species);
         data.put("tournament", tournament);
         saveServer(server, data);
-        Component what = species.isEmpty() ? Component.translatable("progress.fishr.any_fish") : Component.translatable("entity.fishr." + species);
-        server.getPlayerList().broadcastSystemMessage(Component.translatable("progress.fishr.tournament_start", minutes, what)
-                .withStyle(ChatFormatting.GOLD), false);
+        Component what =
+                species.isEmpty()
+                        ? Component.translatable("progress.fishr.any_fish")
+                        : Component.translatable("entity.fishr." + species);
+        server.getPlayerList()
+                .broadcastSystemMessage(
+                        Component.translatable("progress.fishr.tournament_start", minutes, what)
+                                .withStyle(ChatFormatting.GOLD),
+                        false);
     }
 
-    /** Ends the tournament if its time is up (or now): announces the podium and pays the winners. */
+    /**
+     * Ends the tournament if its time is up (or now): announces the podium and pays the winners.
+     */
     public static void tick(MinecraftServer server, boolean force) {
         if (server.overworld().getGameTime() % 20 != 0 && !force) return;
         CompoundTag data = server(server);
@@ -275,15 +370,32 @@ public final class Progression {
         if (!force && server.overworld().getGameTime() < tournament.getLongOr("end", 0)) return;
         CompoundTag entries = tournament.getCompoundOrEmpty("entries");
         List<String> anglers = new ArrayList<>(entries.keySet());
-        anglers.sort(Comparator.comparingDouble((String name) -> entries.getDoubleOr(name, 0)).reversed());
-        server.getPlayerList().broadcastSystemMessage(Component.translatable("progress.fishr.tournament_end").withStyle(ChatFormatting.GOLD), false);
+        anglers.sort(
+                Comparator.comparingDouble((String name) -> entries.getDoubleOr(name, 0))
+                        .reversed());
+        server.getPlayerList()
+                .broadcastSystemMessage(
+                        Component.translatable("progress.fishr.tournament_end")
+                                .withStyle(ChatFormatting.GOLD),
+                        false);
         int[] prizes = {16, 8, 4};
         for (int place = 0; place < Math.min(3, anglers.size()); place++) {
             String name = anglers.get(place);
-            server.getPlayerList().broadcastSystemMessage(Component.translatable("progress.fishr.tournament_place", place + 1, name,
-                    String.format(Locale.GERMAN, "%.2f", entries.getDoubleOr(name, 0))), false);
+            server.getPlayerList()
+                    .broadcastSystemMessage(
+                            Component.translatable(
+                                    "progress.fishr.tournament_place",
+                                    place + 1,
+                                    name,
+                                    String.format(
+                                            Locale.GERMAN, "%.2f", entries.getDoubleOr(name, 0))),
+                            false);
             ServerPlayer winner = server.getPlayerList().getPlayerByName(name);
-            if (winner != null) winner.getInventory().placeItemBackInInventory(new ItemStack(Items.EMERALD, prizes[place]), Prediction.SERVER_ONLY);
+            if (winner != null)
+                winner.getInventory()
+                        .placeItemBackInInventory(
+                                new ItemStack(Items.EMERALD, prizes[place]),
+                                Prediction.SERVER_ONLY);
         }
         tournament.putBoolean("active", false);
         data.put("tournament", tournament);
@@ -330,7 +442,12 @@ public final class Progression {
             tag.put("server", serverData);
             CompoundTag tournament = serverData.getCompoundOrEmpty("tournament");
             if (tournament.getBooleanOr("active", false)) {
-                tag.putLong("tournament_seconds", Math.max(0, (tournament.getLongOr("end", 0) - server.overworld().getGameTime()) / 20));
+                tag.putLong(
+                        "tournament_seconds",
+                        Math.max(
+                                0,
+                                (tournament.getLongOr("end", 0) - server.overworld().getGameTime())
+                                        / 20));
             }
         }
         ServerPlayNetworking.send(player, new LexiconPayload(tag));

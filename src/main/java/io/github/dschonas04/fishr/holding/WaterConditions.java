@@ -4,11 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * The water a kept fish lives in, every value 0 (bad) .. 1 (good): enough water around it, oxygen (moving water,
- * plants, few fish), a temperature that suits the species, a stocking density that leaves room, and water quality
- * that drops with crowding and time. Bad water stresses fish first (they lose condition), only neglect kills them.
+ * The water a kept fish lives in, every value 0 (bad) .. 1 (good): enough water around it, oxygen
+ * (moving water, plants, few fish), a temperature that suits the species, a stocking density that
+ * leaves room, and water quality that drops with crowding and time. Bad water stresses fish first
+ * (they lose condition), only neglect kills them.
  */
-public record WaterConditions(double volume, double oxygen, double temperature, double density, double quality) {
+public record WaterConditions(
+        double volume, double oxygen, double temperature, double density, double quality) {
     public WaterConditions {
         volume = clamp(volume);
         oxygen = clamp(oxygen);
@@ -17,11 +19,16 @@ public record WaterConditions(double volume, double oxygen, double temperature, 
         quality = clamp(quality);
     }
 
-    private static double clamp(double value) { return Double.isFinite(value) ? Math.clamp(value, 0, 1) : 0; }
+    private static double clamp(double value) {
+        return Double.isFinite(value) ? Math.clamp(value, 0, 1) : 0;
+    }
 
     /** The worst value counts most: one bad factor is enough to stress a fish. */
     public double score() {
-        double worst = Math.min(Math.min(volume, oxygen), Math.min(Math.min(temperature, density), quality));
+        double worst =
+                Math.min(
+                        Math.min(volume, oxygen),
+                        Math.min(Math.min(temperature, density), quality));
         double mean = (volume + oxygen + temperature + density + quality) / 5;
         return worst * 0.6 + mean * 0.4;
     }

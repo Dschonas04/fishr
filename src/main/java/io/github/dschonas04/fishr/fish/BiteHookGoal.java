@@ -1,21 +1,23 @@
 package io.github.dschonas04.fishr.fish;
 
 import io.github.dschonas04.fishr.Fishr;
-import io.github.dschonas04.fishr.item.FishrRodItem;
 import io.github.dschonas04.fishr.item.BattleEquipment;
-import java.util.Comparator;
-import java.util.EnumSet;
+import io.github.dschonas04.fishr.item.FishrRodItem;
+
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.FishingHook;
 import net.minecraft.world.item.FishingRodItem;
 import net.minecraft.world.item.ItemStack;
 
+import java.util.Comparator;
+import java.util.EnumSet;
+
 /**
- * A fish notices a float in the water nearby, swims to it, looks at the bait and — if it likes it — bites. The
- * angler then has the vanilla bite window to strike; the fight is against exactly this fish. A fish that does not
- * care for the bait ignores it; one that is only half keen inspects it and turns away now and then. Without a
- * strike the fish loses interest and swims off.
+ * A fish notices a float in the water nearby, swims to it, looks at the bait and — if it likes it —
+ * bites. The angler then has the vanilla bite window to strike; the fight is against exactly this
+ * fish. A fish that does not care for the bait ignores it; one that is only half keen inspects it
+ * and turns away now and then. Without a strike the fish loses interest and swims off.
  */
 final class BiteHookGoal extends Goal {
     private static final double RANGE = 12;
@@ -34,12 +36,23 @@ final class BiteHookGoal extends Goal {
 
     @Override
     public boolean canUse() {
-        if (fish.isBattleDummy() || fish.specimen().species().boss() != null || --cooldown > 0
+        if (fish.isBattleDummy()
+                || fish.specimen().species().boss() != null
+                || --cooldown > 0
                 || fish.getRandom().nextInt(reducedTickDelay(20)) != 0) return false;
-        target = fish.level().getEntitiesOfClass(FishingHook.class, fish.getBoundingBox().inflate(RANGE), this::interesting)
-                .stream().min(Comparator.comparingDouble(fish::distanceToSqr)).orElse(null);
+        target =
+                fish
+                        .level()
+                        .getEntitiesOfClass(
+                                FishingHook.class,
+                                fish.getBoundingBox().inflate(RANGE),
+                                this::interesting)
+                        .stream()
+                        .min(Comparator.comparingDouble(fish::distanceToSqr))
+                        .orElse(null);
         if (target == null) return false;
-        // The bait decides: a liked bait draws the fish in, a disliked one is ignored, a bare hook only sometimes.
+        // The bait decides: a liked bait draws the fish in, a disliked one is ignored, a bare hook
+        // only sometimes.
         appeal = appeal(target.getPlayerOwner());
         if (appeal < 0.5 && fish.getRandom().nextFloat() > appeal) {
             cooldown = 100;
@@ -49,16 +62,30 @@ final class BiteHookGoal extends Goal {
     }
 
     private boolean interesting(FishingHook hook) {
-        return hook.isAlive() && hook.isInWater() && hook.getPlayerOwner() != null && hook.getHookedIn() == null
-                && !Fishr.BATTLES.isBattling(hook) && !Fishr.BATTLES.hasBiter(hook);
+        return hook.isAlive()
+                && hook.isInWater()
+                && hook.getPlayerOwner() != null
+                && hook.getHookedIn() == null
+                && !Fishr.BATTLES.isBattling(hook)
+                && !Fishr.BATTLES.hasBiter(hook);
     }
 
     private double appeal(Player player) {
-        ItemStack rod = player.getMainHandItem().getItem() instanceof FishingRodItem ? player.getMainHandItem() : player.getOffhandItem();
-        ItemStack other = rod == player.getMainHandItem() ? player.getOffhandItem() : player.getMainHandItem();
-        ItemStack bait = !FishrRodItem.bait(rod).isEmpty() ? FishrRodItem.bait(rod) : BattleEquipment.isBait(other) ? other : ItemStack.EMPTY;
+        ItemStack rod =
+                player.getMainHandItem().getItem() instanceof FishingRodItem
+                        ? player.getMainHandItem()
+                        : player.getOffhandItem();
+        ItemStack other =
+                rod == player.getMainHandItem()
+                        ? player.getOffhandItem()
+                        : player.getMainHandItem();
+        ItemStack bait =
+                !FishrRodItem.bait(rod).isEmpty()
+                        ? FishrRodItem.bait(rod)
+                        : BattleEquipment.isBait(other) ? other : ItemStack.EMPTY;
         long time = Math.floorMod(fish.level().getOverworldClockTime(), 24000L);
-        return BattleEquipment.appeal(bait, rod, fish.specimen().species(), time >= 13000 && time < 23000);
+        return BattleEquipment.appeal(
+                bait, rod, fish.specimen().species(), time >= 13000 && time < 23000);
     }
 
     @Override
@@ -71,11 +98,20 @@ final class BiteHookGoal extends Goal {
 
     @Override
     public boolean canContinueToUse() {
-        return target != null && target.isAlive() && target.isInWater() && !fish.isBattleDummy() && ticks < 400
-                && afterBite != 0 && fish.distanceToSqr(target) < (RANGE + 4) * (RANGE + 4) && !Fishr.BATTLES.isBattling(target);
+        return target != null
+                && target.isAlive()
+                && target.isInWater()
+                && !fish.isBattleDummy()
+                && ticks < 400
+                && afterBite != 0
+                && fish.distanceToSqr(target) < (RANGE + 4) * (RANGE + 4)
+                && !Fishr.BATTLES.isBattling(target);
     }
 
-    @Override public boolean requiresUpdateEveryTick() { return true; }
+    @Override
+    public boolean requiresUpdateEveryTick() {
+        return true;
+    }
 
     @Override
     public void tick() {
@@ -85,14 +121,20 @@ final class BiteHookGoal extends Goal {
         double distance = fish.distanceToSqr(target.getX(), target.getY() - 0.4, target.getZ());
         if (afterBite < 0) {
             if (distance > 1.6) {
-                if (ticks % 10 == 0) fish.getNavigation().moveTo(target.getX(), target.getY() - 0.4, target.getZ(), 1.4);
+                if (ticks % 10 == 0)
+                    fish.getNavigation()
+                            .moveTo(target.getX(), target.getY() - 0.4, target.getZ(), 1.4);
                 return;
             }
             fish.getNavigation().stop();
-            // A half-keen fish looks at the bait for a moment and may turn away (it can come back later).
+            // A half-keen fish looks at the bait for a moment and may turn away (it can come back
+            // later).
             if (inspect < 0) inspect = 20 + fish.getRandom().nextInt(30);
             if (inspect-- > 0) {
-                fish.setDeltaMovement((target.getX() - fish.getX()) * 0.05, 0, (target.getZ() - fish.getZ()) * 0.05);
+                fish.setDeltaMovement(
+                        (target.getX() - fish.getX()) * 0.05,
+                        0,
+                        (target.getZ() - fish.getZ()) * 0.05);
                 return;
             }
             if (fish.getRandom().nextDouble() > Math.min(0.95, appeal)) {
@@ -102,18 +144,31 @@ final class BiteHookGoal extends Goal {
             ((BiteTarget) target).fishr$bite(40);
             afterBite = 45;
         } else {
-            // It has taken the bait and swims off with it, out into open water: the float is pulled away from the bank.
+            // It has taken the bait and swims off with it, out into open water: the float is pulled
+            // away from the bank.
             Player owner = target.getPlayerOwner();
-            var away = owner == null ? net.minecraft.world.phys.Vec3.ZERO
-                    : target.position().subtract(owner.position()).multiply(1, 0, 1).normalize().scale(0.06);
+            var away =
+                    owner == null
+                            ? net.minecraft.world.phys.Vec3.ZERO
+                            : target.position()
+                                    .subtract(owner.position())
+                                    .multiply(1, 0, 1)
+                                    .normalize()
+                                    .scale(0.06);
             var next = target.position().add(away);
-            if (fish.level().getFluidState(net.minecraft.core.BlockPos.containing(next.x, target.getY() - 0.3, next.z))
+            if (fish.level()
+                    .getFluidState(
+                            net.minecraft.core.BlockPos.containing(
+                                    next.x, target.getY() - 0.3, next.z))
                     .is(net.minecraft.tags.FluidTags.WATER)) {
                 target.setDeltaMovement(target.getDeltaMovement().add(away.scale(0.5)));
             }
-            fish.setDeltaMovement((target.getX() + away.x * 4 - fish.getX()) * 0.3, (target.getY() - 0.45 - fish.getY()) * 0.15,
+            fish.setDeltaMovement(
+                    (target.getX() + away.x * 4 - fish.getX()) * 0.3,
+                    (target.getY() - 0.45 - fish.getY()) * 0.15,
                     (target.getZ() + away.z * 4 - fish.getZ()) * 0.3);
-            fish.getLookControl().setLookAt(fish.getX() + away.x * 10, fish.getY(), fish.getZ() + away.z * 10);
+            fish.getLookControl()
+                    .setLookAt(fish.getX() + away.x * 10, fish.getY(), fish.getZ() + away.z * 10);
             afterBite--;
         }
     }

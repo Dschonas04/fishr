@@ -2,11 +2,9 @@ package io.github.dschonas04.fishr.ecology;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+
 import io.github.dschonas04.fishr.Fishr;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+
 import net.fabricmc.fabric.api.attachment.v1.AttachmentRegistry;
 import net.fabricmc.fabric.api.attachment.v1.AttachmentType;
 import net.minecraft.core.BlockPos;
@@ -15,38 +13,57 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.chunk.LevelChunk;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 /**
- * The simplified water ecology (Anforderung 17), kept per chunk so it costs nothing where nobody fishes:
+ * The simplified water ecology (Anforderung 17), kept per chunk so it costs nothing where nobody
+ * fishes:
+ *
  * <ul>
- *   <li>Fishing pressure: every fish taken out of a chunk raises it, time lets it settle (see {@link Pressure}).
- *       Bites and new fish get rarer while it is high; fish there are shyer.</li>
- *   <li>Feeding spots: groundbait draws coarse fish and makes them bite faster for a while.</li>
+ *   <li>Fishing pressure: every fish taken out of a chunk raises it, time lets it settle (see
+ *       {@link Pressure}). Bites and new fish get rarer while it is high; fish there are shyer.
+ *   <li>Feeding spots: groundbait draws coarse fish and makes them bite faster for a while.
  * </ul>
- * Predators eat smaller fish and shoals move with the time of day (see the fish behaviour), so what lives in a
- * stretch of water changes with fishing, food and predators, and recovers on its own.
+ *
+ * Predators eat smaller fish and shoals move with the time of day (see the fish behaviour), so what
+ * lives in a stretch of water changes with fishing, food and predators, and recovers on its own.
  */
 public final class Ecology {
-    private Ecology() { }
+    private Ecology() {}
 
     /** Pressure of one chunk and when it was last updated (game time). */
     public record ChunkPressure(double value, long time) {
-        public static final Codec<ChunkPressure> CODEC = RecordCodecBuilder.create(instance -> instance.group(
-                Codec.DOUBLE.fieldOf("value").forGetter(ChunkPressure::value),
-                Codec.LONG.fieldOf("time").forGetter(ChunkPressure::time)).apply(instance, ChunkPressure::new));
+        public static final Codec<ChunkPressure> CODEC =
+                RecordCodecBuilder.create(
+                        instance ->
+                                instance.group(
+                                                Codec.DOUBLE
+                                                        .fieldOf("value")
+                                                        .forGetter(ChunkPressure::value),
+                                                Codec.LONG
+                                                        .fieldOf("time")
+                                                        .forGetter(ChunkPressure::time))
+                                        .apply(instance, ChunkPressure::new));
     }
 
-    public static final AttachmentType<ChunkPressure> PRESSURE = AttachmentRegistry.createPersistent(Fishr.id("pressure"), ChunkPressure.CODEC);
+    public static final AttachmentType<ChunkPressure> PRESSURE =
+            AttachmentRegistry.createPersistent(Fishr.id("pressure"), ChunkPressure.CODEC);
 
-    private record Chum(BlockPos pos, long until) { }
+    private record Chum(BlockPos pos, long until) {}
 
     private static final Map<ResourceKey<Level>, List<Chum>> CHUM = new HashMap<>();
 
-    public static void initialize() { }
+    public static void initialize() {}
 
     public static double pressure(ServerLevel level, BlockPos pos) {
         LevelChunk chunk = level.getChunkAt(pos);
         ChunkPressure stored = chunk.getAttached(PRESSURE);
-        return stored == null ? 0 : Pressure.decayed(stored.value(), level.getGameTime() - stored.time());
+        return stored == null
+                ? 0
+                : Pressure.decayed(stored.value(), level.getGameTime() - stored.time());
     }
 
     /** A fish was taken out here. */
@@ -62,7 +79,9 @@ public final class Ecology {
     }
 
     /** Factor on bites and spawns here. */
-    public static double factor(ServerLevel level, BlockPos pos) { return Pressure.biteFactor(pressure(level, pos)); }
+    public static double factor(ServerLevel level, BlockPos pos) {
+        return Pressure.biteFactor(pressure(level, pos));
+    }
 
     /** Groundbait thrown here: a feeding spot for five minutes. */
     public static void chum(ServerLevel level, BlockPos pos, int ticks) {
@@ -89,5 +108,7 @@ public final class Ecology {
     }
 
     /** Near a feeding spot coarse fish bite more readily. */
-    public static boolean nearChum(ServerLevel level, BlockPos pos) { return nearestChum(level, pos, 10) != null; }
+    public static boolean nearChum(ServerLevel level, BlockPos pos) {
+        return nearestChum(level, pos, 10) != null;
+    }
 }
