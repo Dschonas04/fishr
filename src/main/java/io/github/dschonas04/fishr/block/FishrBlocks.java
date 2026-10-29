@@ -1,9 +1,10 @@
 package io.github.dschonas04.fishr.block;
 
+import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
+
 import io.github.dschonas04.fishr.Fishr;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 import java.util.function.Function;
 import net.minecraft.core.Registry;
 import net.minecraft.core.component.DataComponents;
@@ -63,8 +64,9 @@ public final class FishrBlocks {
         return block;
     }
 
-    private static <T extends BlockEntity> BlockEntityType<T> entity(String name, BlockEntityType.BlockEntitySupplier<T> factory, Block... blocks) {
-        return Registry.register(BuiltInRegistries.BLOCK_ENTITY_TYPE, Fishr.id(name), new BlockEntityType<>(factory, Set.of(blocks)));
+    private static <T extends BlockEntity> BlockEntityType<T> entity(String name, FabricBlockEntityTypeBuilder.Factory<T> factory, Block... blocks) {
+        // 26.1 hält BlockEntityType.BlockEntitySupplier privat, deshalb über den Fabric-Baukasten.
+        return Registry.register(BuiltInRegistries.BLOCK_ENTITY_TYPE, Fishr.id(name), FabricBlockEntityTypeBuilder.create(factory, blocks).build());
     }
 
     public static void initialize() { }

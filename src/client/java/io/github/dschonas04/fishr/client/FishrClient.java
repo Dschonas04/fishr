@@ -55,7 +55,7 @@ public final class FishrClient implements ClientModInitializer {
         giveKey = key("give", GLFW.GLFW_KEY_F, category);
         ClientPlayNetworking.registerGlobalReceiver(BattlePayload.TYPE, (payload, context) -> receive(payload, context.client()));
         ClientPlayNetworking.registerGlobalReceiver(LexiconPayload.TYPE,
-                (payload, context) -> context.client().gui.setScreen(new LexiconScreen(payload.data())));
+                (payload, context) -> context.client().setScreen(new LexiconScreen(payload.data())));
         ClientPlayConnectionEvents.DISCONNECT.register((handler, client) -> clear());
         // F is also vanilla's swap-hands key: during a fight it only gives line, the rod stays in hand.
         ClientTickEvents.START_CLIENT_TICK.register(client -> {
@@ -127,7 +127,7 @@ public final class FishrClient implements ClientModInitializer {
             return;
         }
         if (!client.isPaused() && ++packetAge > 100) { clear(); return; }
-        boolean free = client.gui.screen() == null;
+        boolean free = client.screen == null;
         boolean nextGiving = free && giveKey.isDown();
         boolean nextReeling = free && reelKey.isDown() && !nextGiving;
         if ((nextReeling != reeling || nextGiving != giving || ticks % 4 == 0) && ClientPlayNetworking.canSend(ReelPayload.TYPE)) {

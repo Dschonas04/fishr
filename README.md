@@ -1,15 +1,15 @@
 # Fishr – Fishing Battles
 
-Fabric-Mod für **Minecraft Java 26.2**: ein Angelspiel mit echtem Drill, aber einfacher Bedienung – **R** holt ein, **F** gibt Schnur –, 64 Fischarten mit eigenen Lebensräumen (auch in Höhlen, in Lava und im End), Angelkisten, drei Ruten, drei Rollen, einer Schnur, drei Ködern und vier Bossfischen.
+Fabric-Mod für **Minecraft Java 26.1.x** (Zweig `mc/26.1`, aktuell ist `main`): ein Angelspiel mit echtem Drill, aber einfacher Bedienung – **R** holt ein, **F** gibt Schnur –, 64 Fischarten mit eigenen Lebensräumen (auch in Höhlen, in Lava und im End), Angelkisten, drei Ruten, drei Rollen, einer Schnur, drei Ködern und vier Bossfischen.
 
 **Stand: 1.0.0.** Die vollständige Anforderungsliste steht in [docs/ANFORDERUNGEN.md](docs/ANFORDERUNGEN.md), der Umsetzungsplan in [docs/ROADMAP.md](docs/ROADMAP.md). Deutsch und Englisch sind enthalten.
 
 ## Installation
 
-Benötigt werden Minecraft **26.2**, Java **25**, Fabric Loader **0.19.5 oder neuer** und Fabric API **0.161.0+26.2**.
+Benötigt werden Minecraft **26.1.x**, Java **25**, Fabric Loader **0.19.5 oder neuer** und Fabric API **0.155.3+26.1.2**.
 
-1. Fabric für Minecraft 26.2 installieren.
-2. `fishr-1.0.0.jar` und die Fabric-API-JAR in den `mods`-Ordner legen.
+1. Fabric für Minecraft 26.1.x installieren.
+2. `fishr-1.0.0+26.1.jar` und die Fabric-API-JAR in den `mods`-Ordner legen.
 3. Im Mehrspielerbetrieb Fishr und Fabric API auf **Server und allen Clients** installieren.
 
 ## Der Angelvorgang

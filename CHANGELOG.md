@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.0.0+26.1] - 2026-10-29
+
+- Rückportierung von 1.0.0 auf Minecraft **26.1.x** (Fabric API 0.155.3): Block-Entities über `FabricBlockEntityTypeBuilder`, Bildschirme über `Minecraft#setScreen`.
+
 ## [1.0.0] - 2026-10-28
 
 - Erste Version als **Fishr**: Weiterführung von Atzen 0.16.0 (jojiuchiha03, MIT) unter eigener Mod-ID `fishr`, Paket `io.github.dschonas04.fishr`. Inhalt wie Atzen 0.16.0.
