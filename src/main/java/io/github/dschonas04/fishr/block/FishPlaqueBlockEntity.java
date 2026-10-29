@@ -1,5 +1,7 @@
 package io.github.dschonas04.fishr.block;
 
+import net.minecraft.util.Prediction;
+
 import io.github.dschonas04.fishr.fish.FishCatch;
 import io.github.dschonas04.fishr.fish.FishVariant;
 import java.util.Locale;
@@ -45,7 +47,7 @@ public final class FishPlaqueBlockEntity extends BlockEntity {
 
     void takeDown(ServerPlayer player) {
         if (fish.isEmpty()) return;
-        player.getInventory().placeItemBackInInventory(fish);
+        player.getInventory().placeItemBackInInventory(fish, Prediction.SERVER_ONLY);
         fish = ItemStack.EMPTY;
         level.playSound(null, worldPosition, SoundEvents.ITEM_FRAME_REMOVE_ITEM, SoundSource.BLOCKS, 1.0f, 1.0f);
         changed();

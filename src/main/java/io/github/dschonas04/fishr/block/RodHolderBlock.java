@@ -1,6 +1,5 @@
 package io.github.dschonas04.fishr.block;
 
-import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
@@ -60,9 +59,6 @@ public final class RodHolderBlock extends BaseEntityBlock {
 
     public Kind kind() { return kind; }
 
-    @Override protected MapCodec<? extends BaseEntityBlock> codec() {
-        return simpleCodec(properties -> new RodHolderBlock(properties, kind));
-    }
 
     @Override protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) { builder.add(FACING, BITE, LOADED); }
 

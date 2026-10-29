@@ -1,6 +1,5 @@
 package io.github.dschonas04.fishr.block;
 
-import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
@@ -36,7 +35,6 @@ import net.minecraft.world.phys.shapes.VoxelShape;
  * to put it in, with an empty hand to take the last one out, sneaking with an empty hand to release them all.
  */
 public final class KeepnetBlock extends BaseEntityBlock implements SimpleWaterloggedBlock {
-    public static final MapCodec<KeepnetBlock> CODEC = simpleCodec(KeepnetBlock::new);
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
     private static final VoxelShape SHAPE = Block.box(2, 0, 2, 14, 14, 14);
 
@@ -45,7 +43,6 @@ public final class KeepnetBlock extends BaseEntityBlock implements SimpleWaterlo
         registerDefaultState(stateDefinition.any().setValue(WATERLOGGED, false));
     }
 
-    @Override protected MapCodec<? extends BaseEntityBlock> codec() { return CODEC; }
 
     @Override protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) { builder.add(WATERLOGGED); }
 

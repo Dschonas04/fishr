@@ -14,7 +14,7 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "fishr:diamond_reel"
+        "recipes": "fishr:diamond_reel"
       }
     }
   },

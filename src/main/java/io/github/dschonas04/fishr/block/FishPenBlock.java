@@ -1,6 +1,5 @@
 package io.github.dschonas04.fishr.block;
 
-import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
@@ -37,7 +36,6 @@ import net.minecraft.world.phys.shapes.VoxelShape;
  * Empty hand: state of the pen; sneaking with an empty hand: open the net and let them all go.
  */
 public final class FishPenBlock extends BaseEntityBlock implements SimpleWaterloggedBlock {
-    public static final MapCodec<FishPenBlock> CODEC = simpleCodec(FishPenBlock::new);
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
     private static final VoxelShape SHAPE = Block.box(0, 0, 0, 16, 4, 16);
 
@@ -46,7 +44,6 @@ public final class FishPenBlock extends BaseEntityBlock implements SimpleWaterlo
         registerDefaultState(stateDefinition.any().setValue(WATERLOGGED, false));
     }
 
-    @Override protected MapCodec<? extends BaseEntityBlock> codec() { return CODEC; }
 
     @Override protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) { builder.add(WATERLOGGED); }
 

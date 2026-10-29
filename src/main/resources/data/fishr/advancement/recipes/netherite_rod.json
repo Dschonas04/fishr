@@ -14,7 +14,7 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "fishr:netherite_rod"
+        "recipes": "fishr:netherite_rod"
       }
     }
   },

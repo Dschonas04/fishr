@@ -1,5 +1,7 @@
 package io.github.dschonas04.fishr.block;
 
+import net.minecraft.util.Prediction;
+
 import io.github.dschonas04.fishr.fish.FishrFishEntity;
 import io.github.dschonas04.fishr.fish.FishCatch;
 import io.github.dschonas04.fishr.fish.FishSpecimen;
@@ -111,7 +113,7 @@ public final class KeepnetBlockEntity extends BlockEntity {
             return;
         }
         FishStore.Kept fish = store.takeLast();
-        player.getInventory().placeItemBackInInventory(item((ServerLevel) level, fish));
+        player.getInventory().placeItemBackInInventory(item((ServerLevel) level, fish), Prediction.SERVER_ONLY);
         setChanged();
         player.sendSystemMessage(Component.translatable("holding.fishr.taken", Component.translatable(fish.species().translationKey()),
                 store.size(), CAPACITY), true);

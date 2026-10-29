@@ -85,7 +85,7 @@ for (const [id, recipe] of Object.entries(recipes)) {
     parent: 'minecraft:recipes/root',
     criteria: {
       has_ingredient: { trigger: 'minecraft:inventory_changed', conditions: { items: [{ items: ingredients[0] }] } },
-      has_the_recipe: { trigger: 'minecraft:recipe_unlocked', conditions: { recipe: `fishr:${id}` } },
+      has_the_recipe: { trigger: 'minecraft:recipe_unlocked', conditions: { recipes: `fishr:${id}` } },
     },
     requirements: [['has_ingredient', 'has_the_recipe']], rewards: { recipes: [`fishr:${id}`] },
   });
@@ -437,7 +437,7 @@ for (const [id, recipe] of Object.entries(extraRecipes)) {
     parent: 'minecraft:recipes/root',
     criteria: {
       has_ingredient: { trigger: 'minecraft:inventory_changed', conditions: { items: [{ items: ingredients[0] }] } },
-      has_the_recipe: { trigger: 'minecraft:recipe_unlocked', conditions: { recipe: `fishr:${id}` } },
+      has_the_recipe: { trigger: 'minecraft:recipe_unlocked', conditions: { recipes: `fishr:${id}` } },
     },
     requirements: [['has_ingredient', 'has_the_recipe']], rewards: { recipes: [`fishr:${id}`] },
   });
@@ -641,7 +641,7 @@ const unlock = (id, ingredient, recipe = id) => json(`data/fishr/advancement/rec
   parent: 'minecraft:recipes/root',
   criteria: {
     has_ingredient: { trigger: 'minecraft:inventory_changed', conditions: { items: [{ items: ingredient }] } },
-    has_the_recipe: { trigger: 'minecraft:recipe_unlocked', conditions: { recipe: `fishr:${recipe}` } },
+    has_the_recipe: { trigger: 'minecraft:recipe_unlocked', conditions: { recipes: `fishr:${recipe}` } },
   },
   requirements: [['has_ingredient', 'has_the_recipe']], rewards: { recipes: [`fishr:${recipe}`] },
 });

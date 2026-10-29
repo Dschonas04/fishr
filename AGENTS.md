@@ -1,6 +1,6 @@
 # Hinweise für KI-Agenten
 
-- **Minecraft 26.2 ist unverschleiert.** Es gibt weder Yarn noch Mojang-Mappings.
+- **Minecraft 26.3 ist unverschleiert.** Es gibt weder Yarn noch Mojang-Mappings.
   Der Build nutzt Fabric Loom 1.17.21 ohne Mapping-Abhängigkeit und den Gradle-Wrapper 9.5.1.
   Klassennamen sind die echten Mojang-Namen (`net.minecraft.world.item.Item`, `Identifier` statt `ResourceLocation`).
 - Loom lädt Minecraft und Fabric-Abhängigkeiten selbst. `tools/fetch-libs.sh` bleibt ein Legacy-Hilfswerkzeug; `libs/` wird nie committet.

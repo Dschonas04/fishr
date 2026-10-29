@@ -138,7 +138,7 @@ public final class FishrFishEntity extends Cod {
     public void becomeBattleDummy(FishSpecimen hooked) {
         battleDummy = true;
         setNoAi(true);
-        setInvulnerable(true);
+        setPermanentlyInvulnerable(true);
         setSilent(true);
         setSpecimen(hooked);
     }

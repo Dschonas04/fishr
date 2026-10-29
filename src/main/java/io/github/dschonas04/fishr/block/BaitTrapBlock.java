@@ -1,6 +1,5 @@
 package io.github.dschonas04.fishr.block;
 
-import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerPlayer;
@@ -33,7 +32,6 @@ import net.minecraft.world.phys.shapes.VoxelShape;
  * lakes and swamps with leeches too. Right-click empties it.
  */
 public final class BaitTrapBlock extends BaseEntityBlock implements SimpleWaterloggedBlock {
-    public static final MapCodec<BaitTrapBlock> CODEC = simpleCodec(BaitTrapBlock::new);
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
     private static final VoxelShape SHAPE = Block.box(3, 0, 1, 13, 8, 15);
 
@@ -42,7 +40,6 @@ public final class BaitTrapBlock extends BaseEntityBlock implements SimpleWaterl
         registerDefaultState(stateDefinition.any().setValue(WATERLOGGED, false));
     }
 
-    @Override protected MapCodec<? extends BaseEntityBlock> codec() { return CODEC; }
 
     @Override protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) { builder.add(WATERLOGGED); }
 

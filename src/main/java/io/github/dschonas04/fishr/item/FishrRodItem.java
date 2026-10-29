@@ -32,7 +32,7 @@ public final class FishrRodItem extends FishingRodItem {
         ItemContainerContents contents = rod.get(DataComponents.CONTAINER);
         if (contents == null) return slots;
         // Every item goes by its kind into its slot, so rods from older versions keep their gear.
-        for (ItemStack stack : (Iterable<ItemStack>) contents.allItemsCopyStream()::iterator) {
+        for (ItemStack stack : (Iterable<ItemStack>) contents.itemCopies()::iterator) {
             GearSlot slot = GearSlot.of(stack);
             if (slot != null && slots.get(slot.ordinal()).isEmpty()) slots.set(slot.ordinal(), stack);
         }

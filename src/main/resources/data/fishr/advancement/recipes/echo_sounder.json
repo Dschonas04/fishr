@@ -14,7 +14,7 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "fishr:echo_sounder"
+        "recipes": "fishr:echo_sounder"
       }
     }
   },

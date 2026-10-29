@@ -1,6 +1,5 @@
 package io.github.dschonas04.fishr.block;
 
-import com.mojang.serialization.MapCodec;
 import io.github.dschonas04.fishr.fish.FishCatch;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -30,7 +29,6 @@ import net.minecraft.world.phys.shapes.VoxelShape;
  * hang it up, with an empty hand to read its card, sneaking with an empty hand to take it down again.
  */
 public final class FishPlaqueBlock extends BaseEntityBlock {
-    public static final MapCodec<FishPlaqueBlock> CODEC = simpleCodec(FishPlaqueBlock::new);
     /** The way the board faces; it hangs on the block behind. */
     public static final EnumProperty<Direction> FACING = BlockStateProperties.HORIZONTAL_FACING;
     private static final VoxelShape SOUTH = Block.box(1, 3, 0, 15, 13, 1.5), NORTH = Block.box(1, 3, 14.5, 15, 13, 16),
@@ -41,7 +39,6 @@ public final class FishPlaqueBlock extends BaseEntityBlock {
         registerDefaultState(stateDefinition.any().setValue(FACING, Direction.SOUTH));
     }
 
-    @Override protected MapCodec<? extends BaseEntityBlock> codec() { return CODEC; }
 
     @Override protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) { builder.add(FACING); }
 

@@ -14,7 +14,7 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "fishr:fish_pen"
+        "recipes": "fishr:fish_pen"
       }
     }
   },

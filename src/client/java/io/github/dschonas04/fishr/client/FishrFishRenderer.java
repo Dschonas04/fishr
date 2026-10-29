@@ -53,11 +53,11 @@ public final class FishrFishRenderer extends MobRenderer<FishrFishEntity, FishrF
 
     @Override protected void setupRotations(State state, PoseStack poses, float rotation, float scale) {
         super.setupRotations(state, poses, rotation, scale);
-        poses.mulPose(Axis.YP.rotationDegrees(4.3f * Mth.sin(0.6f * state.ageInTicks)));
+        poses.rotate(Axis.YP.rotationDegrees(4.3f * Mth.sin(0.6f * state.ageInTicks)));
         // stranded fish lie on their side; a flatfish already does
         if (!state.isInWater && !flat) {
             poses.translate(0.1f, 0.1f, -0.1f);
-            poses.mulPose(Axis.ZP.rotationDegrees(90));
+            poses.rotate(Axis.ZP.rotationDegrees(90));
         }
     }
 }

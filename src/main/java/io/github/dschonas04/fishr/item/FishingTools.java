@@ -1,5 +1,7 @@
 package io.github.dschonas04.fishr.item;
 
+import net.minecraft.util.Prediction;
+
 import io.github.dschonas04.fishr.ecology.Ecology;
 import io.github.dschonas04.fishr.fish.FishrFishEntity;
 import io.github.dschonas04.fishr.progress.Progression;
@@ -101,7 +103,7 @@ public final class FishingTools {
         static List<ItemStack> contents(ItemStack box) {
             List<ItemStack> list = new ArrayList<>();
             ItemContainerContents contents = box.get(DataComponents.CONTAINER);
-            if (contents != null) for (ItemStack stack : (Iterable<ItemStack>) contents.allItemsCopyStream()::iterator) if (!stack.isEmpty()) list.add(stack);
+            if (contents != null) for (ItemStack stack : (Iterable<ItemStack>) contents.itemCopies()::iterator) if (!stack.isEmpty()) list.add(stack);
             return list;
         }
 
@@ -115,7 +117,7 @@ public final class FishingTools {
             ItemStack box = player.getItemInHand(hand);
             List<ItemStack> stacks = contents(box);
             if (player.isShiftKeyDown()) {
-                for (ItemStack stack : stacks) player.getInventory().placeItemBackInInventory(stack);
+                for (ItemStack stack : stacks) player.getInventory().placeItemBackInInventory(stack, Prediction.SERVER_ONLY);
                 store(box, List.of());
                 player.sendSystemMessage(Component.translatable("message.fishr.bait_box_emptied"));
                 return InteractionResult.SUCCESS;

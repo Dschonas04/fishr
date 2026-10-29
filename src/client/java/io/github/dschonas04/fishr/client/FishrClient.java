@@ -22,7 +22,6 @@ import net.fabricmc.fabric.api.client.rendering.v1.hud.VanillaHudElements;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
-import org.lwjgl.glfw.GLFW;
 
 /**
  * The client side of a fight: two keys (R reels in, F gives line), the line's sounds and the panel above the
@@ -51,8 +50,8 @@ public final class FishrClient implements ClientModInitializer {
         FishrFishRenderer.register();
         BlockEntityRendererRegistry.register(FishrBlocks.FISH_PLAQUE_ENTITY, FishPlaqueRenderer::new);
         var category = KeyMapping.Category.register(Fishr.id("fishing"));
-        reelKey = key("reel", GLFW.GLFW_KEY_R, category);
-        giveKey = key("give", GLFW.GLFW_KEY_F, category);
+        reelKey = key("reel", InputConstants.KEY_R, category);
+        giveKey = key("give", InputConstants.KEY_F, category);
         ClientPlayNetworking.registerGlobalReceiver(BattlePayload.TYPE, (payload, context) -> receive(payload, context.client()));
         ClientPlayNetworking.registerGlobalReceiver(LexiconPayload.TYPE,
                 (payload, context) -> context.client().gui.setScreen(new LexiconScreen(payload.data())));
@@ -68,7 +67,7 @@ public final class FishrClient implements ClientModInitializer {
     }
 
     private static KeyMapping key(String name, int key, KeyMapping.Category category) {
-        return KeyMappingHelper.registerKeyMapping(new KeyMapping("key.fishr." + name, InputConstants.Type.KEYSYM, key, category));
+        return KeyMappingHelper.registerKeyMapping(new KeyMapping("key.fishr." + name, key, category));
     }
 
     static boolean fighting() { return state != null && state.result() == FishingBattle.Result.ACTIVE; }

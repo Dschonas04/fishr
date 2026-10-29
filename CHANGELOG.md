@@ -1,5 +1,10 @@
 # Changelog
 
+## [1.1.0] - 2026-10-29
+
+- Minecraft **26.3** (Fabric Loader 0.20.1, Fabric API 0.165.0, Loom 1.19.3, Gradle 9.8.2). Für 26.2 bleibt 1.0.0.
+- 26.3-Anpassungen: `Inventory#placeItemBackInInventory` mit `Prediction`, Blöcke ohne `codec()`, `setPermanentlyInvulnerable`, `swing` mit `SwingAnimation`, `ItemContainerContents#itemCopies`, Tasten über `InputConstants`, `PoseStack#rotate`, Rezept-Fortschritte mit `recipes`.
+
 ## [1.0.0] - 2026-10-28
 
 - Erste Version als **Fishr**: Weiterführung von Atzen 0.16.0 (jojiuchiha03, MIT) unter eigener Mod-ID `fishr`, Paket `io.github.dschonas04.fishr`. Inhalt wie Atzen 0.16.0.

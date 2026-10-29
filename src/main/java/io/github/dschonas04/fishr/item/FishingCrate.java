@@ -1,5 +1,7 @@
 package io.github.dschonas04.fishr.item;
 
+import net.minecraft.util.Prediction;
+
 import io.github.dschonas04.fishr.fish.FishSpecies;
 import io.github.dschonas04.fishr.fish.Habitat;
 import java.util.ArrayList;
@@ -59,7 +61,7 @@ public final class FishingCrate extends Item {
         if (!(player instanceof ServerPlayer serverPlayer)) return InteractionResult.SUCCESS;
         ItemStack crate = player.getItemInHand(hand);
         Random random = new Random(player.getRandom().nextLong());
-        for (ItemStack stack : loot(habitat(crate), random)) player.getInventory().placeItemBackInInventory(stack);
+        for (ItemStack stack : loot(habitat(crate), random)) player.getInventory().placeItemBackInInventory(stack, Prediction.SERVER_ONLY);
         crate.consume(1, player);
         level.playSound(null, player.blockPosition(), SoundEvents.BARREL_OPEN, SoundSource.PLAYERS, 0.8f, 1.1f);
         serverPlayer.sendOverlayMessage(Component.translatable("crate.fishr.opened"));

@@ -14,7 +14,7 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "fishr:bait_trap"
+        "recipes": "fishr:bait_trap"
       }
     }
   },

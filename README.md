@@ -1,15 +1,15 @@
 # Fishr – Fishing Battles
 
-Fabric-Mod für **Minecraft Java 26.2**: ein Angelspiel mit echtem Drill, aber einfacher Bedienung – **R** holt ein, **F** gibt Schnur –, 64 Fischarten mit eigenen Lebensräumen (auch in Höhlen, in Lava und im End), Angelkisten, drei Ruten, drei Rollen, einer Schnur, drei Ködern und vier Bossfischen.
+Fabric-Mod für **Minecraft Java 26.3**: ein Angelspiel mit echtem Drill, aber einfacher Bedienung – **R** holt ein, **F** gibt Schnur –, 64 Fischarten mit eigenen Lebensräumen (auch in Höhlen, in Lava und im End), Angelkisten, drei Ruten, drei Rollen, einer Schnur, drei Ködern und vier Bossfischen.
 
-**Stand: 1.0.0.** Die vollständige Anforderungsliste steht in [docs/ANFORDERUNGEN.md](docs/ANFORDERUNGEN.md), der Umsetzungsplan in [docs/ROADMAP.md](docs/ROADMAP.md). Deutsch und Englisch sind enthalten.
+**Stand: 1.1.0.** Die vollständige Anforderungsliste steht in [docs/ANFORDERUNGEN.md](docs/ANFORDERUNGEN.md), der Umsetzungsplan in [docs/ROADMAP.md](docs/ROADMAP.md). Deutsch und Englisch sind enthalten.
 
 ## Installation
 
-Benötigt werden Minecraft **26.2**, Java **25**, Fabric Loader **0.19.5 oder neuer** und Fabric API **0.161.0+26.2**.
+Benötigt werden Minecraft **26.3**, Java **25**, Fabric Loader **0.20.1 oder neuer** und Fabric API **0.165.0+26.3** (für 26.2: Fishr 1.0.0).
 
-1. Fabric für Minecraft 26.2 installieren.
-2. `fishr-1.0.0.jar` und die Fabric-API-JAR in den `mods`-Ordner legen.
+1. Fabric für Minecraft 26.3 installieren.
+2. `fishr-1.1.0.jar` und die Fabric-API-JAR in den `mods`-Ordner legen.
 3. Im Mehrspielerbetrieb Fishr und Fabric API auf **Server und allen Clients** installieren.
 
 ## Der Angelvorgang
@@ -235,7 +235,7 @@ Alle Items stehen sortiert im Kreativtab „Fishr – Angeln“.
 
 ## Entwicklung und Prüfungen
 
-`./gradlew build` mit JDK 25 kompiliert Server- und Clientcode, baut die JAR und führt die JUnit-Prüfungen aus. Sie spielen den Drill ohne Minecraft mit einem Test-Angler (nur R und F) durch: jede gewöhnliche Art mit passender Ausrüstung fangbar, Dauer-Kurbeln reicht bei großen Fischen nicht, Kurbeln gegen Fluchten reißt die Schnur, jeder Boss ist mit bester Ausrüstung schaffbar und mit einfacher kaum, alle Aktionen werden angekündigt, F öffnet die Bremse. Dazu Setzkescher (keine Duplikate, Grenzen, schlechtes Wasser stresst und tötet erst bei Vernachlässigung), Kescher-Zielleiste, Fangdruck, Aufträge (für alle gleich), Erfahrung und Preise (Wiederholung lohnt nicht), Angelgebiete, Köderauswahl, Bossbedingungen, Maße, JSON-Dateien, Texturen, Übersetzungen und die Mixin-Ziele gegen Minecraft 26.2.
+`./gradlew build` mit JDK 25 kompiliert Server- und Clientcode, baut die JAR und führt die JUnit-Prüfungen aus. Sie spielen den Drill ohne Minecraft mit einem Test-Angler (nur R und F) durch: jede gewöhnliche Art mit passender Ausrüstung fangbar, Dauer-Kurbeln reicht bei großen Fischen nicht, Kurbeln gegen Fluchten reißt die Schnur, jeder Boss ist mit bester Ausrüstung schaffbar und mit einfacher kaum, alle Aktionen werden angekündigt, F öffnet die Bremse. Dazu Setzkescher (keine Duplikate, Grenzen, schlechtes Wasser stresst und tötet erst bei Vernachlässigung), Kescher-Zielleiste, Fangdruck, Aufträge (für alle gleich), Erfahrung und Preise (Wiederholung lohnt nicht), Angelgebiete, Köderauswahl, Bossbedingungen, Maße, JSON-Dateien, Texturen, Übersetzungen und die Mixin-Ziele gegen Minecraft 26.3.
 
 Ressourcen neu erzeugen: `node scripts/generate-resources.mjs` (Modelle, Rezepte, Übersetzungen), `python3 scripts/draw-textures.py` (alle Texturen, 64×64), `python3 scripts/sounds.py OUT` (Klänge).
 

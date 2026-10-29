@@ -14,7 +14,7 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "fishr:bamboo_rod"
+        "recipes": "fishr:bamboo_rod"
       }
     }
   },

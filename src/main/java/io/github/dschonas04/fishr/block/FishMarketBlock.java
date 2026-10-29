@@ -1,6 +1,5 @@
 package io.github.dschonas04.fishr.block;
 
-import com.mojang.serialization.MapCodec;
 import io.github.dschonas04.fishr.fish.FishCatch;
 import io.github.dschonas04.fishr.progress.Progression;
 import net.minecraft.ChatFormatting;
@@ -23,11 +22,9 @@ import net.minecraft.world.phys.BlockHitResult;
  * price; the same species again on the same day pays less. Sneak-click sells every fish in the inventory.
  */
 public final class FishMarketBlock extends Block {
-    public static final MapCodec<FishMarketBlock> CODEC = simpleCodec(FishMarketBlock::new);
 
     public FishMarketBlock(Properties properties) { super(properties); }
 
-    @Override protected MapCodec<? extends Block> codec() { return CODEC; }
 
     @Override protected InteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player,
                                                     InteractionHand hand, BlockHitResult hit) {

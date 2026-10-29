@@ -1,5 +1,7 @@
 package io.github.dschonas04.fishr.progress;
 
+import net.minecraft.util.Prediction;
+
 import io.github.dschonas04.fishr.Fishr;
 import io.github.dschonas04.fishr.fish.FishSpecies;
 import io.github.dschonas04.fishr.fish.FishSpecimen;
@@ -162,7 +164,7 @@ public final class Progression {
             if (count >= quest.count()) {
                 progress.putBoolean(quest.id() + ".done", true);
                 data.putLong("xp", data.getLongOr("xp", 0) + quest.experience());
-                player.getInventory().placeItemBackInInventory(new ItemStack(Items.EMERALD, quest.emeralds()));
+                player.getInventory().placeItemBackInInventory(new ItemStack(Items.EMERALD, quest.emeralds()), Prediction.SERVER_ONLY);
                 player.sendSystemMessage(Component.translatable("progress.fishr.quest_done", questText(quest),
                         quest.emeralds(), quest.experience()).withStyle(ChatFormatting.GREEN));
             }
@@ -200,7 +202,7 @@ public final class Progression {
         data.putDouble("credit", credit - emeralds);
         data.putDouble("earned", data.getDoubleOr("earned", 0) + value);
         save(player, data);
-        if (emeralds > 0) player.getInventory().placeItemBackInInventory(new ItemStack(Items.EMERALD, emeralds));
+        if (emeralds > 0) player.getInventory().placeItemBackInInventory(new ItemStack(Items.EMERALD, emeralds), Prediction.SERVER_ONLY);
         return emeralds;
     }
 
@@ -281,7 +283,7 @@ public final class Progression {
             server.getPlayerList().broadcastSystemMessage(Component.translatable("progress.fishr.tournament_place", place + 1, name,
                     String.format(Locale.GERMAN, "%.2f", entries.getDoubleOr(name, 0))), false);
             ServerPlayer winner = server.getPlayerList().getPlayerByName(name);
-            if (winner != null) winner.getInventory().placeItemBackInInventory(new ItemStack(Items.EMERALD, prizes[place]));
+            if (winner != null) winner.getInventory().placeItemBackInInventory(new ItemStack(Items.EMERALD, prizes[place]), Prediction.SERVER_ONLY);
         }
         tournament.putBoolean("active", false);
         data.put("tournament", tournament);

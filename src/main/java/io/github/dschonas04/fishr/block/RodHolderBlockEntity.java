@@ -1,5 +1,7 @@
 package io.github.dschonas04.fishr.block;
 
+import net.minecraft.util.Prediction;
+
 import io.github.dschonas04.fishr.Fishr;
 import io.github.dschonas04.fishr.Performance;
 import io.github.dschonas04.fishr.ecology.Ecology;
@@ -130,7 +132,7 @@ public final class RodHolderBlockEntity extends BlockEntity {
         // No bite: reel the last rod in.
         for (int i = kind().rods() - 1; i >= 0; i--) {
             if (rods[i].isEmpty()) continue;
-            player.getInventory().placeItemBackInInventory(rods[i]);
+            player.getInventory().placeItemBackInInventory(rods[i], Prediction.SERVER_ONLY);
             clear(i);
             update();
             level.playSound(null, worldPosition, SoundEvents.FISHING_BOBBER_RETRIEVE, SoundSource.PLAYERS, 0.6f, 1f);

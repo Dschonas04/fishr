@@ -1,5 +1,7 @@
 package io.github.dschonas04.fishr.block;
 
+import net.minecraft.util.Prediction;
+
 import io.github.dschonas04.fishr.fish.Habitat;
 import io.github.dschonas04.fishr.item.FishrItems;
 import io.github.dschonas04.fishr.item.BaitType;
@@ -67,7 +69,7 @@ public final class BaitTrapBlockEntity extends BlockEntity {
                     ? "message.fishr.bait_trap_empty" : "message.fishr.bait_trap_dry"));
             return;
         }
-        for (ItemStack stack : contents) player.getInventory().placeItemBackInInventory(stack);
+        for (ItemStack stack : contents) player.getInventory().placeItemBackInInventory(stack, Prediction.SERVER_ONLY);
         contents.clear();
         level.playSound(null, worldPosition, SoundEvents.FISH_SWIM, SoundSource.BLOCKS, 0.7f, 1.2f);
         setChanged();

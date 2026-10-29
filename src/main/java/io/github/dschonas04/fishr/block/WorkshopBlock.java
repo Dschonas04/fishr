@@ -1,6 +1,5 @@
 package io.github.dschonas04.fishr.block;
 
-import com.mojang.serialization.MapCodec;
 import io.github.dschonas04.fishr.item.FishrItems;
 import io.github.dschonas04.fishr.item.RodMods;
 import net.minecraft.ChatFormatting;
@@ -25,11 +24,9 @@ import net.minecraft.world.phys.BlockHitResult;
  * durability each), mother-of-pearl upgrades the blank (up to three times).
  */
 public final class WorkshopBlock extends Block {
-    public static final MapCodec<WorkshopBlock> CODEC = simpleCodec(WorkshopBlock::new);
 
     public WorkshopBlock(Properties properties) { super(properties); }
 
-    @Override protected MapCodec<? extends Block> codec() { return CODEC; }
 
     @Override protected InteractionResult useItemOn(ItemStack rod, BlockState state, Level level, BlockPos pos, Player player,
                                                     InteractionHand hand, BlockHitResult hit) {

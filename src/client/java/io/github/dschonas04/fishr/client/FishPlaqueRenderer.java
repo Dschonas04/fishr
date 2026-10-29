@@ -51,7 +51,7 @@ public final class FishPlaqueRenderer implements BlockEntityRenderer<FishPlaqueB
         poses.pushPose();
         // in front of the board, which hangs on the side away from the facing
         poses.translate(0.5 - state.facing.getStepX() * 0.36, 0.5, 0.5 - state.facing.getStepZ() * 0.36);
-        poses.mulPose(Axis.YP.rotationDegrees(180 - state.facing.toYRot()));
+        poses.rotate(Axis.YP.rotationDegrees(180 - state.facing.toYRot()));
         poses.scale(state.scale, state.scale, state.scale);
         state.item.submit(poses, collector, state.lightCoords, OverlayTexture.NO_OVERLAY, 0);
         poses.popPose();

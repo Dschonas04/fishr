@@ -1,5 +1,7 @@
 package io.github.dschonas04.fishr.battle;
 
+import net.minecraft.world.item.component.SwingAnimation;
+
 import com.mojang.brigadier.CommandDispatcher;
 import io.github.dschonas04.fishr.FishrSounds;
 import io.github.dschonas04.fishr.Performance;
@@ -312,7 +314,7 @@ public final class BattleManager {
         FishingBattle battle = session.battle;
         int t = battle.elapsed();
         FishingBattle.Input input = session.input();
-        if (input.reeling() && t % 7 == 0) session.player.swing(session.hand, true);
+        if (input.reeling() && t % 7 == 0) session.player.swing(session.hand, SwingAnimation.DEFAULT, true);
         if (session.dummy == null || session.dummy.isRemoved()) return;
 
         Vec3 eye = session.player.position();

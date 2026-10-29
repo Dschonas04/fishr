@@ -14,7 +14,7 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "fishr:small_landing_net"
+        "recipes": "fishr:small_landing_net"
       }
     }
   },

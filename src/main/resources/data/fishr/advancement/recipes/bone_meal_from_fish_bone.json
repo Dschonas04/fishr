@@ -14,7 +14,7 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "fishr:bone_meal_from_fish_bone"
+        "recipes": "fishr:bone_meal_from_fish_bone"
       }
     }
   },

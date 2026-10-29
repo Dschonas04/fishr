@@ -1,6 +1,7 @@
 package io.github.dschonas04.fishr.block;
 
-import com.mojang.serialization.MapCodec;
+import net.minecraft.util.Prediction;
+
 import io.github.dschonas04.fishr.fish.FishCatch;
 import io.github.dschonas04.fishr.fish.FishSpecies;
 import io.github.dschonas04.fishr.item.FishrItems;
@@ -30,14 +31,12 @@ import net.minecraft.world.phys.BlockHitResult;
  * something in its stomach.
  */
 public final class FilletTableBlock extends Block {
-    public static final MapCodec<FilletTableBlock> CODEC = simpleCodec(FilletTableBlock::new);
     /** Chance of a find in the stomach. */
     static final double FIND = 0.1;
     static final double BONE = 0.2;
 
     public FilletTableBlock(Properties properties) { super(properties); }
 
-    @Override protected MapCodec<? extends Block> codec() { return CODEC; }
 
     /** Fillets from a fish of this weight: one for a small fish, up to twelve for a giant. */
     public static int fillets(double weightKg) { return (int) Math.clamp(1 + Math.floor(Math.sqrt(Math.max(0, weightKg)) * 1.6), 1, 12); }
@@ -64,7 +63,7 @@ public final class FilletTableBlock extends Block {
         if (random.nextDouble() < FIND) out.add(find(caught == null ? null : caught.specimen().species(), random));
         fish.shrink(1);
         knife.hurtAndBreak(1, player, InteractionHand.OFF_HAND);
-        for (ItemStack stack : out) player.getInventory().placeItemBackInInventory(stack);
+        for (ItemStack stack : out) player.getInventory().placeItemBackInInventory(stack, Prediction.SERVER_ONLY);
         level.playSound(null, pos, SoundEvents.SLIME_SQUISH_SMALL, SoundSource.BLOCKS, 0.8f, 1.2f);
         serverPlayer.sendSystemMessage(Component.translatable("message.fishr.filleted", out.getFirst().getCount()), true);
         return InteractionResult.SUCCESS;
