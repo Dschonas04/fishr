@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# Autor: Dschonas04 (https://github.com/Dschonas04) – Fishr, Weiterführung von Atzen (jojiuchiha03)
 """Synthesises the fishing sounds of Fishr and writes them as mono WAV files.
 
     python3 scripts/sounds.py OUTDIR

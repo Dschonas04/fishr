@@ -1,3 +1,4 @@
+# Autor: Dschonas04 (https://github.com/Dschonas04) – Fishr, Weiterführung von Atzen (jojiuchiha03)
 param([Parameter(ValueFromRemainingArguments = $true)][string[]]$GradleArgs = @('build'))
 $ErrorActionPreference = 'Stop'
 $projectRoot = Split-Path -Parent $PSScriptRoot

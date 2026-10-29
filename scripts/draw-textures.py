@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# Autor: Dschonas04 (https://github.com/Dschonas04) – Fishr, Weiterführung von Atzen (jojiuchiha03)
 """Draws every Fishr texture as 64x64 pixel art: items, fish buckets and the fish skins of the 3D models.
 
     python3 scripts/draw-textures.py

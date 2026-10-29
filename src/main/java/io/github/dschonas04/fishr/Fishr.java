@@ -1,3 +1,5 @@
+// Autor: Dschonas04 (https://github.com/Dschonas04) – Fishr, Weiterführung von Atzen (jojiuchiha03)
+
 package io.github.dschonas04.fishr;
 
 import io.github.dschonas04.fishr.battle.BattleManager;
