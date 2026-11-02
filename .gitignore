@@ -14,3 +14,4 @@ out/
 libs/
 __pycache__/
 *.pyc
+bin/
