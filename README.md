@@ -1,6 +1,6 @@
-# Fishr – Fishing Battles
+# Fishr: Fishing Battles
 
-Fabric-Mod für **Minecraft Java 26.3**: ein Angelspiel mit echtem Drill, aber einfacher Bedienung – **R** holt ein, **F** gibt Schnur –, 64 Fischarten mit eigenen Lebensräumen (auch in Höhlen, in Lava und im End), Angelkisten, drei Ruten, drei Rollen, einer Schnur, drei Ködern und vier Bossfischen.
+Fabric-Mod für **Minecraft Java 26.3**: ein Angelspiel mit echtem Drill, aber einfacher Bedienung, **R** holt ein, **F** gibt Schnur, 64 Fischarten mit eigenen Lebensräumen (auch in Höhlen, in Lava und im End), Angelkisten, drei Ruten, drei Rollen, einer Schnur, drei Ködern und vier Bossfischen.
 
 **Stand: 1.1.0.** Die vollständige Anforderungsliste steht in [docs/ANFORDERUNGEN.md](docs/ANFORDERUNGEN.md), der Umsetzungsplan in [docs/ROADMAP.md](docs/ROADMAP.md). Deutsch und Englisch sind enthalten.
 
@@ -44,15 +44,15 @@ Die Bremse stellt sich selbst ein. Die Regeln sind einfach:
 
 **Anzeige über der Hotbar:** der Fisch mit Name und Entfernung, die Schnurspannung (grün bis zur Bremse, rot darüber) und die Kraft des Fisches. Darüber steht immer genau eine Anweisung mit der passenden Taste. Bosse zeigen oben Namen, Phase und Kraft.
 
-Kleine Fische landest du schon mit R allein, große nur, wenn du im richtigen Moment loslässt und F drückst. Typische Drilldauer: Rotauge ~15 s, Barsch ~25 s, Hecht ~1 min, Karpfen 1–1,5 min, Wels ~2 min, Bosse 3–7 min. `/fishr cancel` bricht ab.
+Kleine Fische landest du schon mit R allein, große nur, wenn du im richtigen Moment loslässt und F drückst. Typische Drilldauer: Rotauge ~15 s, Barsch ~25 s, Hecht ~1 min, Karpfen 1-1,5 min, Wels ~2 min, Bosse 3-7 min. `/fishr cancel` bricht ab.
 
 ## Ausrüstung
 
-Jede Fishr-Rute hat drei Plätze: **Rolle, Schnur, Köder**. Teil im Inventar auf die Rute ziehen – ein vorhandenes wird getauscht; Rechtsklick auf die Rute mit leerem Mauszeiger nimmt die Teile wieder heraus. Der Tooltip zeigt die drei Plätze nebeneinander, was die Rute hält, wie schnell sie einholt und wie oft sie verstärkt ist. Ohne Schnur angelt die Rute mit Faden (3,5 kg).
+Jede Fishr-Rute hat drei Plätze: **Rolle, Schnur, Köder**. Teil im Inventar auf die Rute ziehen, ein vorhandenes wird getauscht; Rechtsklick auf die Rute mit leerem Mauszeiger nimmt die Teile wieder heraus. Der Tooltip zeigt die drei Plätze nebeneinander, was die Rute hält, wie schnell sie einholt und wie oft sie verstärkt ist. Ohne Schnur angelt die Rute mit Faden (3,5 kg).
 
 | Rute | Hält | Besonderheit |
 | --- | --- | --- |
-| Angel (Vanilla) | 5 kg | – |
+| Angel (Vanilla) | 5 kg |: |
 | **Bambusrute** | 7 kg | leicht und feinfühlig, für den Anfang |
 | **Carbonrute** | 24 kg | wirft am weitesten, stark genug für die Bosse |
 | **Netheritrute** | 30 kg | die stärkste und die einzige, die in Lava angelt |
@@ -96,7 +96,7 @@ Jeder Biss verbraucht einen Köder. Dazu kommen vier Bossköder (siehe unten). D
 Wie in Tide gibt es Fische abseits der Oberfläche. Sie schwimmen nicht frei herum, sie beißen nur an der Pose; Tageszeit und Regen spielen dort keine Rolle, und es kommt kein Vanilla-Müll mit hoch.
 
 - **Höhlenwasser:** jedes Wasser unter y 50, über dem kein Himmel zu sehen ist.
-- **Lava:** in jeder Lava, im Nether und in der Oberwelt – aber nur mit der **Netheritrute**. Mit ihr schwimmt die Pose auf Lava wie auf Wasser und verbrennt nicht. Lavafische brennen auch selbst nicht.
+- **Lava:** in jeder Lava, im Nether und in der Oberwelt, aber nur mit der **Netheritrute**. Mit ihr schwimmt die Pose auf Lava wie auf Wasser und verbrennt nicht. Lavafische brennen auch selbst nicht.
 - **End:** jedes Wasser im End (dort muss man es selbst hinbringen).
 
 Der Tiefenwächter bleibt ein Boss des verborgenen Wassers unter y 0.
@@ -105,7 +105,7 @@ Der Tiefenwächter bleibt ein Boss des verborgenen Wassers unter y 0.
 
 Etwa jeder sechzehnte Biss ist kein Fisch, sondern eine **Angelkiste** (Glück des Meeres macht sie häufiger); sie kommt ohne Drill hoch. Rechtsklick öffnet sie: zwei bis vier Fundstücke aus genau diesem Gewässer (Amethyst und Leuchtbeeren aus Höhlen, Magmacreme und Quarz aus Lava, Chorusfrüchte und Enderperlen aus dem End, Prismarin und Nautilusschalen aus dem Meer, Ton und Seerosen aus Süßwasser), dazu Köder oder Haken, manchmal Smaragde, Perlmutt, Netheritschrott oder eine Shulkerschale.
 
-Oft liegt ein **Fundzettel** darin. Er verrät über eine Fischart – seltene häufiger –, wo sie lebt, wann sie beißt, welchen Köder sie am liebsten nimmt und ob sie eine Netheritrute braucht. Das **Fischlexikon** zeigt außerdem bei jeder Art, auch bei noch unbekannten, in welchen Gewässern sie lebt.
+Oft liegt ein **Fundzettel** darin. Er verrät über eine Fischart, seltene häufiger, wo sie lebt, wann sie beißt, welchen Köder sie am liebsten nimmt und ob sie eine Netheritrute braucht. Das **Fischlexikon** zeigt außerdem bei jeder Art, auch bei noch unbekannten, in welchen Gewässern sie lebt.
 
 Größere Exemplare ziehen stärker und halten länger durch (ein 1-kg-Barsch zieht etwa 1,5 kg, ein 12-kg-Karpfen etwa 7 kg, ein 50-kg-Wels etwa 15 kg). Fänge speichern Art, Länge, Gewicht, Größenklasse, Fangort, Welt-Tag, Angler und die Kontrolle im Drill; individuelle Fänge sind nicht stapelbar. Lebende Fische lassen sich im Eimer tragen.
 
@@ -138,7 +138,7 @@ Bosse sind nur mit starker Ausrüstung zu schaffen (Carbon- oder Netheritrute, D
 | Karpfenkescher | bis 120 cm, 25 kg | 256 |
 | Großfischkescher | bis 3,2 m, alle Bosse | 512 |
 
-Je kleiner der Fisch im Verhältnis zum Netz, desto breiter das grüne Feld. Jeder gefangene Fisch ist ein **Individuum** mit eigener Kennung, Maßen und **Zustand** (0–100 %): lange Drills und das Herausheben per Hand stressen ihn. Fisch in der Hand über Wasser benutzen setzt ihn als genau diesen Fisch zurück – das bringt Erfahrung, zählt für Rücksetz-Aufträge und senkt den Fangdruck.
+Je kleiner der Fisch im Verhältnis zum Netz, desto breiter das grüne Feld. Jeder gefangene Fisch ist ein **Individuum** mit eigener Kennung, Maßen und **Zustand** (0-100 %): lange Drills und das Herausheben per Hand stressen ihn. Fisch in der Hand über Wasser benutzen setzt ihn als genau diesen Fisch zurück, das bringt Erfahrung, zählt für Rücksetz-Aufträge und senkt den Fangdruck.
 
 ## Setzkescher und Unterwasser-Netz
 
@@ -154,7 +154,7 @@ Das **Unterwasser-Netz** unter Wasser setzen: hineingesetzte Fische leben als ec
 | Doppelständer | 2 | wie oben |
 | Rod Pod | 3 | elektronischer Alarm (laut), große Fische ziehen keine Rute hinein |
 
-Rute auf den Halter klicken: sie wirft 6–12 Blöcke vor den Halter aus (Wurfweite der Rute zählt). Die Wartezeit hängt von Köder, Fangdruck, Futterplatz, Köder-Verzauberung und Posenmodul ab. Beißt einer, hast du 8 Sekunden (mit Bisssensor 12): Halter mit leerer Hand anklicken nimmt die Rute auf und der Drill beginnt ohne Pose – Rechtsklick mit der Rute landet. Verpasste Bisse kosten den Köder, manchmal nimmt der Fisch Schnur und Kunstköder mit, und ein großer Fisch kann eine Rute aus einem einfachen Halter ins Wasser ziehen. Liegen zwei Köder näher als 2 Blöcke beieinander, verheddern sich die Schnüre.
+Rute auf den Halter klicken: sie wirft 6-12 Blöcke vor den Halter aus (Wurfweite der Rute zählt). Die Wartezeit hängt von Köder, Fangdruck, Futterplatz, Köder-Verzauberung und Posenmodul ab. Beißt einer, hast du 8 Sekunden (mit Bisssensor 12): Halter mit leerer Hand anklicken nimmt die Rute auf und der Drill beginnt ohne Pose, Rechtsklick mit der Rute landet. Verpasste Bisse kosten den Köder, manchmal nimmt der Fisch Schnur und Kunstköder mit, und ein großer Fisch kann eine Rute aus einem einfachen Halter ins Wasser ziehen. Liegen zwei Köder näher als 2 Blöcke beieinander, verheddern sich die Schnüre.
 
 ## Fangdruck und Verhalten der Fische
 
@@ -177,7 +177,7 @@ Jeder Fang bringt **Angler-Erfahrung** nach Seltenheit, Größe und Kontrolle im
 | Tiefenreservat | Nordmeer, Tiefsee | 10 |
 | Endgewässer | Wasser im End | 12 |
 
-Vor der Stufe beißen dort nur gewöhnliche und ungewöhnliche Fische. Täglich gibt es drei, wöchentlich zwei **Aufträge** (Art, Gewicht, Gewässer, Seltenheit, Zurücksetzen) – für alle Spieler gleich, Belohnung Smaragde und Erfahrung. Das **Fischlexikon** zeigt entdeckte Arten mit Anzahl und größtem Fang, Aufträge, Gebiete, die Serverrekorde je Art, die Rangliste der zehn schwersten Fänge und die eigene Statistik. Epische und bessere Fänge bringen manchmal **Perlmutt**.
+Vor der Stufe beißen dort nur gewöhnliche und ungewöhnliche Fische. Täglich gibt es drei, wöchentlich zwei **Aufträge** (Art, Gewicht, Gewässer, Seltenheit, Zurücksetzen), für alle Spieler gleich, Belohnung Smaragde und Erfahrung. Das **Fischlexikon** zeigt entdeckte Arten mit Anzahl und größtem Fang, Aufträge, Gebiete, die Serverrekorde je Art, die Rangliste der zehn schwersten Fänge und die eigene Statistik. Epische und bessere Fänge bringen manchmal **Perlmutt**.
 
 **Fischmarkt:** Rechtsklick mit Fisch verkauft ihn, Schleichen verkauft alle. Preis nach Seltenheit, Gewicht, Kontrolle und Frische (Zustand); Wechselgeld bleibt als Guthaben.
 
@@ -219,7 +219,7 @@ Alle Werkbankrezepte sind formlos.
 | Fischmarkt | Fass, Smaragd, Eichenschild, Roher Kabeljau |
 | Angelwerkstatt | Schmiedetisch, Angel, Eisenbarren |
 
-Alle Items stehen sortiert im Kreativtab „Fishr – Angeln“.
+Alle Items stehen sortiert im Kreativtab „Fishr, Angeln“.
 
 ## Befehle
 
@@ -230,7 +230,7 @@ Alle Items stehen sortiert im Kreativtab „Fishr – Angeln“.
                                  ancient_catfish, reed_king, black_sturgeon, deep_warden)
 /fishr cancel                   Drill abbrechen
 /fishr lexikon                  Fischlexikon öffnen
-/fishr turnier start <min> [art]  Turnier: schwerster Fisch (der Art) gewinnt, Plätze 1–3: 16/8/4 Smaragde (OP)
+/fishr turnier start <min> [art]  Turnier: schwerster Fisch (der Art) gewinnt, Plätze 1-3: 16/8/4 Smaragde (OP)
 /fishr turnier ende             Turnier sofort auswerten (OP)
 /fishr leistung [niedrig|normal|hoch]
                                 Leistungsstufe: wie weit Fische voll aktiv sind (24/48/96 Blöcke)

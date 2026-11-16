@@ -1,4 +1,4 @@
-// Autor: Dschonas04 (https://github.com/Dschonas04) – Fishr, Weiterführung von Atzen (jojiuchiha03)
+// Autor: Dschonas04 (https://github.com/Dschonas04): Fishr, Weiterführung von Atzen (jojiuchiha03)
 
 package io.github.dschonas04.fishr;
 
@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Der Kreativ-Tab „Fishr – Angeln“: alles aus der Mod an einer Stelle, in fester Reihenfolge
+ * Der Kreativ-Tab „Fishr: Angeln“: alles aus der Mod an einer Stelle, in fester Reihenfolge
  * (Angeln, Köder, Bücher, Fische, Eimer, Spawn-Eier). Neue Items gehören in {@link #ordered()}.
  */
 public final class ModItems {

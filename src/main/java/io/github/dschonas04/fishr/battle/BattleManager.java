@@ -1,4 +1,4 @@
-// Autor: Dschonas04 (https://github.com/Dschonas04) – Fishr, Weiterführung von Atzen (jojiuchiha03)
+// Autor: Dschonas04 (https://github.com/Dschonas04): Fishr, Weiterführung von Atzen (jojiuchiha03)
 
 package io.github.dschonas04.fishr.battle;
 
@@ -348,7 +348,7 @@ public final class BattleManager {
     }
 
     /**
-     * Landen (Anforderung 14): Mit einem Kescher in der anderen Hand entscheidet die Anzeige –
+     * Landen (Anforderung 14): Mit einem Kescher in der anderen Hand entscheidet die Anzeige:
      * keschern, während der Fisch in der Öffnung ist, klappt fast immer. Ohne Kescher lassen sich
      * nur kleine Fische (bis 2 kg) mit der Hand herausheben; Bosse brauchen den Großfischkescher.
      */

@@ -1,4 +1,4 @@
-// Autor: Dschonas04 (https://github.com/Dschonas04) – Fishr, Weiterführung von Atzen (jojiuchiha03)
+// Autor: Dschonas04 (https://github.com/Dschonas04): Fishr, Weiterführung von Atzen (jojiuchiha03)
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -12,8 +12,8 @@ function json(path, value) {
 
 const items = {
   carbon_rod: ['Carbonrute', 'Carbon Rod', 'Die Allround-Rute: hält 24 kg, wirft weit und ist stark genug für die Bossfische.', 'The all-rounder: bears 24 kg, casts far and is strong enough for the boss fish.'],
-  bamboo_rod: ['Bambusrute', 'Bamboo Rod', 'Für den Anfang: leicht und feinfühlig, hält 7 kg – reicht für Fische bis ein paar Kilo.', 'To start with: light and sensitive, bears 7 kg – enough for fish of a few kilos.'],
-  netherite_rod: ['Netheritrute', 'Netherite Rod', 'Die stärkste Rute (30 kg) und die einzige, die in Lava angelt – im Nether und in der Oberwelt.', 'The strongest rod (30 kg) and the only one that fishes in lava – in the Nether and the overworld.'],
+  bamboo_rod: ['Bambusrute', 'Bamboo Rod', 'Für den Anfang: leicht und feinfühlig, hält 7 kg, reicht für Fische bis ein paar Kilo.', 'To start with: light and sensitive, bears 7 kg, enough for fish of a few kilos.'],
+  netherite_rod: ['Netheritrute', 'Netherite Rod', 'Die stärkste Rute (30 kg) und die einzige, die in Lava angelt, im Nether und in der Oberwelt.', 'The strongest rod (30 kg) and the only one that fishes in lava, in the Nether and the overworld.'],
   copper_reel: ['Kupferrolle', 'Copper Reel', 'Für den Anfang: 120 m Schnur, holt gegen 5 kg ein.', 'To start with: 120 m of line, winches against 5 kg.'],
   iron_reel: ['Eisenrolle', 'Iron Reel', '180 m Schnur, holt gegen 8 kg ein, etwas schneller.', '180 m of line, winches against 8 kg, a little faster.'],
   diamond_reel: ['Diamantrolle', 'Diamond Reel', 'Die beste Rolle: 280 m Schnur, holt gegen 12 kg ein, am schnellsten.', 'The best reel: 280 m of line, winches against 12 kg, the fastest.'],
@@ -107,17 +107,17 @@ const translations = {
   'hud.fishr.prompt.reel': ['Einholen', 'Reel in'],
   'hud.fishr.prompt.tighten': ['Schnur straff halten', 'Keep the line tight'],
   'hud.fishr.prompt.give': ['Schnur geben', 'Give line'],
-  'hud.fishr.prompt.warn': ['Achtung – nicht kurbeln!', 'Watch out – stop reeling!'],
-  'hud.fishr.prompt.wait': ['Nicht kurbeln – er zieht', 'Stop reeling – it pulls'],
-  'hud.fishr.prompt.give_now': ['Schnur geben – sonst reißt sie!', 'Give line – or it snaps!'],
-  'hud.fishr.prompt.land': ['Rechtsklick – Fisch landen!', 'Right-click – land the fish!'],
-  'hud.fishr.prompt.net': ['Rechtsklick im grünen Feld – keschern!', 'Right-click in the green field – net it!'],
+  'hud.fishr.prompt.warn': ['Achtung: nicht kurbeln!', 'Watch out: stop reeling!'],
+  'hud.fishr.prompt.wait': ['Nicht kurbeln: er zieht', 'Stop reeling: it pulls'],
+  'hud.fishr.prompt.give_now': ['Schnur geben: sonst reißt sie!', 'Give line: or it snaps!'],
+  'hud.fishr.prompt.land': ['Rechtsklick: Fisch landen!', 'Right-click: land the fish!'],
+  'hud.fishr.prompt.net': ['Rechtsklick im grünen Feld: keschern!', 'Right-click in the green field, net it!'],
   'hud.fishr.distance': ['%s m', '%s m'],
   'hud.fishr.hook_loose': ['Haken sitzt locker!', 'Hook is loose!'],
   'hud.fishr.strength': ['Kraft', 'Strength'],
   'hud.fishr.strike.perfect': ['Anschlag: perfekt', 'Strike: perfect'],
   'hud.fishr.strike.good': ['Anschlag: gut', 'Strike: good'],
-  'hud.fishr.strike.late': ['Anschlag: zu spät – Haken sitzt locker', 'Strike: late – the hook sits loose'],
+  'hud.fishr.strike.late': ['Anschlag: zu spät: Haken sitzt locker', 'Strike: late: the hook sits loose'],
   'key.fishr.give': ['Schnur geben (halten)', 'Give line (hold)'],
   'message.fishr.controls_hint': ['Erster Drill! %1$s halten = einholen, %2$s halten = Schnur geben. Hält der Fisch still: %1$s. Zieht er: loslassen. Springt er oder schüttelt den Kopf: %2$s. Nah und müde: Rechtsklick. Die Anzeige über der Hotbar sagt dir, was dran ist.', 'First fight! Hold %1$s to reel in, hold %2$s to give line. Fish holds still: %1$s. It pulls: let go. It jumps or shakes its head: %2$s. Close and worn out: right-click. The panel above the hotbar tells you what to do.'],
   'message.fishr.help': ['Fishr: auswerfen, beim Biss rechtsklicken. Im Drill: R einholen, F Schnur geben, ist der Fisch nah und müde: Rechtsklick zum Landen. Rolle, Schnur und Köder im Inventar auf die Rute ziehen. /fishr practice [Fisch|Boss] startet ein Training, /fishr cancel bricht ab.', 'Fishr: cast, right-click at a bite. In the fight: R reels in, F gives line, and when the fish is close and worn out, right-click to land it. Drop reel, line and bait onto the rod in your inventory. /fishr practice [fish|boss] starts a training, /fishr cancel stops.'],
@@ -176,8 +176,8 @@ const translations = {
   'subtitles.fishr.bait': ['Köder eingelegt', 'Bait loaded'],
 };
 
-const de = { 'itemGroup.fishr': 'Fishr – Angeln' };
-const en = { 'itemGroup.fishr': 'Fishr – Fishing' };
+const de = { 'itemGroup.fishr': 'Fishr: Angeln' };
+const en = { 'itemGroup.fishr': 'Fishr: Fishing' };
 for (const [id, [german, english, germanTip, englishTip]] of Object.entries(items)) {
   de[`item.fishr.${id}`] = german; en[`item.fishr.${id}`] = english;
   de[`tooltip.fishr.${id}`] = germanTip; en[`tooltip.fishr.${id}`] = englishTip;
@@ -322,10 +322,10 @@ json('assets/fishr/lang/de_de.json', de);
 json('assets/fishr/lang/en_us.json', en);
 console.log(`Generated ${Object.keys(fish).length} fish species with buckets, spawn eggs, cooking recipes and catch translations.`);
 
-// ---------------------------------------------------------------- 0.8–0.14: nets, tools, modules, blocks, progress
+// ---------------------------------------------------------------- 0.8-0.14: nets, tools, modules, blocks, progress
 
 const extraItems = {
-  small_landing_net: ['Kleiner Kescher', 'Small Landing Net', 'In die andere Hand: landet Fische bis 60 cm und 3 kg. Zielanzeige im Drill – schöpfen, wenn der Fisch im grünen Feld ist.', 'In the other hand: lands fish up to 60 cm and 3 kg. Aim gauge in the fight – scoop while the fish is in the green field.'],
+  small_landing_net: ['Kleiner Kescher', 'Small Landing Net', 'In die andere Hand: landet Fische bis 60 cm und 3 kg. Zielanzeige im Drill, schöpfen, wenn der Fisch im grünen Feld ist.', 'In the other hand: lands fish up to 60 cm and 3 kg. Aim gauge in the fight, scoop while the fish is in the green field.'],
   carp_landing_net: ['Karpfenkescher', 'Carp Landing Net', 'In die andere Hand: Fische bis 120 cm und 25 kg, weite Öffnung.', 'In the other hand: fish up to 120 cm and 25 kg, wide opening.'],
   big_game_landing_net: ['Großfischkescher', 'Big Game Landing Net', 'In die andere Hand: für Riesen bis 3,2 m und alle Bossfische.', 'In the other hand: for giants up to 3.2 m and every boss fish.'],
   mother_of_pearl: ['Perlmutt', 'Mother-of-Pearl', 'Seltene Beigabe epischer Fänge. In der Werkstatt: Rute verstärken (bis 3×, je +6 % Hub und Belastbarkeit).', 'Rare bonus from epic catches. In the workshop: reinforce a rod (up to 3×, +6% lift and load each).'],
@@ -446,9 +446,9 @@ for (const [id, recipe] of Object.entries(extraRecipes)) {
 
 const progressTranslations = {
   'catch.fishr.condition': ['Zustand: %s %%', 'Condition: %s%%'],
-  'message.fishr.need_net': ['Zu schwer für die Hand – nimm einen Kescher in die andere Hand!', 'Too heavy for your hand – hold a landing net in the other hand!'],
+  'message.fishr.need_net': ['Zu schwer für die Hand, nimm einen Kescher in die andere Hand!', 'Too heavy for your hand, hold a landing net in the other hand!'],
   'message.fishr.net_too_small': ['Der Kescher ist zu klein für diesen Fisch!', 'The net is too small for this fish!'],
-  'message.fishr.groundbait': ['Futterplatz angelegt – Friedfische ziehen heran.', 'Feeding spot made – coarse fish are coming.'],
+  'message.fishr.groundbait': ['Futterplatz angelegt: Friedfische ziehen heran.', 'Feeding spot made: coarse fish are coming.'],
   'message.fishr.sonar': ['Echolot: %s m tief · Fangdruck %s %%', 'Echo sounder: %s m deep · fishing pressure %s%%'],
   'message.fishr.sonar_empty': ['Keine Fische in Reichweite.', 'No fish in range.'],
   'message.fishr.bait_box_filled': ['%s Köder eingepackt (%s/%s Stapel).', 'Packed %s baits (%s/%s stacks).'],
@@ -472,26 +472,26 @@ const progressTranslations = {
   'holding.fishr.add.too_big': ['Zu groß für den Setzkescher', 'Too big for the keepnet'],
   'holding.fishr.add.duplicate': ['Dieser Fisch ist schon drin.', 'This fish is already in there.'],
   'holding.fishr.add.dead': ['Der Fisch lebt nicht mehr.', 'The fish is no longer alive.'],
-  'holding.fishr.status': ['Setzkescher: %s/%s Fische, %s/%s kg – %s', 'Keepnet: %s/%s fish, %s/%s kg – %s'],
+  'holding.fishr.status': ['Setzkescher: %s/%s Fische, %s/%s kg, %s', 'Keepnet: %s/%s fish, %s/%s kg, %s'],
   'holding.fishr.taken': ['%s herausgenommen (%s/%s)', 'Took out %s (%s/%s)'],
   'holding.fishr.released_all': ['%s Fische freigelassen.', 'Released %s fish.'],
   'holding.fishr.warning': ['Setzkescher: %s! Zustand der Fische %s %%', 'Keepnet: %s! Fish condition %s%%'],
   'holding.fishr.died': ['Ein Fisch im Setzkescher ist gestorben: %s', 'A fish in the keepnet died: %s'],
   'holding.fishr.pen_warning': ['Unterwasser-Netz: %s!', 'Fish pen: %s!'],
-  'holding.fishr.pen_full': ['Netz voll: %s/%s – mehr Wasser drumherum schafft Platz.', 'Pen full: %s/%s – more water around makes room.'],
+  'holding.fishr.pen_full': ['Netz voll: %s/%s: mehr Wasser drumherum schafft Platz.', 'Pen full: %s/%s: more water around makes room.'],
   'holding.fishr.pen_added': ['%s im Netz (%s/%s)', '%s in the pen (%s/%s)'],
-  'holding.fishr.pen_status': ['Netz: %s/%s Fische, Zustand %s %% – %s', 'Pen: %s/%s fish, condition %s%% – %s'],
+  'holding.fishr.pen_status': ['Netz: %s/%s Fische, Zustand %s %%, %s', 'Pen: %s/%s fish, condition %s%%, %s'],
   'holding.fishr.fed': ['%s Fische gefüttert.', 'Fed %s fish.'],
   'holder.fishr.full': ['Alle Plätze belegt.', 'All rests are taken.'],
   'holder.fishr.no_water': ['Kein Wasser vor dem Halter.', 'No water in front of the holder.'],
   'holder.fishr.placed': ['Rute %s/%s ausgeworfen.', 'Rod %s/%s cast out.'],
   'holder.fishr.hands_full': ['Kein Platz im Inventar für das, was du in der Hand hast.', 'No room in your inventory for what you are holding.'],
-  'holder.fishr.missed': ['Zu spät – oder du drillst schon.', 'Too late – or you are already fighting.'],
+  'holder.fishr.missed': ['Zu spät: oder du drillst schon.', 'Too late: or you are already fighting.'],
   'holder.fishr.empty': ['Keine Rute im Halter.', 'No rod in the holder.'],
   'holder.fishr.tangled': ['Die Schnüre haben sich verheddert! Köder verloren.', 'The lines tangled! Bait lost.'],
   'holder.fishr.rod_pulled': ['Ein großer Fisch hat deine Rute ins Wasser gezogen!', 'A big fish pulled your rod into the water!'],
   'holder.fishr.line_taken': ['Ein Fisch hat Schnur genommen und ist mit dem Köder weg.', 'A fish took line and left with the bait.'],
-  'holder.fishr.escaped': ['Biss verpasst – der Köder ist weg.', 'Bite missed – the bait is gone.'],
+  'holder.fishr.escaped': ['Biss verpasst: der Köder ist weg.', 'Bite missed: the bait is gone.'],
   'market.fishr.sold': ['%s Fisch(e) verkauft: %s Smaragde (Guthaben %s)', 'Sold %s fish: %s emeralds (credit %s)'],
   'market.fishr.help': ['Fischmarkt: Rechtsklick mit einem Fisch verkauft ihn, Schleichen verkauft alle. Seltenheit, Gewicht, Kontrolle und Frische zählen; dieselbe Art am selben Tag bringt weniger.', 'Fish market: use a fish to sell it, sneak to sell all. Rarity, weight, control and freshness count; the same species on the same day pays less.'],
   'workshop.fishr.help': ['Werkstatt: Rute in die Haupthand, in die andere Hand Smaragd (reparieren) oder Perlmutt (verstärken).', 'Workshop: rod in the main hand, in the other an emerald (repair) or mother-of-pearl (reinforce).'],
@@ -502,13 +502,13 @@ const progressTranslations = {
   'progress.fishr.xp': ['+%s Angler-Erfahrung', '+%s angler experience'],
   'progress.fishr.released': ['Zurückgesetzt: +%s Erfahrung', 'Released: +%s experience'],
   'progress.fishr.level_up': ['Anglerstufe %s erreicht!', 'Angler level %s reached!'],
-  'progress.fishr.area_unlocked': ['Neues Angelgebiet: %s – dort beißen jetzt auch seltene Fische.', 'New fishing ground: %s – rare fish bite there now.'],
+  'progress.fishr.area_unlocked': ['Neues Angelgebiet: %s: dort beißen jetzt auch seltene Fische.', 'New fishing ground: %s: rare fish bite there now.'],
   'progress.fishr.quest_done': ['Auftrag erfüllt: %s (+%s Smaragde, +%s Erfahrung)', 'Order done: %s (+%s emeralds, +%s experience)'],
   'progress.fishr.record': ['Serverrekord: %s!', 'Server record: %s!'],
   'progress.fishr.any_fish': ['jeder Fisch', 'any fish'],
-  'progress.fishr.tournament_start': ['Angelturnier! %s Minuten, gewertet: %s – der schwerste Fisch gewinnt.', 'Fishing tournament! %s minutes, counted: %s – the heaviest fish wins.'],
+  'progress.fishr.tournament_start': ['Angelturnier! %s Minuten, gewertet: %s, der schwerste Fisch gewinnt.', 'Fishing tournament! %s minutes, counted: %s, the heaviest fish wins.'],
   'progress.fishr.tournament_end': ['Das Angelturnier ist vorbei!', 'The fishing tournament is over!'],
-  'progress.fishr.tournament_place': ['%s. %s – %s kg', '%s. %s – %s kg'],
+  'progress.fishr.tournament_place': ['%s. %s: %s kg', '%s. %s: %s kg'],
   'quest.fishr.species': ['Fange %1$s× %2$s', 'Catch %1$s× %2$s'],
   'quest.fishr.weight': ['Fange einen Fisch ab %3$s kg', 'Catch a fish of %3$s kg or more'],
   'quest.fishr.habitat': ['Fange %1$s Fische: %2$s', 'Catch %1$s fish: %2$s'],
@@ -539,16 +539,16 @@ const progressTranslations = {
   'lexicon.fishr.tab.records': ['Rekorde', 'Records'],
   'lexicon.fishr.tab.stats': ['Statistik', 'Statistics'],
   'lexicon.fishr.known': ['Entdeckt: %s von %s Arten', 'Discovered: %s of %s species'],
-  'lexicon.fishr.species_line': [' – %s× gefangen, größter %s kg / %s cm', ' – caught %s×, biggest %s kg / %s cm'],
+  'lexicon.fishr.species_line': [': %s× gefangen, größter %s kg / %s cm', ' - caught %s×, biggest %s kg / %s cm'],
   'lexicon.fishr.daily': ['[Tag] ', '[Day] '],
   'lexicon.fishr.weekly': ['[Woche] ', '[Week] '],
-  'lexicon.fishr.quest_progress': [' – %s/%s · %s Smaragde', ' – %s/%s · %s emeralds'],
+  'lexicon.fishr.quest_progress': [': %s/%s · %s Smaragde', ': %s/%s · %s emeralds'],
   'lexicon.fishr.areas': ['Angelgebiete (seltene Fische ab Stufe):', 'Fishing grounds (rare fish from level):'],
-  'lexicon.fishr.area_line': ['%s – ab Stufe %s', '%s – from level %s'],
+  'lexicon.fishr.area_line': ['%s: ab Stufe %s', '%s: from level %s'],
   'lexicon.fishr.tournament_running': ['Turnier läuft noch %s Minuten!', 'Tournament running for %s more minutes!'],
-  'lexicon.fishr.ranking': ['Rangliste – die schwersten Fänge', 'Ranking – the heaviest catches'],
+  'lexicon.fishr.ranking': ['Rangliste: die schwersten Fänge', 'Ranking: the heaviest catches'],
   'lexicon.fishr.records': ['Serverrekorde je Art', 'Server records per species'],
-  'lexicon.fishr.level': ['Anglerstufe %s – %s Erfahrung (nächste Stufe bei %s)', 'Angler level %s – %s experience (next level at %s)'],
+  'lexicon.fishr.level': ['Anglerstufe %s: %s Erfahrung (nächste Stufe bei %s)', 'Angler level %s: %s experience (next level at %s)'],
   'lexicon.fishr.stat.catches': ['Gefangene Fische: %s', 'Fish caught: %s'],
   'lexicon.fishr.stat.released': ['Zurückgesetzt: %s', 'Released: %s'],
   'lexicon.fishr.stat.bosses': ['Bossfische: %s', 'Boss fish: %s'],
@@ -562,7 +562,7 @@ for (const [id, [german, english]] of Object.entries(blocks)) { de[`block.fishr.
 for (const [key, [german, english]] of Object.entries(progressTranslations)) { de[key] = german; en[key] = english; }
 json('assets/fishr/lang/de_de.json', de);
 json('assets/fishr/lang/en_us.json', en);
-console.log(`Generated ${Object.keys(extraItems).length} items and ${Object.keys(blocks).length} blocks of 0.8–0.14.`);
+console.log(`Generated ${Object.keys(extraItems).length} items and ${Object.keys(blocks).length} blocks of 0.8-0.14.`);
 
 // ---------------------------------------------------------------- 0.16: You Need Bait + Fish of Thieves
 // Found baits, the kitchen, the bait trap, the fillet table, the fish plaque, colourings and fisherman trades.
@@ -695,17 +695,17 @@ const fusionTranslations = {
   'catch.fishr.variant': ['Färbung: %s', 'Colouring: %s'],
   'progress.fishr.new_variant': ['Neue Färbung im Lexikon: %s (%s)!', 'New colouring in the lexicon: %s (%s)!'],
   'lexicon.fishr.variants': [' · Färbungen %s/%s', ' · colourings %s/%s'],
-  'message.fishr.fish_fed': ['%s frisst – jetzt %s cm', '%s eats – now %s cm'],
+  'message.fishr.fish_fed': ['%s frisst: jetzt %s cm', '%s eats: now %s cm'],
   'message.fishr.fish_trophy': ['%s ist zum Trophäenfisch herangewachsen (%s cm)!', '%s has grown into a trophy fish (%s cm)!'],
   'message.fishr.fish_full': ['Der Fisch ist satt.', 'The fish is not hungry.'],
   'message.fishr.bait_trap_empty': ['Noch nichts in der Reuse.', 'Nothing in the trap yet.'],
   'message.fishr.bait_trap_dry': ['Die Reuse muss im Wasser stehen.', 'The trap has to stand in water.'],
-  'message.fishr.fillet_help': ['Fisch in die Haupthand, Filetiermesser in die andere – dann den Tisch anklicken.', 'Fish in the main hand, fillet knife in the other – then use the table.'],
-  'message.fishr.fillet_boss': ['Einen Bossfisch filetiert man nicht – der gehört an die Wand!', 'You do not fillet a boss fish – it belongs on the wall!'],
+  'message.fishr.fillet_help': ['Fisch in die Haupthand, Filetiermesser in die andere, dann den Tisch anklicken.', 'Fish in the main hand, fillet knife in the other, then use the table.'],
+  'message.fishr.fillet_boss': ['Einen Bossfisch filetiert man nicht, der gehört an die Wand!', 'You do not fillet a boss fish, it belongs on the wall!'],
   'message.fishr.filleted': ['%s Filets geschnitten.', 'Cut %s fillets.'],
   'message.fishr.plaque_taken': ['Auf der Tafel hängt schon ein Fisch.', 'There is already a fish on the plaque.'],
-  'message.fishr.plaque_empty': ['Die Tafel ist leer – klick einen Fisch darauf.', 'The plaque is empty – use a fish on it.'],
-  'message.fishr.plaque_card': ['%s – %s cm, %s kg, gefangen von %s', '%s – %s cm, %s kg, caught by %s'],
+  'message.fishr.plaque_empty': ['Die Tafel ist leer: klick einen Fisch darauf.', 'The plaque is empty: use a fish on it.'],
+  'message.fishr.plaque_card': ['%s: %s cm, %s kg, gefangen von %s', '%s: %s cm, %s kg, caught by %s'],
 };
 for (const [id, [german, english, germanTip, englishTip]] of Object.entries({ ...fusionItems, ...fusionBlocks })) {
   de[`item.fishr.${id}`] = german; en[`item.fishr.${id}`] = english;

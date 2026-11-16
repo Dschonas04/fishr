@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "id": "fishr",
   "version": "${version}",
-  "name": "Fishr – Fishing Battles",
+  "name": "Fishr: Fishing Battles",
   "description": "Fight your catch: reel, manage line tension, and survive the fish's escape bursts.",
   "authors": [
     {"name": "Dschonas04", "contact": {"homepage": "https://github.com/Dschonas04"}}

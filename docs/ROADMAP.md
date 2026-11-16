@@ -12,7 +12,7 @@ Legende: ✅ fertig · 🔶 teilweise · ⬜ offen
 | 9 Fischarten | 🔶 48 Arten mit Lebensräumen; Karausche, Stör fehlen; 3 statt 6 Seltenheitsstufen |
 | 10 Drill | 🔶 Spannung, Ausdauer, Fluchten, Warnphase; keine Bremse, kein Pumpen, kein Hakenhalt |
 | 3 Kamera | 🔶 Schulterkamera im Drill; keine Zustandsmaschine, keine Biss-/Wurf-/Landungskamera |
-| 4–6 Ausrüstung | 🔶 Rolle/Schnur/Köder-Slots; Rutentypen, Spulen, Vorfächer und Haken fehlen |
+| 4-6 Ausrüstung | 🔶 Rolle/Schnur/Köder-Slots; Rutentypen, Spulen, Vorfächer und Haken fehlen |
 | 16 Fisch-Mobs | 🔶 eigene Entities mit Länge/Gewicht, schwimmen zum Köder; Hunger/Scheu/Alter fehlen |
 
 ## Stand nach 0.6.0
@@ -39,7 +39,7 @@ Legende: ✅ fertig · 🔶 teilweise · ⬜ offen
 | --- | --- |
 | 3.6 / 10.6 / 14 Landung, Kescher | ✅ drei Kescher, Zielleiste, Handlandung bis 2 kg, Bosse nur mit Großfischkescher |
 | 15.1 Setzkescher | ✅ Kapazität, Gewicht, Größe, Bedingungen, Warnungen, Tod bei Vernachlässigung, keine Duplikate |
-| 15.2–15.4 Netz, Haltung, Zucht | ✅ Platz nach Wasservolumen, Füttern, Zucht gesunder Paare |
+| 15.2-15.4 Netz, Haltung, Zucht | ✅ Platz nach Wasservolumen, Füttern, Zucht gesunder Paare |
 | 13 Rutenhalter | ✅ Halter, Doppelständer, Rod Pod mit Alarm, unbeaufsichtigte Bisse, Verheddern |
 | 16 Fisch-Mobs | ✅ Individuen mit Alter, Hunger, Scheu, Zustand; Schwarmverhalten, Raubfischjagd, Tiefe |
 | 17 Ökologie | ✅ Fangdruck pro Chunk mit Erholung, Futterplätze, Einfluss auf Bisse, Größen und Spawns |
@@ -54,11 +54,11 @@ Legende: ✅ fertig · 🔶 teilweise · ⬜ offen
 
 | Version | Inhalt | Anforderungen |
 | --- | --- | --- |
-| ✅ **0.6.0** | Kamera-Controller mit Zuständen (Wurf, Warten am Köder, Biss, Anschlag, Drill, Sprung, Landung), Bremse einstellbar, Schnurkapazität, Hakenhalt, Pumpen, längere Drills, Schnurbruch nach Zugkraft/Tragkraft; Rollentypen mit Spezialfähigkeiten; 25 Köder mit Artvorlieben; Seltenheit in 6 Stufen; alle vier Bossfische | 3, 5.1–5.4, 6.5, 8, 9.4, 10, 18 |
+| ✅ **0.6.0** | Kamera-Controller mit Zuständen (Wurf, Warten am Köder, Biss, Anschlag, Drill, Sprung, Landung), Bremse einstellbar, Schnurkapazität, Hakenhalt, Pumpen, längere Drills, Schnurbruch nach Zugkraft/Tragkraft; Rollentypen mit Spezialfähigkeiten; 25 Köder mit Artvorlieben; Seltenheit in 6 Stufen; alle vier Bossfische | 3, 5.1-5.4, 6.5, 8, 9.4, 10, 18 |
 | ✅ 0.7.0 | Rutentypen (Bambus, Spinn, Karpfen, Fliege, Big-Game) mit Attributen, Spulen, Vorfächer (Fluo, Stahl), Haken | 4, 5.5, 6, 7 |
 | ✅ 0.8.0 | Kescher (klein/Karpfen/Großfisch) mit aktiver Landung, Trophäenansicht, Setzkescher | 3.6, 10.6, 14, 15.1 |
 | ✅ 0.9.0 | Rutenhalter, Doppelständer, Rod Pod, Bissanzeiger, mehrere Ruten gleichzeitig | 13 |
-| ✅ 0.10.0 | Unterwasser-Netz, Haltungsbedingungen, einfache Zucht | 15.2–15.4 |
+| ✅ 0.10.0 | Unterwasser-Netz, Haltungsbedingungen, einfache Zucht | 15.2-15.4 |
 | ✅ 0.11.0 | Fisch-Individuen (Alter, Hunger, Scheu), Schwarmtypen, Raubfischjagd, Fangdruck/Regeneration | 16, 17 |
 | ✅ 0.12.0 | Werkstatt, Händler, Geld/Erfahrung, Lexikon, Aufträge, Trophäen, Ranglisten, Angelgebiete | 19, 20 |
 | ✅ 0.13.0 | Verzauberungen nach Liste, Angelmodule, Hilfsmittel (Echolot, Futterkorb, Köderbox …), Bootangeln | 11, 12 |

@@ -1,4 +1,4 @@
-// Autor: Dschonas04 (https://github.com/Dschonas04) – Fishr, Weiterführung von Atzen (jojiuchiha03)
+// Autor: Dschonas04 (https://github.com/Dschonas04): Fishr, Weiterführung von Atzen (jojiuchiha03)
 
 package io.github.dschonas04.fishr.block;
 
@@ -33,7 +33,7 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
 /**
- * Unterwasser-Netz (Anforderung 15.2–15.4): ein Netz unter Wasser. Hineingesetzte Fische (aus der
+ * Unterwasser-Netz (Anforderung 15.2-15.4): ein Netz unter Wasser. Hineingesetzte Fische (aus der
  * Hand) leben im Wasser ringsum, so viele, wie das Wasservolumen erlaubt; mit Futtermischung oder
  * Köder füttern, satte, gesunde Paare vermehren sich. Leere Hand: Zustand des Netzes; schleichend
  * mit leerer Hand: Netz öffnen und alle freilassen.

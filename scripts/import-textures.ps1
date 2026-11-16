@@ -1,4 +1,4 @@
-# Autor: Dschonas04 (https://github.com/Dschonas04) – Fishr, Weiterführung von Atzen (jojiuchiha03)
+# Autor: Dschonas04 (https://github.com/Dschonas04): Fishr, Weiterführung von Atzen (jojiuchiha03)
 $ErrorActionPreference = 'Stop'
 Add-Type -AssemblyName System.Drawing
 $projectRoot = Split-Path -Parent $PSScriptRoot

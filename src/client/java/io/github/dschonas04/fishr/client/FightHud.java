@@ -1,4 +1,4 @@
-// Autor: Dschonas04 (https://github.com/Dschonas04) – Fishr, Weiterführung von Atzen (jojiuchiha03)
+// Autor: Dschonas04 (https://github.com/Dschonas04): Fishr, Weiterführung von Atzen (jojiuchiha03)
 
 package io.github.dschonas04.fishr.client;
 
@@ -25,7 +25,7 @@ import java.util.Locale;
 /**
  * Die Drillanzeige über der Hotbar, so breit wie die Hotbar: der Fisch mit Name und Entfernung, die
  * Schnurspannung (grün bis zur Bremse, rot darüber) und die Kraft des Fisches. Darüber steht eine
- * Anweisung, welche Taste jetzt dran ist – R zum Einholen, F für Schnur, Rechtsklick zum Landen.
+ * Anweisung, welche Taste jetzt dran ist, R zum Einholen, F für Schnur, Rechtsklick zum Landen.
  * Ein Boss zeigt oben Namen und Phase, ein gelandeter Fisch eine Fangkarte.
  */
 final class FightHud {
@@ -176,7 +176,7 @@ final class FightHud {
         if (boss != null) bossBar(graphics, font, state, boss);
     }
 
-    /** [R] Einholen – eine Tastenkappe wie auf der Tastatur, dann das Wort. */
+    /** [R] Einholen: eine Tastenkappe wie auf der Tastatur, dann das Wort. */
     private static void prompt(
             GuiGraphicsExtractor graphics, Font font, Prompt prompt, int centre, int y) {
         KeyMapping key = keyOf(prompt);
@@ -217,7 +217,7 @@ final class FightHud {
         int y = 16;
         Component name =
                 Component.translatable(boss.translationKey())
-                        .append(" – ")
+                        .append(" - ")
                         .append(
                                 Component.translatable(
                                         boss.phase(state.bossPhase()).translationKey(boss)));

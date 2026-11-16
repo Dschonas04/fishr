@@ -79,7 +79,7 @@ Ideen aus **You Need Bait** und **Fish of Thieves**, neu umgesetzt mit eigenem C
 Die Stufen 0.8 bis 0.14 der Roadmap in einer Version.
 
 ### Neu
-- **Kescher** (klein, Karpfen, Großfisch) in der anderen Hand: aktive Landung mit Zielleiste – der Fisch pendelt vor dem Netz, Rechtsklick im grünen Feld landet fast sicher. Per Hand nur noch Fische bis 2 kg; Bosse brauchen den Großfischkescher.
+- **Kescher** (klein, Karpfen, Großfisch) in der anderen Hand: aktive Landung mit Zielleiste, der Fisch pendelt vor dem Netz, Rechtsklick im grünen Feld landet fast sicher. Per Hand nur noch Fische bis 2 kg; Bosse brauchen den Großfischkescher.
 - **Fisch-Individuen:** jeder Fisch hat Kennung, Alter, Hunger, Scheu und Zustand; sie bleiben in Hand, Setzkescher, Netz und Wasser erhalten. Fisch über Wasser benutzen setzt ihn zurück.
 - **Setzkescher** mit Haltungsbedingungen (Volumen, Sauerstoff, Temperatur, Besatzdichte, Wasserqualität), Warnungen, Tod erst bei Vernachlässigung, keine Duplikate.
 - **Unterwasser-Netz:** Fische leben darin als echte Fische, Platz nach Wasservolumen, Füttern, einfache Zucht.
@@ -120,7 +120,7 @@ Die Stufen 0.8 bis 0.14 der Roadmap in einer Version.
 - Neuer Drill als Schnursimulation: Fischkraft nach Größe und Ausdauer, einstellbare Bremse (10 Stufen), Schnurbruch nach Spannung gegen Tragkraft, Spulenkapazität, Hakenhalt, Pumpen (Rute heben, beim Absenken kurbeln), Gegensteuern bei Seitwärtsfluchten, Abrieb an Hindernissen, Schnurdrall beim Kurbeln gegen die Bremse.
 - Fischaktionen mit Vorwarnung: Flucht, Abtauchen, Seitwärts, Kopfstöße, Sprünge, Erschöpfung; artspezifisches Verhalten.
 - Anschlag-Timing setzt den Haken; aktive Landung per Rechtsklick, wenn der Fisch nah und müde ist.
-- Längere Drills: Hecht ~1 min, Wels 2–3 min, Bosse 4–7 min.
+- Längere Drills: Hecht ~1 min, Wels 2-3 min, Bosse 4-7 min.
 - Kamera-Zustandsmaschine: Wurf, Warten am Köder, Biss unter Wasser, Anschlag, Drill mit Einstellungen je Fischaktion, Sprung, Landung, Trophäenansicht. C schaltet sie ab, X überspringt.
 - Neue Anzeige über der Hotbar: Spannung, Bremsmarke, Fischkraft, Hakenhalt, Hindernisnähe, Handlungshinweis, Schnur/Bremse/Haken in Zahlen, Bossleiste.
 - 13 Rollen mit Spezialfähigkeiten (Stationär, Baitcaster, Multi, Fliege, Echo, Gezeiten, Netherit und vier Bossrollen).
@@ -157,7 +157,7 @@ Die Stufen 0.8 bis 0.14 der Roadmap in einer Version.
 - Der Fisch hängt sichtbar an der Schnur (für alle Spieler): kreist unter der Pose, zappelt vor der Flucht, springt bei der Flucht aus dem Wasser und wird beim Einholen zum Angler gezogen. Der Spieler kurbelt sichtbar.
 - Schnurspannung als Ton: Knarzen wird mit der Spannung lauter und schneller, die Rolle klickt, eine schlaffe Schnur platscht. Beim ersten Biss ein kurzer Steuerungshinweis im Chat.
 - Köder-Slot an jeder Fishr-Rute: Köder im Inventar auf die Rute ziehen, Rechtsklick nimmt ihn heraus; der Tooltip zeigt den Slot. Köder in der anderen Hand funktionieren weiterhin.
-- Eigener Kreativ-Tab „Fishr – Angeln“, sortiert: Angeln, Köder, Bücher, Fische, Eimer, Spawn-Eier.
+- Eigener Kreativ-Tab „Fishr: Angeln“, sortiert: Angeln, Köder, Bücher, Fische, Eimer, Spawn-Eier.
 
 ### Entfernt
 - Fishr-Münze samt Rezept.

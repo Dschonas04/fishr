@@ -1,4 +1,4 @@
-// Autor: Dschonas04 (https://github.com/Dschonas04) – Fishr, Weiterführung von Atzen (jojiuchiha03)
+// Autor: Dschonas04 (https://github.com/Dschonas04): Fishr, Weiterführung von Atzen (jojiuchiha03)
 
 package io.github.dschonas04.fishr.item;
 
@@ -23,7 +23,7 @@ import net.minecraft.world.level.Level;
 import java.util.Optional;
 
 /**
- * Eine Angelrute mit drei Plätzen – Rolle, Schnur und Köder –, die im Inventar wie ein Bündel
+ * Eine Angelrute mit drei Plätzen, Rolle, Schnur und Köder, die im Inventar wie ein Bündel
  * befüllt werden: Ein Teil auf die Rute klicken setzt es ein (was in dem Platz war, kommt zurück
  * auf den Mauszeiger), Rechtsklick auf die Rute mit leerem Mauszeiger nimmt die Teile wieder
  * heraus, vom Köder zurück bis zur Rolle. Mit der Rute am Mauszeiger auf Zubehör in einem Platz

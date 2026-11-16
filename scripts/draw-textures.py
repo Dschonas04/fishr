@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# Autor: Dschonas04 (https://github.com/Dschonas04) – Fishr, Weiterführung von Atzen (jojiuchiha03)
+# Autor: Dschonas04 (https://github.com/Dschonas04): Fishr, Weiterführung von Atzen (jojiuchiha03)
 """Draws every Fishr texture as 64x64 pixel art: items, fish buckets and the fish skins of the 3D models.
 
     python3 scripts/draw-textures.py
@@ -1328,7 +1328,7 @@ def main():
     print("textures written to", os.path.normpath(ROOT))
 
 
-# ---------------------------------------------------------------- 0.8–0.14: nets, aids, modules, blocks
+# ---------------------------------------------------------------- 0.8-0.14: nets, aids, modules, blocks
 
 def landing_net(name):
     px = canvas()

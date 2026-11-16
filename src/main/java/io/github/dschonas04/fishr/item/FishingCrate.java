@@ -1,4 +1,4 @@
-// Autor: Dschonas04 (https://github.com/Dschonas04) – Fishr, Weiterführung von Atzen (jojiuchiha03)
+// Autor: Dschonas04 (https://github.com/Dschonas04): Fishr, Weiterführung von Atzen (jojiuchiha03)
 
 package io.github.dschonas04.fishr.item;
 
@@ -30,7 +30,7 @@ import java.util.Random;
 
 /**
  * Statt eines Fisches kommen ab und zu Kisten hoch (wie in Tide): Geöffnet geben sie, was in diesem
- * Wasser liegt – manches davon Fishr-Zubehör, manches ein Fundzettel, wo ein Fisch beißt.
+ * Wasser liegt: manches davon Fishr-Zubehör, manches ein Fundzettel, wo ein Fisch beißt.
  */
 public final class FishingCrate extends Item {
     /** Chance, dass ein Biss eine Kiste ist. */
@@ -165,7 +165,7 @@ public final class FishingCrate extends Item {
 
     /**
      * Ein Fundzettel über einen Fisch: wo er lebt, wann er frisst und was er nimmt. Über seltenere
-     * Fische wird öfter geschrieben – über Rotaugen hinterlässt niemand Zettel.
+     * Fische wird öfter geschrieben: über Rotaugen hinterlässt niemand Zettel.
      */
     public static final class FishyNote extends Item {
         public FishyNote(Properties properties) {
